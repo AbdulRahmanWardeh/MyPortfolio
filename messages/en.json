@@ -1,0 +1,143 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "caseStudies": "Case Studies",
+    "services": "Services",
+    "contact": "Contact",
+    "bookMeeting": "Book a Meeting",
+    "menu": "Menu"
+  },
+  "common": {
+    "viewAll": "View all",
+    "viewProject": "View project",
+    "readCaseStudy": "Read case study",
+    "learnMore": "Learn more",
+    "loading": "Loading…",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "all": "All",
+    "from": "from",
+    "to": "to",
+    "present": "Present",
+    "rtl": "Arabic",
+    "ltr": "English",
+    "language": "Language",
+    "noResults": "No results found.",
+    "comingSoon": "Coming soon"
+  },
+  "home": {
+    "featuredProjects": "Featured Projects",
+    "featuredProjectsKicker": "Selected Work",
+    "caseStudiesKicker": "Deep Dives",
+    "caseStudies": "UX Case Studies",
+    "skills": "Skills",
+    "experience": "Experience",
+    "testimonials": "What people say",
+    "tools": "Tools",
+    "viewAllProjects": "View all projects"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Selected work across product, web, and mobile.",
+    "filterCategory": "Category",
+    "searchPlaceholder": "Search projects…",
+    "category": "Category",
+    "role": "Role",
+    "timeline": "Timeline",
+    "client": "Client",
+    "tools": "Tools",
+    "type": "Type",
+    "liveLink": "Live",
+    "gallery": "Gallery",
+    "moreProjects": "More projects",
+    "backToProjects": "Back to projects"
+  },
+  "caseStudy": {
+    "backToCaseStudies": "All case studies"
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Premium design services for ambitious teams.",
+    "deliverables": "Deliverables",
+    "timeline": "Timeline",
+    "bookCta": "Book a meeting"
+  },
+  "about": {
+    "title": "About",
+    "biography": "Biography",
+    "philosophy": "Design Philosophy",
+    "experience": "Experience"
+  },
+  "contact": {
+    "title": "Book a meeting",
+    "subtitle": "Pick a time that works for you.",
+    "steps": {
+      "type": "Meeting type",
+      "date": "Pick a date",
+      "time": "Pick a time",
+      "details": "Your details",
+      "done": "Confirmed"
+    },
+    "fields": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company / project",
+      "message": "Anything I should know?"
+    },
+    "errors": {
+      "required": "Required field",
+      "email": "Enter a valid email",
+      "submitFailed": "Could not submit. Please try again."
+    },
+    "noSlots": "No available slots that day.",
+    "review": "Review",
+    "confirm": "Confirm booking",
+    "confirmedTitle": "You're booked",
+    "confirmedSubtitle": "I've sent a confirmation to your email.",
+    "anotherBooking": "Book another time"
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "social": "Social",
+    "contact": "Contact"
+  },
+  "admin": {
+    "title": "Admin",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "dashboard": "Dashboard",
+    "overview": "Overview",
+    "content": "Content",
+    "bookings": "Bookings",
+    "settings": "Settings",
+    "createNew": "Create new",
+    "deleteConfirm": "Are you sure you want to delete this?",
+    "saved": "Saved",
+    "uploadImage": "Upload image",
+    "english": "English",
+    "arabic": "Arabic",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "completed": "Completed"
+    }
+  },
+  "login": {
+    "title": "Admin sign in",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "error": "Invalid email or password"
+  }
+}

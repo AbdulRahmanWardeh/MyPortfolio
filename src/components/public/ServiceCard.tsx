@@ -1,0 +1,82 @@
+import { Link } from "@/i18n/routing";
+import { ArrowUpRight } from "lucide-react";
+import * as Icons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { pickField, type Locale } from "@/lib/i18n-helpers";
+
+interface ServiceCardProps {
+  service: {
+    icon: string;
+    titleEn: string;
+    titleAr: string;
+    descriptionEn: string;
+    descriptionAr: string;
+    deliverables: unknown;
+    timelineEn: string;
+    timelineAr: string;
+    ctaLabelEn: string;
+    ctaLabelAr: string;
+  };
+  locale: Locale;
+  labels: {
+    deliverables: string;
+    timeline: string;
+  };
+}
+
+export function ServiceCard({ service, locale, labels }: ServiceCardProps) {
+  const Icon =
+    (Icons[service.icon as keyof typeof Icons] as LucideIcon) ?? Icons.Sparkles;
+
+  const deliverables = (Array.isArray(service.deliverables)
+    ? service.deliverables
+    : []) as Array<{ en: string; ar: string }>;
+
+  return (
+    <div className="surface flex h-full flex-col gap-5 p-7 transition hover:bg-white/[0.04]">
+      <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-accent">
+        <Icon className="h-5 w-5" />
+      </div>
+      <div>
+        <h3 className="text-lg font-medium leading-tight">
+          {pickField(service, locale, "title")}
+        </h3>
+        <p className="mt-2 text-sm text-white/55">
+          {pickField(service, locale, "description")}
+        </p>
+      </div>
+
+      {deliverables.length > 0 ? (
+        <div className="border-t border-white/[0.06] pt-5">
+          <div className="text-xs uppercase tracking-wide text-white/40">
+            {labels.deliverables}
+          </div>
+          <ul className="mt-3 flex flex-col gap-1.5 text-sm text-white/70">
+            {deliverables.map((d, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1 w-1 rounded-full bg-white/40" />
+                <span>{locale === "ar" ? d.ar : d.en}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      <div className="mt-auto flex items-center justify-between border-t border-white/[0.06] pt-5">
+        <div className="text-xs text-white/50">
+          <div className="uppercase tracking-wide text-white/40">{labels.timeline}</div>
+          <div className="mt-1 text-sm text-white/80">
+            {pickField(service, locale, "timeline")}
+          </div>
+        </div>
+        <Link
+          href="/contact"
+          className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/[0.10]"
+        >
+          {pickField(service, locale, "ctaLabel")}
+          <ArrowUpRight className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
+        </Link>
+      </div>
+    </div>
+  );
+}

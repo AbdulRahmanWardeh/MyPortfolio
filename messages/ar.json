@@ -1,0 +1,143 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "about": "نبذة",
+    "projects": "الأعمال",
+    "caseStudies": "دراسات الحالة",
+    "services": "الخدمات",
+    "contact": "التواصل",
+    "bookMeeting": "احجز اجتماعاً",
+    "menu": "القائمة"
+  },
+  "common": {
+    "viewAll": "عرض الكل",
+    "viewProject": "عرض المشروع",
+    "readCaseStudy": "اقرأ دراسة الحالة",
+    "learnMore": "اعرف المزيد",
+    "loading": "جارٍ التحميل…",
+    "back": "رجوع",
+    "next": "التالي",
+    "submit": "إرسال",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "search": "بحث",
+    "all": "الكل",
+    "from": "من",
+    "to": "إلى",
+    "present": "حتى الآن",
+    "rtl": "العربية",
+    "ltr": "الإنجليزية",
+    "language": "اللغة",
+    "noResults": "لا توجد نتائج.",
+    "comingSoon": "قريباً"
+  },
+  "home": {
+    "featuredProjects": "أعمال مختارة",
+    "featuredProjectsKicker": "أعمال مختارة",
+    "caseStudiesKicker": "دراسات معمّقة",
+    "caseStudies": "دراسات الحالة",
+    "skills": "المهارات",
+    "experience": "الخبرة",
+    "testimonials": "آراء العملاء",
+    "tools": "الأدوات",
+    "viewAllProjects": "عرض جميع الأعمال"
+  },
+  "projects": {
+    "title": "الأعمال",
+    "subtitle": "أعمال مختارة في المنتجات والويب والجوال.",
+    "filterCategory": "التصنيف",
+    "searchPlaceholder": "ابحث في الأعمال…",
+    "category": "التصنيف",
+    "role": "الدور",
+    "timeline": "الجدول الزمني",
+    "client": "العميل",
+    "tools": "الأدوات",
+    "type": "النوع",
+    "liveLink": "مباشر",
+    "gallery": "المعرض",
+    "moreProjects": "أعمال أخرى",
+    "backToProjects": "العودة إلى الأعمال"
+  },
+  "caseStudy": {
+    "backToCaseStudies": "كل دراسات الحالة"
+  },
+  "services": {
+    "title": "الخدمات",
+    "subtitle": "خدمات تصميم احترافية للفِرَق الطموحة.",
+    "deliverables": "ما سيتم تسليمه",
+    "timeline": "الجدول الزمني",
+    "bookCta": "احجز اجتماعاً"
+  },
+  "about": {
+    "title": "نبذة",
+    "biography": "السيرة",
+    "philosophy": "فلسفة التصميم",
+    "experience": "الخبرة"
+  },
+  "contact": {
+    "title": "احجز اجتماعاً",
+    "subtitle": "اختر الوقت الذي يناسبك.",
+    "steps": {
+      "type": "نوع الاجتماع",
+      "date": "اختر التاريخ",
+      "time": "اختر الوقت",
+      "details": "بياناتك",
+      "done": "تم التأكيد"
+    },
+    "fields": {
+      "name": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "company": "الشركة / المشروع",
+      "message": "هل هناك شيء يجب أن أعرفه؟"
+    },
+    "errors": {
+      "required": "هذا الحقل مطلوب",
+      "email": "أدخل بريداً إلكترونياً صحيحاً",
+      "submitFailed": "تعذّر الإرسال. حاول مرة أخرى."
+    },
+    "noSlots": "لا توجد مواعيد متاحة في هذا اليوم.",
+    "review": "المراجعة",
+    "confirm": "تأكيد الحجز",
+    "confirmedTitle": "تم الحجز",
+    "confirmedSubtitle": "أرسلتُ تأكيداً إلى بريدك الإلكتروني.",
+    "anotherBooking": "احجز موعداً آخر"
+  },
+  "footer": {
+    "navigation": "التصفّح",
+    "social": "التواصل الاجتماعي",
+    "contact": "التواصل"
+  },
+  "admin": {
+    "title": "لوحة الإدارة",
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج",
+    "dashboard": "اللوحة الرئيسية",
+    "overview": "نظرة عامة",
+    "content": "المحتوى",
+    "bookings": "الحجوزات",
+    "settings": "الإعدادات",
+    "createNew": "إضافة جديد",
+    "deleteConfirm": "هل أنت متأكد من الحذف؟",
+    "saved": "تم الحفظ",
+    "uploadImage": "رفع صورة",
+    "english": "الإنجليزية",
+    "arabic": "العربية",
+    "status": {
+      "pending": "بانتظار التأكيد",
+      "confirmed": "مؤكَّد",
+      "cancelled": "ملغى",
+      "completed": "مكتمل"
+    }
+  },
+  "login": {
+    "title": "تسجيل دخول المسؤول",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "submit": "تسجيل الدخول",
+    "error": "البريد أو كلمة المرور غير صحيحة"
+  }
+}
