@@ -40,7 +40,8 @@ export default async function AboutPage({
     descEn: string;
     descAr: string;
   };
-  const highlights = (about.highlights ?? []) as Highlight[];
+  const { parseJson } = await import("@/lib/utils");
+  const highlights = parseJson<Highlight[]>(about.highlights, []);
 
   return (
     <>
@@ -59,7 +60,7 @@ export default async function AboutPage({
 
           <div className="mt-12 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal className="relative">
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-white/[0.08]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
                 {about.profileImage ? (
                   <Image
                     src={about.profileImage}

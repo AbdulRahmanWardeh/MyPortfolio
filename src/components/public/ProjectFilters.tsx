@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { Search } from "lucide-react";
+import { Search01Icon as Search } from "hugeicons-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ProjectCard } from "./ProjectCard";
@@ -14,6 +14,7 @@ interface ProjectItem {
   slug: string;
   coverImage: string | null;
   category: string;
+  tags: string;
   titleEn: string;
   titleAr: string;
   shortDescEn: string;

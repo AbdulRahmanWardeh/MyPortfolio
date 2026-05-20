@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
-import type { CaseStudySectionType, BookingStatus } from "@prisma/client";
+import type { CaseStudySectionType, BookingStatus } from "@/lib/enums";
 
 function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v : "";
@@ -80,7 +80,7 @@ export async function updateAbout(fd: FormData) {
       experienceSummaryEn: str(fd.get("experienceSummaryEn")),
       experienceSummaryAr: str(fd.get("experienceSummaryAr")),
       profileImage: strOrNull(fd.get("profileImage")),
-      highlights: highlights as never,
+      highlights: JSON.stringify(highlights),
     },
     create: {
       id: "singleton",
@@ -141,6 +141,7 @@ export async function updateSettings(fd: FormData) {
       accentColor: str(fd.get("accentColor")) || "#8b5cf6",
       defaultLocale: str(fd.get("defaultLocale")) || "en",
       ogImage: strOrNull(fd.get("ogImage")),
+      ctaIcon: str(fd.get("ctaIcon")) || "ArrowUpRight02Icon",
     },
     create: { id: "singleton" },
   });
@@ -382,7 +383,7 @@ export async function createService(fd: FormData) {
       titleAr: str(fd.get("titleAr")),
       descriptionEn: str(fd.get("descriptionEn")),
       descriptionAr: str(fd.get("descriptionAr")),
-      deliverables: deliverables as never,
+      deliverables: JSON.stringify(deliverables),
       timelineEn: str(fd.get("timelineEn")),
       timelineAr: str(fd.get("timelineAr")),
       ctaLabelEn: str(fd.get("ctaLabelEn")) || "Book a meeting",
@@ -410,7 +411,7 @@ export async function updateService(id: string, fd: FormData) {
       titleAr: str(fd.get("titleAr")),
       descriptionEn: str(fd.get("descriptionEn")),
       descriptionAr: str(fd.get("descriptionAr")),
-      deliverables: deliverables as never,
+      deliverables: JSON.stringify(deliverables),
       timelineEn: str(fd.get("timelineEn")),
       timelineAr: str(fd.get("timelineAr")),
       ctaLabelEn: str(fd.get("ctaLabelEn")) || "Book a meeting",
@@ -458,6 +459,7 @@ export async function createProject(fd: FormData) {
       timelineAr: str(fd.get("timelineAr")),
       client: strOrNull(fd.get("client")),
       projectType: str(fd.get("projectType")) || "Case Study",
+      tags: str(fd.get("tags")),
       liveLink: strOrNull(fd.get("liveLink")),
       behanceLink: strOrNull(fd.get("behanceLink")),
       dribbbleLink: strOrNull(fd.get("dribbbleLink")),
@@ -514,6 +516,7 @@ export async function updateProject(id: string, fd: FormData) {
         timelineAr: str(fd.get("timelineAr")),
         client: strOrNull(fd.get("client")),
         projectType: str(fd.get("projectType")) || "Case Study",
+        tags: str(fd.get("tags")),
         liveLink: strOrNull(fd.get("liveLink")),
         behanceLink: strOrNull(fd.get("behanceLink")),
         dribbbleLink: strOrNull(fd.get("dribbbleLink")),
@@ -623,7 +626,7 @@ export async function upsertCaseStudySection(input: {
         titleAr: input.titleAr,
         bodyEn: input.bodyEn,
         bodyAr: input.bodyAr,
-        blocks: input.blocks as never,
+        blocks: JSON.stringify(input.blocks),
       },
     });
   } else {
@@ -636,7 +639,7 @@ export async function upsertCaseStudySection(input: {
         titleAr: input.titleAr,
         bodyEn: input.bodyEn,
         bodyAr: input.bodyAr,
-        blocks: input.blocks as never,
+        blocks: JSON.stringify(input.blocks),
       },
     });
   }

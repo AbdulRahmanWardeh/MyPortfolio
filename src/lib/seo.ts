@@ -1,14 +1,15 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 
-export async function getSiteSettings() {
+export const getSiteSettings = cache(async () => {
   return prisma.siteSettings.upsert({
     where: { id: "singleton" },
     update: {},
     create: { id: "singleton" },
   });
-}
+});
 
 export async function buildMetadata(opts: {
   locale: Locale;

@@ -65,8 +65,8 @@ export default async function AdminBookingsPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-col gap-2">
-                        <BookingStatusBadge status={b.status} />
-                        <BookingStatusControl id={b.id} status={b.status} />
+                        <BookingStatusBadge status={b.status as "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED"} />
+                        <BookingStatusControl id={b.id} status={b.status as "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED"} />
                       </div>
                     </TableCell>
                     <TableCell className="text-end">

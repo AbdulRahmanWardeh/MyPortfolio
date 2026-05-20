@@ -3,7 +3,6 @@ import { Hero } from "@/components/public/Hero";
 import { AboutPreview } from "@/components/public/AboutPreview";
 import { Skills } from "@/components/public/Skills";
 import { FeaturedProjects } from "@/components/public/FeaturedProjects";
-import { CaseStudiesPreview } from "@/components/public/CaseStudiesPreview";
 import { ExperienceTimeline } from "@/components/public/ExperienceTimeline";
 import { Testimonials } from "@/components/public/Testimonials";
 import { Tools } from "@/components/public/Tools";
@@ -35,7 +34,6 @@ export default async function HomePage({
       <AboutPreview locale={l} />
       <Skills locale={l} />
       <FeaturedProjects locale={l} />
-      <CaseStudiesPreview locale={l} />
       <ExperienceTimeline locale={l} />
       <Testimonials locale={l} />
       <Tools locale={l} />

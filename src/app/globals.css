@@ -3,27 +3,61 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 4%;
+  :root,
+  :root.dark {
+    --background: 0 0% 7%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 6%;
+    --card: 0 0% 9%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 7%;
+    --popover: 0 0% 10%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 12%;
+    --secondary: 0 0% 14%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 12%;
+    --muted: 0 0% 14%;
     --muted-foreground: 0 0% 65%;
     --accent: 262 83% 68%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 16%;
-    --input: 0 0% 16%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
     --ring: 262 83% 68%;
-    --radius: 1rem;
+    --radius: 1.5rem;
+    /* Theme-aware "tint" base — flips in light mode */
+    --tint-rgb: 255, 255, 255;
+    --pattern-dot: rgba(255, 255, 255, 0.10);
+    --particle-color: rgba(255, 255, 255, 0.85);
+    --particle-glow: rgba(255, 255, 255, 0.7);
+    --logo-invert: 0;
+  }
+
+  :root.light {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 262 83% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 262 83% 60%;
+    --tint-rgb: 0, 0, 0;
+    --pattern-dot: rgba(0, 0, 0, 0.08);
+    --particle-color: rgba(140, 110, 255, 0.55);
+    --particle-glow: rgba(140, 110, 255, 0.35);
+    --logo-invert: 1;
   }
 
   * {
@@ -39,6 +73,69 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    background-image:
+      radial-gradient(60% 50% at 50% 0%, hsl(var(--accent) / 0.06) 0%, transparent 60%),
+      radial-gradient(40% 30% at 100% 100%, rgba(var(--tint-rgb), 0.02) 0%, transparent 70%);
+    background-attachment: fixed;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* --------- Light-mode overrides for hardcoded white tints --------- */
+  /* These let us flip the whole site without refactoring every component. */
+  .light .bg-white\/\[0\.02\] { background-color: rgba(var(--tint-rgb), 0.025) !important; }
+  .light .bg-white\/\[0\.025\] { background-color: rgba(var(--tint-rgb), 0.03) !important; }
+  .light .bg-white\/\[0\.03\] { background-color: rgba(var(--tint-rgb), 0.04) !important; }
+  .light .bg-white\/\[0\.04\] { background-color: rgba(var(--tint-rgb), 0.05) !important; }
+  .light .bg-white\/\[0\.05\] { background-color: rgba(var(--tint-rgb), 0.06) !important; }
+  .light .bg-white\/\[0\.06\] { background-color: rgba(var(--tint-rgb), 0.07) !important; }
+  .light .bg-white\/\[0\.08\] { background-color: rgba(var(--tint-rgb), 0.08) !important; }
+  .light .bg-white\/\[0\.10\] { background-color: rgba(var(--tint-rgb), 0.10) !important; }
+
+  .light .hover\:bg-white\/\[0\.04\]:hover { background-color: rgba(var(--tint-rgb), 0.05) !important; }
+  .light .hover\:bg-white\/\[0\.05\]:hover { background-color: rgba(var(--tint-rgb), 0.06) !important; }
+  .light .hover\:bg-white\/\[0\.06\]:hover { background-color: rgba(var(--tint-rgb), 0.07) !important; }
+  .light .hover\:bg-white\/\[0\.10\]:hover { background-color: rgba(var(--tint-rgb), 0.10) !important; }
+  .light .group:hover .group-hover\:bg-white\/\[0\.04\] { background-color: rgba(var(--tint-rgb), 0.05) !important; }
+  .light .group:hover .group-hover\:bg-white\/\[0\.06\] { background-color: rgba(var(--tint-rgb), 0.07) !important; }
+
+  .light [class*="border-white"] { border-color: rgba(var(--tint-rgb), 0.12) !important; }
+  .light .border-white\/\[0\.06\] { border-color: rgba(var(--tint-rgb), 0.08) !important; }
+  .light .border-white\/\[0\.08\] { border-color: rgba(var(--tint-rgb), 0.10) !important; }
+  .light .border-white\/\[0\.10\] { border-color: rgba(var(--tint-rgb), 0.12) !important; }
+  .light .border-white\/\[0\.12\] { border-color: rgba(var(--tint-rgb), 0.14) !important; }
+  .light .border-white\/\[0\.15\] { border-color: rgba(var(--tint-rgb), 0.18) !important; }
+  .light .border-white\/\[0\.20\] { border-color: rgba(var(--tint-rgb), 0.22) !important; }
+  .light .border-white\/10 { border-color: rgba(var(--tint-rgb), 0.12) !important; }
+  .light .border-white\/15 { border-color: rgba(var(--tint-rgb), 0.18) !important; }
+  .light .border-white\/20 { border-color: rgba(var(--tint-rgb), 0.22) !important; }
+  .light .border-white\/30 { border-color: rgba(var(--tint-rgb), 0.30) !important; }
+
+  /* Text overrides — every text-white/X gets flipped to a dark equivalent */
+  .light .text-white { color: hsl(var(--foreground)) !important; }
+  .light .text-white\/30 { color: rgba(var(--tint-rgb), 0.40) !important; }
+  .light .text-white\/40 { color: rgba(var(--tint-rgb), 0.45) !important; }
+  .light .text-white\/45 { color: rgba(var(--tint-rgb), 0.50) !important; }
+  .light .text-white\/50 { color: rgba(var(--tint-rgb), 0.55) !important; }
+  .light .text-white\/55 { color: rgba(var(--tint-rgb), 0.60) !important; }
+  .light .text-white\/60 { color: rgba(var(--tint-rgb), 0.65) !important; }
+  .light .text-white\/65 { color: rgba(var(--tint-rgb), 0.70) !important; }
+  .light .text-white\/70 { color: rgba(var(--tint-rgb), 0.75) !important; }
+  .light .text-white\/75 { color: rgba(var(--tint-rgb), 0.80) !important; }
+  .light .text-white\/80 { color: rgba(var(--tint-rgb), 0.85) !important; }
+  .light .text-white\/85 { color: rgba(var(--tint-rgb), 0.90) !important; }
+  .light .text-white\/90 { color: rgba(var(--tint-rgb), 0.92) !important; }
+  .light .hover\:text-white:hover { color: hsl(var(--foreground)) !important; }
+
+  /* Logo invert + scrollbar */
+  .light img[src="/logo.svg"] { filter: invert(1); }
+  .light ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  .light ::-webkit-scrollbar-thumb { background: rgba(var(--tint-rgb), 0.15); }
+
+  /* Light mode: dimmer body radial glow */
+  .light body {
+    background-image:
+      radial-gradient(60% 50% at 50% 0%, hsl(var(--accent) / 0.08) 0%, transparent 60%),
+      radial-gradient(40% 30% at 100% 100%, rgba(var(--tint-rgb), 0.025) 0%, transparent 70%);
   }
 
   html[dir="rtl"] body {
@@ -84,7 +181,10 @@
   }
 
   .surface {
-    @apply rounded-3xl border border-white/[0.06] bg-white/[0.02];
+    @apply rounded-3xl border border-white/[0.10] bg-white/[0.04];
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 30px 60px -30px rgba(0, 0, 0, 0.6);
   }
 
   .focus-ring {
@@ -101,6 +201,61 @@
 
   .container-tight {
     @apply mx-auto w-full max-w-6xl px-6;
+  }
+
+  .falling-particles {
+    position: fixed;
+    top: 0;
+    width: 28vw;
+    max-width: 420px;
+    height: 38vh;
+    max-height: 360px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .falling-particles--left { left: 0; }
+  .falling-particles--right { right: 0; }
+
+  .falling-particles .particle {
+    position: absolute;
+    top: 0;
+    width: var(--p-size, 4px);
+    height: var(--p-size, 4px);
+    border-radius: 9999px;
+    background: var(--particle-color);
+    box-shadow:
+      0 0 6px var(--particle-glow),
+      0 0 14px var(--particle-glow);
+    filter: blur(0.2px);
+    opacity: 0;
+    animation: particle-fall var(--p-duration, 14s) linear infinite;
+    animation-delay: var(--p-delay, 0s);
+    will-change: transform, opacity;
+  }
+
+  .falling-particles--left .particle { left: var(--p-x, 0%); }
+  .falling-particles--right .particle { right: var(--p-x, 0%); }
+
+  @keyframes particle-fall {
+    0% {
+      transform: translate3d(0, -20px, 0);
+      opacity: 0;
+    }
+    10% {
+      opacity: var(--p-opacity, 0.45);
+    }
+    50% {
+      transform: translate3d(calc(var(--p-drift, 0px) * 0.5), 22vh, 0);
+    }
+    85% {
+      opacity: var(--p-opacity, 0.45);
+    }
+    100% {
+      transform: translate3d(var(--p-drift, 0px), 42vh, 0);
+      opacity: 0;
+    }
   }
 }
 

@@ -5,9 +5,13 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { Navbar } from "@/components/public/Navbar";
 import { Footer } from "@/components/public/Footer";
+import { FallingParticles } from "@/components/public/FallingParticles";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { getSiteSettings } from "@/lib/seo";
 import { dirFor, type Locale } from "@/lib/i18n-helpers";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -35,10 +39,13 @@ export default async function LocaleLayout({
     <div lang={locale} dir={dirFor(locale as Locale)} className="min-h-screen">
       <style dangerouslySetInnerHTML={{ __html: themeCss }} />
       <NextIntlClientProvider messages={messages} locale={locale}>
-        <Navbar siteName={settings.siteName} />
-        <main className="pt-16">{children}</main>
-        <Footer locale={locale as Locale} />
-        <Toaster />
+        <ThemeProvider>
+          <FallingParticles />
+          <Navbar siteName={settings.siteName} ctaIcon={settings.ctaIcon} />
+          <main className="relative z-[1] pt-24 md:pt-28">{children}</main>
+          <Footer locale={locale as Locale} />
+          <Toaster />
+        </ThemeProvider>
       </NextIntlClientProvider>
     </div>
   );

@@ -25,7 +25,9 @@ export default async function AdminAboutPage() {
     },
   });
 
-  const highlights = JSON.stringify(about.highlights ?? [], null, 2);
+  const { parseJson } = await import("@/lib/utils");
+  const highlightsParsed = parseJson<unknown[]>(about.highlights, []);
+  const highlights = JSON.stringify(highlightsParsed, null, 2);
 
   return (
     <div>

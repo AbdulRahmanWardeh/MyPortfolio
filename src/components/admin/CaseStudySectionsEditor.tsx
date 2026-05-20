@@ -21,9 +21,10 @@ import {
   deleteCaseStudySection,
   reorderCaseStudySections,
 } from "@/actions/admin";
-import type { CaseStudySection } from "@prisma/client";
+import type { CaseStudySectionType } from "@/lib/enums";
+import { parseJson } from "@/lib/utils";
 
-const TYPES: { value: CaseStudySection["type"]; label: string }[] = [
+const TYPES: { value: CaseStudySectionType; label: string }[] = [
   { value: "OVERVIEW", label: "Overview" },
   { value: "PROBLEM", label: "Problem" },
   { value: "GOAL", label: "Goal" },
@@ -45,9 +46,9 @@ const TYPES: { value: CaseStudySection["type"]; label: string }[] = [
   { value: "CUSTOM", label: "Custom" },
 ];
 
-interface Section {
+type Section = {
   id: string;
-  type: CaseStudySection["type"];
+  type: string;
   order: number;
   titleEn: string;
   titleAr: string;
@@ -205,13 +206,15 @@ function SectionEditor({
   caseStudyId: string;
   onSaved: (s: Section) => void;
 }) {
-  const [type, setType] = React.useState(section.type);
+  const [type, setType] = React.useState<CaseStudySectionType>(
+    section.type as CaseStudySectionType,
+  );
   const [titleEn, setTitleEn] = React.useState(section.titleEn);
   const [titleAr, setTitleAr] = React.useState(section.titleAr);
   const [bodyEn, setBodyEn] = React.useState(section.bodyEn);
   const [bodyAr, setBodyAr] = React.useState(section.bodyAr);
   const [blocksJson, setBlocksJson] = React.useState(
-    JSON.stringify(section.blocks ?? [], null, 2),
+    JSON.stringify(parseJson<unknown[]>(section.blocks, []), null, 2),
   );
   const [saving, setSaving] = React.useState(false);
 
@@ -250,7 +253,7 @@ function SectionEditor({
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
         <Label>Section type</Label>
-        <Select value={type} onValueChange={(v) => setType(v as CaseStudySection["type"])}>
+        <Select value={type} onValueChange={(v) => setType(v as CaseStudySectionType)}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>

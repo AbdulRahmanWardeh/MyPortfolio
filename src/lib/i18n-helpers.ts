@@ -4,14 +4,14 @@ export type Locale = "en" | "ar";
  * Picks the localized field from a record with suffixed columns.
  * pickField({ titleEn: "A", titleAr: "ب" }, "ar", "title") → "ب"
  */
-export function pickField<
-  T extends Record<string, unknown>,
-  K extends string,
->(record: T, locale: Locale, key: K): string {
+export function pickField<K extends string>(
+  record: Record<string, unknown> | object,
+  locale: Locale,
+  key: K,
+): string {
+  const r = record as Record<string, unknown>;
   const suffix = locale === "ar" ? "Ar" : "En";
-  const fieldKey = `${key}${suffix}` as keyof T;
-  const fallbackKey = `${key}En` as keyof T;
-  const value = record[fieldKey] ?? record[fallbackKey];
+  const value = r[`${key}${suffix}`] ?? r[`${key}En`];
   return typeof value === "string" ? value : "";
 }
 

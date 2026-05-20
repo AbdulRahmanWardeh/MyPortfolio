@@ -2,7 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft02Icon as ArrowLeft } from "hugeicons-react";
 import { prisma } from "@/lib/db";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
@@ -71,7 +71,7 @@ export default async function CaseStudyPage({
 
         {cs.coverImage ? (
           <Reveal delay={0.15}>
-            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-[2rem] border border-white/[0.08]">
+            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
               <Image
                 src={cs.coverImage}
                 alt={pickField(cs, l, "title")}

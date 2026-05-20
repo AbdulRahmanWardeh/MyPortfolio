@@ -4,7 +4,13 @@ import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { format } from "date-fns";
-import { ArrowLeft, ArrowRight, Calendar as CalendarIcon, Check, Clock } from "lucide-react";
+import {
+  ArrowLeft02Icon as ArrowLeft,
+  ArrowRight02Icon as ArrowRight,
+  Calendar03Icon as CalendarIcon,
+  Tick02Icon as Check,
+  Clock01Icon as Clock,
+} from "hugeicons-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

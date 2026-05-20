@@ -2,6 +2,8 @@ import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
+import { SocialButtonsRow } from "./SocialIcons";
+import { Mail01Icon as Mail } from "hugeicons-react";
 
 const navLinks = [
   { href: "/", key: "home" },
@@ -19,7 +21,10 @@ export async function Footer({ locale }: { locale: Locale }) {
       update: {},
       create: { id: "singleton" },
     }),
-    prisma.socialLink.findMany({ where: { isActive: true }, orderBy: { order: "asc" } }),
+    prisma.socialLink.findMany({
+      where: { isActive: true },
+      orderBy: { order: "asc" },
+    }),
     prisma.siteSettings.upsert({
       where: { id: "singleton" },
       update: {},
@@ -28,64 +33,57 @@ export async function Footer({ locale }: { locale: Locale }) {
   ]);
 
   return (
-    <footer className="border-t border-white/[0.06] bg-background">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <div className="text-sm font-medium">{settings.siteName}</div>
-          <p className="mt-3 max-w-sm text-sm text-white/50">
-            {pickField(footer, locale, "bio")}
-          </p>
-          <a
-            href={`mailto:${footer.email}`}
-            className="mt-6 inline-block text-sm text-white/80 underline-offset-4 hover:underline"
-          >
-            {footer.email}
-          </a>
+    <div className="px-4 pb-4 md:px-6 md:pb-6">
+      <footer className="overflow-hidden rounded-3xl border border-white/[0.10] bg-white/[0.04] backdrop-blur-xl">
+        <div className="grid gap-12 px-8 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:px-12 md:py-16">
+          <div>
+            <div className="h-display text-2xl font-semibold tracking-tight">
+              {settings.siteName}
+            </div>
+            <p className="mt-4 max-w-sm text-sm text-white/55">
+              {pickField(footer, locale, "bio")}
+            </p>
+            <a
+              href={`mailto:${footer.email}`}
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-sm text-white/85 transition hover:bg-white hover:text-black"
+            >
+              <Mail className="h-3.5 w-3.5" />
+              {footer.email}
+            </a>
+          </div>
+
+          <div>
+            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40">
+              {t("footer.navigation")}
+            </h4>
+            <ul className="mt-5 flex flex-col gap-2.5 text-sm text-white/75">
+              {navLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="transition hover:text-white">
+                    {t(`nav.${l.key}`)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40">
+              {t("footer.social")}
+            </h4>
+            <SocialButtonsRow links={social} className="mt-5" />
+          </div>
         </div>
 
-        <div>
-          <h4 className="text-xs uppercase tracking-wide text-white/40">
-            {t("footer.navigation")}
-          </h4>
-          <ul className="mt-4 flex flex-col gap-2 text-sm text-white/70">
-            {navLinks.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="hover:text-white">
-                  {t(`nav.${l.key}`)}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div className="border-t border-white/[0.06]">
+          <div className="flex items-center justify-between px-8 py-5 text-xs text-white/40 md:px-12">
+            <span>
+              {pickField(footer, locale, "copyright")} {new Date().getFullYear()}
+            </span>
+            <span>{settings.siteName}</span>
+          </div>
         </div>
-
-        <div>
-          <h4 className="text-xs uppercase tracking-wide text-white/40">
-            {t("footer.social")}
-          </h4>
-          <ul className="mt-4 flex flex-col gap-2 text-sm text-white/70">
-            {social.map((s) => (
-              <li key={s.id}>
-                <a
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white"
-                >
-                  {s.platform}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-white/[0.06]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 text-xs text-white/40">
-          <span>
-            {pickField(footer, locale, "copyright")} {new Date().getFullYear()}
-          </span>
-          <span>{settings.siteName}</span>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
   );
 }

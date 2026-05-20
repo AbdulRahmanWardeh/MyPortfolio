@@ -5,6 +5,7 @@ import { buildMetadata } from "@/lib/seo";
 import { ServiceCard } from "@/components/public/ServiceCard";
 import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
 import { ContactCtaSection } from "@/components/public/ContactCtaSection";
+import { getSiteSettings } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -30,10 +31,13 @@ export default async function ServicesPage({
   const l = locale as Locale;
   const t = await getTranslations({ locale });
 
-  const services = await prisma.service.findMany({
-    where: { isActive: true },
-    orderBy: { order: "asc" },
-  });
+  const [services, settings] = await Promise.all([
+    prisma.service.findMany({
+      where: { isActive: true },
+      orderBy: { order: "asc" },
+    }),
+    getSiteSettings(),
+  ]);
 
   return (
     <>
@@ -56,6 +60,7 @@ export default async function ServicesPage({
                 <ServiceCard
                   service={s}
                   locale={l}
+                  ctaIcon={settings.ctaIcon}
                   labels={{
                     deliverables: t("services.deliverables"),
                     timeline: t("services.timeline"),

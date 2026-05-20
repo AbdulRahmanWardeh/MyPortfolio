@@ -1,8 +1,9 @@
 import { Link } from "@/i18n/routing";
-import { ArrowUpRight } from "lucide-react";
 import * as Icons from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { DynamicIcon } from "@/lib/hugeicon";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
+import { parseJson } from "@/lib/utils";
 
 interface ServiceCardProps {
   service: {
@@ -22,15 +23,17 @@ interface ServiceCardProps {
     deliverables: string;
     timeline: string;
   };
+  ctaIcon?: string;
 }
 
-export function ServiceCard({ service, locale, labels }: ServiceCardProps) {
+export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardProps) {
   const Icon =
     (Icons[service.icon as keyof typeof Icons] as LucideIcon) ?? Icons.Sparkles;
 
-  const deliverables = (Array.isArray(service.deliverables)
-    ? service.deliverables
-    : []) as Array<{ en: string; ar: string }>;
+  const deliverables = parseJson<Array<{ en: string; ar: string }>>(
+    service.deliverables,
+    [],
+  );
 
   return (
     <div className="surface flex h-full flex-col gap-5 p-7 transition hover:bg-white/[0.04]">
@@ -74,7 +77,7 @@ export function ServiceCard({ service, locale, labels }: ServiceCardProps) {
           className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/[0.10]"
         >
           {pickField(service, locale, "ctaLabel")}
-          <ArrowUpRight className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
+          <DynamicIcon name={ctaIcon} className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
         </Link>
       </div>
     </div>

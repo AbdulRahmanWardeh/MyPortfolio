@@ -100,7 +100,7 @@ export default async function AdminOverviewPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <BookingStatusBadge status={b.status} />
+                    <BookingStatusBadge status={b.status as "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED"} />
                     <Link
                       href="/admin/bookings"
                       className="text-xs text-white/60 hover:text-white"

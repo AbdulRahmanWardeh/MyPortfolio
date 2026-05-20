@@ -2,7 +2,7 @@
 
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
-import { Globe } from "lucide-react";
+import { Globe02Icon as Globe } from "hugeicons-react";
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -4,9 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 // ============================================================
@@ -18,13 +17,9 @@ model User {
   email          String   @unique
   name           String?
   hashedPassword String
-  role           UserRole @default(ADMIN)
+  role           String   @default("ADMIN")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-}
-
-enum UserRole {
-  ADMIN
 }
 
 // ============================================================
@@ -42,6 +37,7 @@ model SiteSettings {
   seoDescEn       String   @default("Premium UX/UI design portfolio")
   seoDescAr       String   @default("معرض أعمال احترافي لتصميم تجربة وواجهة المستخدم")
   ogImage         String?
+  ctaIcon         String   @default("ArrowUpRight02Icon")
   updatedAt       DateTime @updatedAt
 }
 
@@ -74,7 +70,7 @@ model AboutContent {
   experienceSummaryEn String
   experienceSummaryAr String
   profileImage    String?
-  highlights      Json     @default("[]") // [{ titleEn, titleAr, descEn, descAr }]
+  highlights      String   @default("[]") // JSON: [{ titleEn, titleAr, descEn, descAr }]
   updatedAt       DateTime @updatedAt
 }
 
@@ -147,6 +143,7 @@ model Project {
   behanceLink     String?
   dribbbleLink    String?
   figmaLink       String?
+  tags            String   @default("") // comma-separated, e.g. "Branding,Mobile,SaaS"
   isFeatured      Boolean  @default(false)
   isPublished     Boolean  @default(true)
   order           Int      @default(0)
@@ -205,38 +202,16 @@ model CaseStudy {
 model CaseStudySection {
   id          String   @id @default(cuid())
   caseStudyId String
-  type        CaseStudySectionType @default(CUSTOM)
+  type        String   @default("CUSTOM")
   order       Int      @default(0)
   titleEn     String
   titleAr     String
   bodyEn      String   @default("")
   bodyAr      String   @default("")
-  blocks      Json     @default("[]")
+  blocks      String   @default("[]")
   caseStudy   CaseStudy @relation(fields: [caseStudyId], references: [id], onDelete: Cascade)
 
   @@index([caseStudyId])
-}
-
-enum CaseStudySectionType {
-  OVERVIEW
-  PROBLEM
-  GOAL
-  ROLE
-  TIMELINE
-  RESEARCH
-  INTERVIEWS
-  AFFINITY
-  PERSONAS
-  JOURNEY
-  FLOW
-  WIREFRAMES
-  DESIGN_SYSTEM
-  FINAL_UI
-  USABILITY
-  ITERATIONS
-  RESULTS
-  LEARNINGS
-  CUSTOM
 }
 
 model Service {
@@ -246,7 +221,7 @@ model Service {
   titleAr         String
   descriptionEn   String
   descriptionAr   String
-  deliverables    Json     @default("[]") // [{ en, ar }]
+  deliverables    String   @default("[]") // JSON: [{ en, ar }]
   timelineEn      String   @default("2-4 weeks")
   timelineAr      String   @default("٢-٤ أسابيع")
   ctaLabelEn      String   @default("Book a meeting")
@@ -345,7 +320,7 @@ model Booking {
   phone           String?
   company         String?
   message         String?
-  status          BookingStatus  @default(PENDING)
+  status          String         @default("PENDING")
   meetingType     MeetingType    @relation(fields: [meetingTypeId], references: [id])
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
@@ -354,9 +329,3 @@ model Booking {
   @@index([status])
 }
 
-enum BookingStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
-  COMPLETED
-}

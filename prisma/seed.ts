@@ -1,5 +1,11 @@
-import { PrismaClient, CaseStudySectionType } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+
+type CaseStudySectionType =
+  | "OVERVIEW" | "PROBLEM" | "GOAL" | "ROLE" | "TIMELINE" | "RESEARCH"
+  | "INTERVIEWS" | "AFFINITY" | "PERSONAS" | "JOURNEY" | "FLOW"
+  | "WIREFRAMES" | "DESIGN_SYSTEM" | "FINAL_UI" | "USABILITY"
+  | "ITERATIONS" | "RESULTS" | "LEARNINGS" | "CUSTOM";
 
 const prisma = new PrismaClient();
 
@@ -67,7 +73,7 @@ async function main() {
       experienceSummaryAr:
         "أكثر من ٦ سنوات في تصميم منتجات SaaS والتقنيات المالية وتطبيقات المستهلكين. قُدتُ أنظمة تصميم تستخدمها فرق من أكثر من ٢٠ مهندساً.",
       profileImage: PLACEHOLDER_PROFILE,
-      highlights: [
+      highlights: JSON.stringify([
         {
           titleEn: "Design systems",
           titleAr: "أنظمة التصميم",
@@ -86,7 +92,7 @@ async function main() {
           descEn: "From discovery to handoff and QA.",
           descAr: "من الاكتشاف وحتى التسليم وضمان الجودة.",
         },
-      ],
+      ]),
     },
   });
 
@@ -125,22 +131,22 @@ async function main() {
 
   // -------- Tools --------
   await prisma.tool.deleteMany();
-  const tools = [
-    "Figma",
-    "Sketch",
-    "Framer",
-    "Adobe XD",
-    "Photoshop",
-    "Illustrator",
-    "Principle",
-    "Notion",
-    "Miro",
-    "Maze",
+  const tools: Array<{ name: string; iconUrl: string }> = [
+    { name: "Figma", iconUrl: "https://cdn.simpleicons.org/figma/ffffff" },
+    { name: "Sketch", iconUrl: "https://cdn.simpleicons.org/sketch/ffffff" },
+    { name: "Framer", iconUrl: "https://cdn.simpleicons.org/framer/ffffff" },
+    { name: "Adobe XD", iconUrl: "https://cdn.simpleicons.org/adobexd/ffffff" },
+    { name: "Photoshop", iconUrl: "https://cdn.simpleicons.org/adobephotoshop/ffffff" },
+    { name: "Illustrator", iconUrl: "https://cdn.simpleicons.org/adobeillustrator/ffffff" },
+    { name: "After Effects", iconUrl: "https://cdn.simpleicons.org/adobeaftereffects/ffffff" },
+    { name: "Notion", iconUrl: "https://cdn.simpleicons.org/notion/ffffff" },
+    { name: "Miro", iconUrl: "https://cdn.simpleicons.org/miro/ffffff" },
+    { name: "Maze", iconUrl: "https://cdn.simpleicons.org/maze/ffffff" },
   ];
   await Promise.all(
-    tools.map((name, i) =>
+    tools.map((t, i) =>
       prisma.tool.create({
-        data: { name, category: "Design", order: i },
+        data: { name: t.name, iconUrl: t.iconUrl, category: "Design", order: i },
       }),
     ),
   );
@@ -395,7 +401,7 @@ async function main() {
         titleAr: s.titleAr,
         descriptionEn: s.descEn,
         descriptionAr: s.descAr,
-        deliverables: s.deliverables,
+        deliverables: JSON.stringify(s.deliverables),
         timelineEn: s.timelineEn,
         timelineAr: s.timelineAr,
         order: i,
@@ -418,6 +424,7 @@ async function main() {
         "إعادة تصميم كاملة لمنصة تحليلات Northwind — من هندسة المعلومات إلى نظام مكوّنات جديد. أدّت إلى زيادة بنسبة ٣٨٪ في المستخدمين النشطين أسبوعياً.",
       category: "Web App",
       client: "Northwind",
+      tags: "Fintech,Product Design",
       isFeatured: true,
       toolNames: ["Figma", "Framer", "Notion"],
     },
@@ -433,8 +440,9 @@ async function main() {
         "تصميم منتج شامل لبنك رقمي — التأهيل والحسابات والتحويلات وإدارة الميزانية. أصلي على iOS و Android.",
       category: "Mobile App",
       client: "Bluebird",
+      tags: "Mobile,Fintech",
       isFeatured: true,
-      toolNames: ["Figma", "Principle"],
+      toolNames: ["Figma", "After Effects"],
     },
     {
       slug: "saffron-commerce",
@@ -448,6 +456,7 @@ async function main() {
         "متجر مباشر للمستهلك لعلامة منزلية فاخرة — اكتشاف المنتجات والمُكوِّن وإتمام الشراء.",
       category: "E-commerce",
       client: "Saffron Home",
+      tags: "E-commerce,Branding",
       isFeatured: true,
       toolNames: ["Figma", "Photoshop"],
     },
@@ -463,6 +472,7 @@ async function main() {
         "إعادة تخيّل حجوزات السفر — الوجهات بوصفها قصصاً، والبحث بوصفه استكشافاً.",
       category: "Web App",
       client: "Atlas",
+      tags: "Travel,Editorial",
       isFeatured: false,
       toolNames: ["Figma", "Illustrator"],
     },
@@ -478,6 +488,7 @@ async function main() {
         "من التدقيق إلى التسليم — نظام تصميم متعدّد العلامات والمنصّات مع رموز ومكوّنات وأنماط.",
       category: "Design System",
       client: "Lumen Co.",
+      tags: "Design System,SaaS",
       isFeatured: false,
       toolNames: ["Figma", "Notion"],
     },
@@ -493,6 +504,7 @@ async function main() {
         "خطط الرعاية والمواعيد والرسائل — مصمّمة لتقليل القلق وتحسين الالتزام.",
       category: "Healthcare",
       client: "Harbor",
+      tags: "Healthcare,Mobile",
       isFeatured: false,
       toolNames: ["Figma", "Maze"],
     },
@@ -511,6 +523,7 @@ async function main() {
         coverImage: `${PLACEHOLDER_COVER}&sig=${i + 1}`,
         category: p.category,
         client: p.client,
+        tags: p.tags,
         isFeatured: p.isFeatured,
         order: i,
         images: {
@@ -633,46 +646,48 @@ async function main() {
           bodyEn:
             "Context, decisions, and outcomes for this section of the case study.",
           bodyAr: "السياق والقرارات والنتائج لهذا القسم من دراسة الحالة.",
-          blocks: isMetrics
-            ? [
-                {
-                  kind: "metrics",
-                  data: {
-                    items: [
-                      { labelEn: "WAU lift", labelAr: "زيادة المستخدمين أسبوعياً", value: "+38%" },
-                      { labelEn: "Time to insight", labelAr: "زمن الوصول للرؤية", value: "-46%" },
-                      { labelEn: "NPS", labelAr: "صافي المروّجين", value: "62" },
-                    ],
+          blocks: JSON.stringify(
+            isMetrics
+              ? [
+                  {
+                    kind: "metrics",
+                    data: {
+                      items: [
+                        { labelEn: "WAU lift", labelAr: "زيادة المستخدمين أسبوعياً", value: "+38%" },
+                        { labelEn: "Time to insight", labelAr: "زمن الوصول للرؤية", value: "-46%" },
+                        { labelEn: "NPS", labelAr: "صافي المروّجين", value: "62" },
+                      ],
+                    },
                   },
-                },
-              ]
-            : isGallery
-            ? [
-                {
-                  kind: "gallery",
-                  data: {
-                    images: [1, 2, 3].map((n) => ({
-                      url: `https://picsum.photos/seed/${c.slug}-${type}-${n}/1600/1000`,
-                      altEn: `${titleEn} ${n}`,
-                      altAr: `${titleAr} ${n}`,
-                    })),
+                ]
+              : isGallery
+              ? [
+                  {
+                    kind: "gallery",
+                    data: {
+                      images: [1, 2, 3].map((n) => ({
+                        url: `https://picsum.photos/seed/${c.slug}-${type}-${n}/1600/1000`,
+                        altEn: `${titleEn} ${n}`,
+                        altAr: `${titleAr} ${n}`,
+                      })),
+                    },
                   },
-                },
-              ]
-            : isBullets
-            ? [
-                {
-                  kind: "bullets",
-                  data: {
-                    items: [
-                      { en: "Insight one drawn from research.", ar: "رؤية أولى مستخلصة من البحث." },
-                      { en: "Decision two that shaped the flow.", ar: "قرار ثانٍ شكّل التدفق." },
-                      { en: "Outcome three measured post-launch.", ar: "نتيجة ثالثة قيست بعد الإطلاق." },
-                    ],
+                ]
+              : isBullets
+              ? [
+                  {
+                    kind: "bullets",
+                    data: {
+                      items: [
+                        { en: "Insight one drawn from research.", ar: "رؤية أولى مستخلصة من البحث." },
+                        { en: "Decision two that shaped the flow.", ar: "قرار ثانٍ شكّل التدفق." },
+                        { en: "Outcome three measured post-launch.", ar: "نتيجة ثالثة قيست بعد الإطلاق." },
+                      ],
+                    },
                   },
-                },
-              ]
-            : [],
+                ]
+              : [],
+          ),
         },
       });
     }

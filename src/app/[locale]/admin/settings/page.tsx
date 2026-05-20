@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/admin/SubmitButton";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { updateSettings } from "@/actions/admin";
+import { CtaIconField } from "./CtaIconField";
 
 export default async function AdminSettingsPage() {
   const s = await prisma.siteSettings.upsert({
@@ -46,6 +47,8 @@ export default async function AdminSettingsPage() {
               name="ogImage"
               defaultValue={s.ogImage}
             />
+
+            <CtaIconField defaultValue={s.ctaIcon} />
           </CardContent>
         </Card>
         <div className="mt-6 flex justify-end">

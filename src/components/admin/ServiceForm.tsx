@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { parseJson } from "@/lib/utils";
 
 interface Props {
   action: (fd: FormData) => Promise<void>;
@@ -25,7 +26,7 @@ interface Props {
 
 export function ServiceForm({ action, defaults }: Props) {
   const deliverables = JSON.stringify(
-    defaults?.deliverables ?? [{ en: "", ar: "" }],
+    parseJson<unknown[]>(defaults?.deliverables, [{ en: "", ar: "" }]),
     null,
     2,
   );

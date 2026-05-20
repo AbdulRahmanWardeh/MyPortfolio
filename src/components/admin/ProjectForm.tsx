@@ -6,7 +6,6 @@ import { Plus, X, ImagePlus, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { BilingualField } from "@/components/admin/BilingualField";
 import { SubmitButton } from "@/components/admin/SubmitButton";
@@ -35,6 +34,7 @@ interface ProjectDefaults {
   timelineAr: string;
   client: string | null;
   projectType: string;
+  tags: string;
   liveLink: string | null;
   behanceLink: string | null;
   dribbbleLink: string | null;
@@ -158,6 +158,17 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
                 <Label>Order</Label>
                 <Input name="order" type="number" defaultValue={defaults?.order ?? 0} />
               </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Tags</Label>
+              <Input
+                name="tags"
+                defaultValue={defaults?.tags ?? ""}
+                placeholder="Fintech, Product Design, Mobile"
+              />
+              <p className="text-xs text-white/40">
+                Comma-separated. Shown next to the project title in the list.
+              </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-2">

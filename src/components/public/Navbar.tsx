@@ -1,9 +1,12 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { Link, usePathname } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
-import { Menu } from "lucide-react";
+import { Menu02Icon } from "hugeicons-react";
+import { DynamicIcon } from "@/lib/hugeicon";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +16,9 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
-import { LocaleSwitcher } from "./LocaleSwitcher";
+// Kept around — re-enable in JSX below to show the EN/AR switcher again.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { LocaleSwitcher as _LocaleSwitcher } from "./LocaleSwitcher";
 
 const links = [
   { href: "/", key: "home" },
@@ -23,7 +28,13 @@ const links = [
   { href: "/contact", key: "contact" },
 ] as const;
 
-export function Navbar({ siteName }: { siteName: string }) {
+export function Navbar({
+  siteName: _siteName,
+  ctaIcon,
+}: {
+  siteName: string;
+  ctaIcon?: string;
+}) {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
@@ -41,20 +52,30 @@ export function Navbar({ siteName }: { siteName: string }) {
 
   return (
     <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-all",
-        scrolled
-          ? "border-b border-white/[0.06] bg-background/70 backdrop-blur-xl"
-          : "bg-transparent",
-      )}
+      className="fixed inset-x-0 top-0 z-40 flex justify-center px-4 pt-4 md:px-6 md:pt-6"
       dir={locale === "ar" ? "rtl" : "ltr"}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-6">
+      <div
+        className={cn(
+          "flex h-14 w-full max-w-[1200px] items-center justify-between gap-4 rounded-[999px] border px-3 transition-all md:h-16 md:px-5",
+          scrolled
+            ? "border-white/[0.10] bg-background/70 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]"
+            : "border-white/[0.08] bg-white/[0.03] backdrop-blur-md",
+        )}
+      >
         <Link
           href="/"
-          className="text-sm font-medium tracking-tight text-white hover:opacity-80"
+          className="flex items-center gap-2 ps-2"
+          aria-label="Home"
         >
-          {siteName}
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={24}
+            height={24}
+            className="h-6 w-6"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
@@ -63,10 +84,10 @@ export function Navbar({ siteName }: { siteName: string }) {
               key={l.href}
               href={l.href}
               className={cn(
-                "rounded-full px-3 py-2 text-sm transition-colors",
+                "rounded-full px-3.5 py-1.5 text-sm transition-colors",
                 isActive(l.href)
-                  ? "text-white"
-                  : "text-white/60 hover:text-white",
+                  ? "bg-white/[0.06] text-white"
+                  : "text-white/65 hover:text-white",
               )}
             >
               {t(l.key)}
@@ -75,9 +96,18 @@ export function Navbar({ siteName }: { siteName: string }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <LocaleSwitcher />
+          {/* LocaleSwitcher kept for future use — see ./LocaleSwitcher.tsx */}
+          <ThemeToggle />
           <Button asChild variant="accent" size="sm" className="hidden md:inline-flex">
-            <Link href="/contact">{t("bookMeeting")}</Link>
+            <Link href="/contact">
+              {t("bookMeeting")}
+              {ctaIcon ? (
+                <DynamicIcon
+                  name={ctaIcon}
+                  className="h-3.5 w-3.5 rtl:rotate-[-90deg]"
+                />
+              ) : null}
+            </Link>
           </Button>
 
           <Sheet>
@@ -88,7 +118,7 @@ export function Navbar({ siteName }: { siteName: string }) {
                 className="md:hidden"
                 aria-label={t("menu")}
               >
-                <Menu className="h-4 w-4" />
+                <Menu02Icon className="h-4 w-4" />
               </Button>
             </SheetTrigger>
             <SheetContent
@@ -104,9 +134,9 @@ export function Navbar({ siteName }: { siteName: string }) {
                     <Link
                       href={l.href}
                       className={cn(
-                        "rounded-xl px-3 py-3 text-lg",
+                        "rounded-2xl px-3 py-3 text-lg",
                         isActive(l.href)
-                          ? "bg-white/[0.04] text-white"
+                          ? "bg-white/[0.06] text-white"
                           : "text-white/70 hover:bg-white/[0.04]",
                       )}
                     >

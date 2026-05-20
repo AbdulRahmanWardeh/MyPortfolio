@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { BookingStatus } from "@prisma/client";
+import type { BookingStatus } from "@/lib/enums";
 
 export function BookingStatusBadge({ status }: { status: BookingStatus }) {
   const map: Record<BookingStatus, { variant: "default" | "success" | "destructive" | "warning"; label: string }> = {

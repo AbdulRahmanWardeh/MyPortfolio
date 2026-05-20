@@ -32,6 +32,23 @@ export function truncate(str: string, n: number) {
   return str.length > n ? str.slice(0, n).trimEnd() + "…" : str;
 }
 
+/**
+ * Parses a JSON field that may already be deserialized (Postgres Json) or a string (SQLite).
+ * Returns the fallback if invalid.
+ */
+export function parseJson<T>(value: unknown, fallback: T): T {
+  if (value == null) return fallback;
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed as T;
+    } catch {
+      return fallback;
+    }
+  }
+  return value as T;
+}
+
 export function isoDay(date: Date) {
   return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
 }

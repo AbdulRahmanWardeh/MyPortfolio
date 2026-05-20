@@ -1,22 +1,28 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { ArrowUpRight } from "lucide-react";
+import { DynamicIcon } from "@/lib/hugeicon";
+import { getSiteSettings } from "@/lib/seo";
 import { prisma } from "@/lib/db";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
+import { parseJson } from "@/lib/utils";
 import { Reveal, Stagger, StaggerItem } from "./Motion";
+import { Button } from "@/components/ui/button";
 
 export async function AboutPreview({ locale }: { locale: Locale }) {
-  const about = await prisma.aboutContent.findUnique({ where: { id: "singleton" } });
+  const [about, settings] = await Promise.all([
+    prisma.aboutContent.findUnique({ where: { id: "singleton" } }),
+    getSiteSettings(),
+  ]);
   if (!about) return null;
 
   type Highlight = { titleEn: string; titleAr: string; descEn: string; descAr: string };
-  const highlights = (about.highlights ?? []) as Highlight[];
+  const highlights = parseJson<Highlight[]>(about.highlights, []);
 
   return (
     <section className="section">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
         <Reveal className="relative">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-white/[0.08]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
             {about.profileImage ? (
               <Image
                 src={about.profileImage}
@@ -66,13 +72,12 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
           ) : null}
 
           <Reveal delay={0.25}>
-            <Link
-              href="/about"
-              className="mt-2 inline-flex items-center gap-2 text-sm text-white hover:opacity-80"
-            >
-              {locale === "ar" ? "اقرأ المزيد" : "Read more"}
-              <ArrowUpRight className="h-4 w-4 rtl:rotate-[-90deg]" />
-            </Link>
+            <Button asChild variant="accent" size="lg" className="mt-2 w-fit">
+              <Link href="/about">
+                {locale === "ar" ? "اقرأ المزيد" : "Read more"}
+                <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 rtl:rotate-[-90deg]" />
+              </Link>
+            </Button>
           </Reveal>
         </div>
       </div>

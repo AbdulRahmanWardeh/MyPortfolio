@@ -45,6 +45,7 @@ prisma/dev.db-journal
 # vercel
 .vercel
 
-# IDE
+# IDE / agent
 .vscode/
 .idea/
+.claude/

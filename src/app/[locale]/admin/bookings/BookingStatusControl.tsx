@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateBookingStatus } from "@/actions/admin";
-import type { BookingStatus } from "@prisma/client";
+import type { BookingStatus } from "@/lib/enums";
 import { toast } from "sonner";
 
 const OPTIONS: { value: BookingStatus; label: string }[] = [

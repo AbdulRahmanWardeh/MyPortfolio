@@ -2,12 +2,18 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react";
+import {
+  ArrowLeft02Icon as ArrowLeft,
+  LinkSquare02Icon as ExternalLink,
+} from "hugeicons-react";
+import { DynamicIcon } from "@/lib/hugeicon";
+import { getSiteSettings } from "@/lib/seo";
 import { prisma } from "@/lib/db";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
 import { ProjectCard } from "@/components/public/ProjectCard";
+import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({
   params,
@@ -36,13 +42,16 @@ export default async function ProjectDetailPage({
   const l = locale as Locale;
   const t = await getTranslations({ locale });
 
-  const project = await prisma.project.findUnique({
-    where: { slug },
-    include: {
-      images: { orderBy: { order: "asc" } },
-      tools: { include: { tool: true } },
-    },
-  });
+  const [project, settings] = await Promise.all([
+    prisma.project.findUnique({
+      where: { slug },
+      include: {
+        images: { orderBy: { order: "asc" } },
+        tools: { include: { tool: true } },
+      },
+    }),
+    getSiteSettings(),
+  ]);
   if (!project || !project.isPublished) notFound();
 
   const more = await prisma.project.findMany({
@@ -90,7 +99,7 @@ export default async function ProjectDetailPage({
 
         {project.coverImage ? (
           <Reveal delay={0.1}>
-            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-[2rem] border border-white/[0.08]">
+            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
               <Image
                 src={project.coverImage}
                 alt={pickField(project, l, "title")}
@@ -188,13 +197,15 @@ export default async function ProjectDetailPage({
               <h2 className="h-display text-2xl font-semibold md:text-3xl">
                 {t("projects.moreProjects")}
               </h2>
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-1.5 text-sm text-white/70 hover:text-white"
-              >
-                {t("common.viewAll")}
-                <ArrowUpRight className="h-4 w-4 rtl:rotate-[-90deg]" />
-              </Link>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/projects">
+                  {t("common.viewAll")}
+                  <DynamicIcon
+                    name={settings.ctaIcon}
+                    className="h-3.5 w-3.5 rtl:rotate-[-90deg]"
+                  />
+                </Link>
+              </Button>
             </div>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {more.map((p) => (

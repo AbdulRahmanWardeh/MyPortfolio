@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Reveal } from "./Motion";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
+import { parseJson } from "@/lib/utils";
 import type { CaseStudySection } from "@prisma/client";
 
 interface MetricBlock {
@@ -78,11 +79,9 @@ export function CaseStudyRenderer({
             ) : null}
 
             <div className="mt-8 flex flex-col gap-6">
-              {(Array.isArray(section.blocks) ? (section.blocks as unknown as Block[]) : []).map(
-                (block, i) => (
-                  <BlockRenderer key={i} block={block} locale={locale} />
-                ),
-              )}
+              {parseJson<Block[]>(section.blocks, []).map((block, i) => (
+                <BlockRenderer key={i} block={block} locale={locale} />
+              ))}
             </div>
           </section>
         </Reveal>
