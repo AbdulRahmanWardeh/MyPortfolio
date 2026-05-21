@@ -86,11 +86,11 @@ export function SocialButton({
       rel="noopener noreferrer"
       aria-label={platform}
       className={cn(
-        "group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/75 transition-all hover:scale-[1.05] hover:border-white/30 hover:bg-white hover:text-black",
+        "group inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/75 transition-all hover:scale-[1.05] hover:border-white/30 hover:bg-white hover:text-black",
         className,
       )}
     >
-      <Icon className="h-[18px] w-[18px]" />
+      <Icon className="h-5 w-5" />
     </a>
   );
 }

@@ -2,17 +2,13 @@ import { Link } from "@/i18n/routing";
 import { DynamicIcon } from "@/lib/hugeicon";
 import { getSiteSettings } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
-import { prisma } from "@/lib/db";
+import { getContactCta } from "@/lib/content";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { Reveal } from "./Motion";
 
 export async function ContactCtaSection({ locale }: { locale: Locale }) {
   const [cta, settings] = await Promise.all([
-    prisma.contactCta.upsert({
-      where: { id: "singleton" },
-      update: {},
-      create: { id: "singleton" },
-    }),
+    getContactCta(),
     getSiteSettings(),
   ]);
 

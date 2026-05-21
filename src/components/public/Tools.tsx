@@ -21,7 +21,7 @@ export async function Tools({ locale }: { locale: Locale }) {
           }
         />
       </div>
-      <div className="mt-14">
+      <div className="mx-auto mt-14 w-full max-w-7xl px-6">
         <ToolsMarquee items={tools} />
       </div>
     </section>

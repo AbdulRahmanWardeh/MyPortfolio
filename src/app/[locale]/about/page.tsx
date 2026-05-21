@@ -5,7 +5,6 @@ import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { ExperienceTimeline } from "@/components/public/ExperienceTimeline";
 import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
-import { SectionHeader } from "@/components/public/SectionHeader";
 
 export async function generateMetadata({
   params,
@@ -132,15 +131,6 @@ export default async function AboutPage({
       </section>
 
       <ExperienceTimeline locale={l} />
-
-      <section className="section">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionHeader
-            kicker={t("home.skills")}
-            title={l === "ar" ? "ما أتقنه" : "What I do best"}
-          />
-        </div>
-      </section>
     </>
   );
 }

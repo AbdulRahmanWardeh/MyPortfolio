@@ -30,7 +30,7 @@ export function ToolsMarquee({ items }: { items: Tool[] }) {
             "linear-gradient(to left, hsl(var(--background)) 10%, transparent 100%)",
         }}
       />
-      <div className="flex w-max animate-marquee items-center gap-10 px-6 will-change-transform">
+      <div className="flex w-max animate-marquee items-center gap-20 px-6 will-change-transform">
         {doubled.map((tool, i) => (
           <div
             key={`${tool.id}-${i}`}

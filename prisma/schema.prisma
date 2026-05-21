@@ -37,7 +37,7 @@ model SiteSettings {
   seoDescEn       String   @default("Premium UX/UI design portfolio")
   seoDescAr       String   @default("معرض أعمال احترافي لتصميم تجربة وواجهة المستخدم")
   ogImage         String?
-  ctaIcon         String   @default("ArrowUpRight02Icon")
+  ctaIcon         String   @default("")
   updatedAt       DateTime @updatedAt
 }
 
@@ -99,17 +99,6 @@ model FooterContent {
 // ============================================================
 // COLLECTIONS
 // ============================================================
-
-model Skill {
-  id          String   @id @default(cuid())
-  nameEn      String
-  nameAr      String
-  category    String   @default("Design")
-  level       Int      @default(80)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
 
 model Tool {
   id          String   @id @default(cuid())

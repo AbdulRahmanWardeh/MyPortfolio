@@ -7,7 +7,7 @@ import { DynamicIcon, COMMON_ICONS } from "@/lib/hugeicon";
 import { cn } from "@/lib/utils";
 
 export function CtaIconField({ defaultValue }: { defaultValue?: string }) {
-  const [value, setValue] = React.useState(defaultValue ?? "ArrowUpRight02Icon");
+  const [value, setValue] = React.useState(defaultValue ?? "");
 
   return (
     <div className="flex flex-col gap-3">
@@ -25,8 +25,10 @@ export function CtaIconField({ defaultValue }: { defaultValue?: string }) {
         </div>
       </div>
       <p className="text-xs text-white/45">
-        Used as the trailing icon for every CTA across the site (Hero, About, Contact CTA,
-        navbar Book a Meeting, View all, etc). Browse names at{" "}
+        Leave empty to hide icons on every CTA. Set a Hugeicons React export name (e.g.
+        <code className="mx-1 rounded bg-white/[0.06] px-1">ArrowUpRight02Icon</code>)
+        and it will appear on Hero, About, Contact CTA, navbar Book a Meeting, View all, etc.
+        Browse names at{" "}
         <a
           href="https://hugeicons.com/icons"
           target="_blank"

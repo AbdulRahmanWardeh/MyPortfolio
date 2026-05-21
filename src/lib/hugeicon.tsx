@@ -15,14 +15,17 @@ const ICON_MAP = HugeIcons as unknown as Record<string, IconComp>;
 export function DynamicIcon({
   name,
   className,
-  fallback = "ArrowUpRight02Icon",
+  fallback,
 }: {
   name?: string | null;
   className?: string;
+  /** Optional fallback icon name if `name` is missing. If both are empty, nothing renders. */
   fallback?: string;
 }) {
-  const key = (name && name.trim()) || fallback;
-  const Icon = ICON_MAP[key] ?? ICON_MAP[fallback];
+  const trimmed = (name ?? "").trim();
+  const key = trimmed || (fallback ?? "");
+  if (!key) return null;
+  const Icon = ICON_MAP[key];
   if (!Icon) return null;
   return <Icon className={cn("h-4 w-4", className)} />;
 }

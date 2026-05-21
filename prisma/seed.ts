@@ -41,8 +41,8 @@ async function main() {
     update: {},
     create: {
       id: "singleton",
-      nameEn: "Abdul Rahman Wardeh",
-      nameAr: "عبد الرحمن وردة",
+      nameEn: "Abdulrahman",
+      nameAr: "عبدالرحمن",
       titleEn: "UX/UI Designer · Product Design",
       titleAr: "مصمم تجربة وواجهة المستخدم · تصميم منتجات",
       introEn:
@@ -72,7 +72,7 @@ async function main() {
         "6+ years designing across SaaS, fintech, and consumer apps. Led design systems used by teams of 20+ engineers.",
       experienceSummaryAr:
         "أكثر من ٦ سنوات في تصميم منتجات SaaS والتقنيات المالية وتطبيقات المستهلكين. قُدتُ أنظمة تصميم تستخدمها فرق من أكثر من ٢٠ مهندساً.",
-      profileImage: PLACEHOLDER_PROFILE,
+      profileImage: "/about.png",
       highlights: JSON.stringify([
         {
           titleEn: "Design systems",
@@ -105,28 +105,6 @@ async function main() {
     where: { id: "singleton" },
     update: {},
     create: { id: "singleton" },
-  });
-
-  // -------- Skills --------
-  await prisma.skill.deleteMany();
-  const skills = [
-    ["UX Research", "أبحاث تجربة المستخدم", "Research", 92],
-    ["Interaction Design", "تصميم التفاعل", "Design", 95],
-    ["Design Systems", "أنظمة التصميم", "Systems", 90],
-    ["Prototyping", "النمذجة التفاعلية", "Design", 88],
-    ["Visual Design", "التصميم البصري", "Design", 93],
-    ["Usability Testing", "اختبار قابلية الاستخدام", "Research", 85],
-    ["Wireframing", "الإطارات السلكية", "Design", 95],
-    ["Information Architecture", "هندسة المعلومات", "Strategy", 87],
-  ] as const;
-  await prisma.skill.createMany({
-    data: skills.map(([en, ar, cat, level], i) => ({
-      nameEn: en,
-      nameAr: ar,
-      category: cat,
-      level,
-      order: i,
-    })),
   });
 
   // -------- Tools --------

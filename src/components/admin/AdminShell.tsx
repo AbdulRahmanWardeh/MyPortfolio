@@ -20,7 +20,6 @@ import {
   X,
   Palette,
   MessageSquare,
-  Heart,
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/routing";
 import { signOut } from "next-auth/react";
@@ -38,7 +37,6 @@ const NAV: NavItem[] = [
 
   { href: "/admin/hero", label: "Hero", icon: Sparkles, group: "Content" },
   { href: "/admin/about", label: "About", icon: User, group: "Content" },
-  { href: "/admin/skills", label: "Skills", icon: Heart, group: "Content" },
   { href: "/admin/projects", label: "Projects", icon: Briefcase, group: "Content" },
   { href: "/admin/case-studies", label: "Case Studies", icon: FileText, group: "Content" },
   { href: "/admin/services", label: "Services", icon: Wrench, group: "Content" },

@@ -42,7 +42,7 @@ export default async function LocaleLayout({
         <ThemeProvider>
           <FallingParticles />
           <Navbar siteName={settings.siteName} ctaIcon={settings.ctaIcon} />
-          <main className="relative z-[1] pt-24 md:pt-28">{children}</main>
+          <main className="relative z-[1] pt-20 md:pt-24">{children}</main>
           <Footer locale={locale as Locale} />
           <Toaster />
         </ThemeProvider>

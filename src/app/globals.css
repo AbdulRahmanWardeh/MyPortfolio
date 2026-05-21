@@ -203,6 +203,134 @@
     @apply mx-auto w-full max-w-6xl px-6;
   }
 
+  /* ------------------------------------------------------------------ */
+  /* Hero backdrop glow orbs — CSS-only (no JS animation runtime)        */
+  /* ------------------------------------------------------------------ */
+  .hero-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    will-change: transform, opacity;
+  }
+
+  .hero-orb--purple {
+    top: -8rem;
+    left: 50%;
+    height: 42rem;
+    width: 42rem;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, hsl(var(--accent) / 0.30), transparent 70%);
+    animation: hero-orb-purple 16s ease-in-out infinite;
+  }
+
+  .hero-orb--cool {
+    bottom: -10rem;
+    left: -8rem;
+    height: 32rem;
+    width: 32rem;
+    background: radial-gradient(closest-side, rgba(120, 180, 255, 0.18), transparent 70%);
+    animation: hero-orb-cool 20s ease-in-out infinite;
+  }
+
+  .hero-orb--warm {
+    bottom: -8rem;
+    right: -8rem;
+    height: 28rem;
+    width: 28rem;
+    background: radial-gradient(closest-side, rgba(255, 200, 140, 0.14), transparent 70%);
+    animation: hero-orb-warm 24s ease-in-out infinite;
+  }
+
+  @keyframes hero-orb-purple {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.85; }
+    25% { transform: translate(-46%, 2%); opacity: 1; }
+    50% { transform: translate(-54%, -2%); opacity: 0.85; }
+    75% { transform: translate(-50%, 1%); opacity: 1; }
+  }
+
+  @keyframes hero-orb-cool {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(40px, -30px); }
+    66% { transform: translate(-20px, 20px); }
+  }
+
+  @keyframes hero-orb-warm {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(-30px, 20px); }
+    66% { transform: translate(30px, -10px); }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Inline animated text ribbon — replaces the hero subtitle           */
+  /* ------------------------------------------------------------------ */
+  .hero-ribbon {
+    position: relative;
+    left: 50%;
+    width: 100vw;
+    margin-block: 0.5rem;
+    padding-block: 2vw; /* room for the rotated overhang */
+    overflow: hidden;
+    transform: translateX(-50%);
+  }
+
+  .ribbon {
+    position: relative;
+    left: -8%;
+    width: 116%;
+    padding: 1.15rem 0;
+    font-family: var(--font-display), system-ui, sans-serif;
+    transform: rotate(-2.5deg);
+    transform-origin: center center;
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    box-shadow: 0 25px 60px -40px hsl(var(--accent) / 0.6);
+  }
+
+  .ribbon-track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    align-items: center;
+    font-size: clamp(1rem, 2.6vw, 1.875rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    will-change: transform;
+  }
+
+  .ribbon-track > span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 1.5rem;
+  }
+
+  .ribbon-track > span::after {
+    content: "—";
+    margin-inline-start: 1.5rem;
+    opacity: 0.7;
+  }
+
+  .ribbon-track--left {
+    animation: ribbon-scroll-left 45s linear infinite;
+  }
+
+  @keyframes ribbon-scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 640px) {
+    .hero-ribbon { margin-block: 0.4rem; padding-block: 2vw; }
+    .ribbon { padding: 0.85rem 0; transform: rotate(-1.5deg); width: 112%; left: -6%; }
+    .ribbon-track { font-size: 0.9rem; letter-spacing: 0.04em; }
+    .ribbon-track > span { padding: 0 1rem; }
+    .ribbon-track > span::after { margin-inline-start: 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ribbon-track--left { animation: none; }
+  }
+
   .falling-particles {
     position: fixed;
     top: 0;

@@ -141,7 +141,7 @@ export async function updateSettings(fd: FormData) {
       accentColor: str(fd.get("accentColor")) || "#8b5cf6",
       defaultLocale: str(fd.get("defaultLocale")) || "en",
       ogImage: strOrNull(fd.get("ogImage")),
-      ctaIcon: str(fd.get("ctaIcon")) || "ArrowUpRight02Icon",
+      ctaIcon: str(fd.get("ctaIcon")),
     },
     create: { id: "singleton" },
   });
@@ -161,43 +161,6 @@ export async function updateSeo(fd: FormData) {
     },
     create: { id: "singleton" },
   });
-  revalidateAll();
-}
-
-// ---------- Skills ----------
-
-export async function createSkill(fd: FormData) {
-  await requireAdmin();
-  await prisma.skill.create({
-    data: {
-      nameEn: str(fd.get("nameEn")),
-      nameAr: str(fd.get("nameAr")),
-      category: str(fd.get("category")) || "Design",
-      level: int(fd.get("level"), 80),
-      order: int(fd.get("order")),
-    },
-  });
-  revalidateAll();
-}
-
-export async function updateSkill(id: string, fd: FormData) {
-  await requireAdmin();
-  await prisma.skill.update({
-    where: { id },
-    data: {
-      nameEn: str(fd.get("nameEn")),
-      nameAr: str(fd.get("nameAr")),
-      category: str(fd.get("category")) || "Design",
-      level: int(fd.get("level"), 80),
-      order: int(fd.get("order")),
-    },
-  });
-  revalidateAll();
-}
-
-export async function deleteSkill(id: string) {
-  await requireAdmin();
-  await prisma.skill.delete({ where: { id } });
   revalidateAll();
 }
 

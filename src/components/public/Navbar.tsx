@@ -57,7 +57,7 @@ export function Navbar({
     >
       <div
         className={cn(
-          "flex h-14 w-full max-w-[1200px] items-center justify-between gap-4 rounded-[999px] border px-3 transition-all md:h-16 md:px-5",
+          "grid h-14 w-full max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-[999px] border px-3 transition-all md:h-16 md:px-5",
           scrolled
             ? "border-white/[0.10] bg-background/70 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]"
             : "border-white/[0.08] bg-white/[0.03] backdrop-blur-md",
@@ -65,7 +65,7 @@ export function Navbar({
       >
         <Link
           href="/"
-          className="flex items-center gap-2 ps-2"
+          className="flex items-center gap-2 justify-self-start ps-2"
           aria-label="Home"
         >
           <Image
@@ -78,7 +78,7 @@ export function Navbar({
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center justify-self-center gap-1 md:flex">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -95,7 +95,7 @@ export function Navbar({
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-self-end gap-2">
           {/* LocaleSwitcher kept for future use — see ./LocaleSwitcher.tsx */}
           <ThemeToggle />
           <Button asChild variant="accent" size="sm" className="hidden md:inline-flex">

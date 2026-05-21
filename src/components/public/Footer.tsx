@@ -1,6 +1,10 @@
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/db";
+import {
+  getFooterContent,
+  getActiveSocialLinks,
+} from "@/lib/content";
+import { getSiteSettings } from "@/lib/seo";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { SocialButtonsRow } from "./SocialIcons";
 import { Mail01Icon as Mail } from "hugeicons-react";
@@ -16,25 +20,14 @@ const navLinks = [
 export async function Footer({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale });
   const [footer, social, settings] = await Promise.all([
-    prisma.footerContent.upsert({
-      where: { id: "singleton" },
-      update: {},
-      create: { id: "singleton" },
-    }),
-    prisma.socialLink.findMany({
-      where: { isActive: true },
-      orderBy: { order: "asc" },
-    }),
-    prisma.siteSettings.upsert({
-      where: { id: "singleton" },
-      update: {},
-      create: { id: "singleton" },
-    }),
+    getFooterContent(),
+    getActiveSocialLinks(),
+    getSiteSettings(),
   ]);
 
   return (
     <div className="px-4 pb-4 md:px-6 md:pb-6">
-      <footer className="overflow-hidden rounded-3xl border border-white/[0.10] bg-white/[0.04] backdrop-blur-xl">
+      <footer className="overflow-hidden rounded-3xl border border-white/[0.10] bg-white/[0.04] backdrop-blur-md">
         <div className="grid gap-12 px-8 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:px-12 md:py-16">
           <div>
             <div className="h-display text-2xl font-semibold tracking-tight">
