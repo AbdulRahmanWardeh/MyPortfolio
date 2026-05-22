@@ -43,7 +43,10 @@
     "experience": "Experience",
     "testimonials": "What people say",
     "tools": "Tools",
-    "viewAllProjects": "View all projects"
+    "viewAllProjects": "View all projects",
+    "yearsExperience": "Years of experience",
+    "projectsBuilt": "Projects built",
+    "clientsServed": "Clients served"
   },
   "projects": {
     "title": "Projects",

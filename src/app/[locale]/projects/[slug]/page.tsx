@@ -60,13 +60,26 @@ export default async function ProjectDetailPage({
     take: 3,
   });
 
-  const meta: { label: string; value: string }[] = [
+  // Stats shown in the horizontal card directly under the heading.
+  // Each entry only appears when there's actually a value, so the card
+  // is fully dynamic — admin can clear a field to remove its pill.
+  const stats: { label: string; value: string }[] = [
     { label: t("projects.category"), value: project.category },
     { label: t("projects.role"), value: pickField(project, l, "role") },
     { label: t("projects.timeline"), value: pickField(project, l, "timeline") },
-    ...(project.client ? [{ label: t("projects.client"), value: project.client }] : []),
     { label: t("projects.type"), value: project.projectType },
-  ];
+    ...(project.client
+      ? [{ label: t("projects.client"), value: project.client }]
+      : []),
+    ...(project.tools.length > 0
+      ? [
+          {
+            label: t("projects.tools"),
+            value: project.tools.map((pt) => pt.tool.name).join(" · "),
+          },
+        ]
+      : []),
+  ].filter((s) => s.value && s.value.trim().length > 0);
 
   const externalLinks = [
     { url: project.liveLink, label: t("projects.liveLink") },
@@ -97,9 +110,32 @@ export default async function ProjectDetailPage({
           </p>
         </Reveal>
 
-        {project.coverImage ? (
+        {/* Horizontal stats card — dynamic, dividers between cells */}
+        {stats.length > 0 ? (
           <Reveal delay={0.1}>
-            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
+            <div className="mt-10 overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.04]">
+              <div className="flex flex-wrap items-stretch divide-x divide-white/[0.08] sm:flex-nowrap rtl:divide-x-reverse">
+                {stats.map((s) => (
+                  <div
+                    key={s.label}
+                    className="flex min-w-[160px] flex-1 flex-col justify-center gap-1.5 px-6 py-5 text-start"
+                  >
+                    <div className="text-[0.65rem] uppercase tracking-[0.15em] text-white/40">
+                      {s.label}
+                    </div>
+                    <div className="text-base font-semibold text-white">
+                      {s.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        ) : null}
+
+        {project.coverImage ? (
+          <Reveal delay={0.15}>
+            <div className="relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
               <Image
                 src={project.coverImage}
                 alt={pickField(project, l, "title")}
@@ -112,59 +148,32 @@ export default async function ProjectDetailPage({
           </Reveal>
         ) : null}
 
-        <Reveal delay={0.15}>
-          <div className="surface mt-12 grid gap-6 p-8 md:grid-cols-3">
-            <div className="md:col-span-2 whitespace-pre-line text-base text-white/70 md:text-lg">
+        <Reveal delay={0.2}>
+          <div className="surface mt-12 p-8">
+            <div className="whitespace-pre-line text-base text-white/70 md:text-lg">
               {pickField(project, l, "fullDesc")}
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
-              {meta.map((m) => (
-                <div key={m.label}>
-                  <div className="text-xs uppercase tracking-wide text-white/40">
-                    {m.label}
-                  </div>
-                  <div className="mt-1 text-sm text-white/85">{m.value}</div>
+            {externalLinks.length > 0 ? (
+              <div className="mt-8 border-t border-white/[0.06] pt-6">
+                <div className="text-xs uppercase tracking-wide text-white/40">
+                  {t("common.viewProject")}
                 </div>
-              ))}
-              {project.tools.length > 0 ? (
-                <div>
-                  <div className="text-xs uppercase tracking-wide text-white/40">
-                    {t("projects.tools")}
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {project.tools.map((pt) => (
-                      <span
-                        key={pt.toolId}
-                        className="rounded-full border border-white/[0.08] bg-white/[0.02] px-2.5 py-0.5 text-xs text-white/70"
-                      >
-                        {pt.tool.name}
-                      </span>
-                    ))}
-                  </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {externalLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.10] bg-white/[0.03] px-3.5 py-1.5 text-sm text-white/85 transition hover:border-white/30 hover:bg-white hover:text-black"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      {link.label}
+                    </a>
+                  ))}
                 </div>
-              ) : null}
-              {externalLinks.length > 0 ? (
-                <div>
-                  <div className="text-xs uppercase tracking-wide text-white/40">
-                    {t("common.viewProject")}
-                  </div>
-                  <div className="mt-2 flex flex-col gap-1.5">
-                    {externalLinks.map((link) => (
-                      <a
-                        key={link.label}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-white hover:text-accent"
-                      >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </div>
         </Reveal>
 

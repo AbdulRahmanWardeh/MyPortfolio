@@ -86,6 +86,36 @@ export default async function AdminHeroPage() {
                 <Label>Secondary CTA URL</Label>
                 <Input name="secondaryCtaHref" defaultValue={hero.secondaryCtaHref} />
               </div>
+
+              <div className="grid gap-4 sm:grid-cols-3 pt-2 border-t border-white/[0.06]">
+                <div className="flex flex-col gap-2">
+                  <Label>Years of experience</Label>
+                  <Input
+                    name="yearsExperience"
+                    type="number"
+                    min={0}
+                    defaultValue={hero.yearsExperience}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label>Projects built</Label>
+                  <Input
+                    name="projectsBuilt"
+                    type="number"
+                    min={0}
+                    defaultValue={hero.projectsBuilt}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label>Clients served</Label>
+                  <Input
+                    name="clientsServed"
+                    type="number"
+                    min={0}
+                    defaultValue={hero.clientsServed}
+                  />
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>

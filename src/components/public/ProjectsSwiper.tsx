@@ -1,50 +1,48 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import {
-  QuoteUpIcon as Quote,
   ArrowLeft01Icon as ChevronLeft,
   ArrowRight01Icon as ChevronRight,
 } from "hugeicons-react";
 import { cn } from "@/lib/utils";
-import { pickField, type Locale } from "@/lib/i18n-helpers";
+import { ProjectCard } from "./ProjectCard";
+import type { Locale } from "@/lib/i18n-helpers";
 
-interface Testimonial {
+interface ProjectItem {
   id: string;
-  author: string;
-  roleEn: string;
-  roleAr: string;
-  company: string;
-  avatarUrl: string | null;
-  quoteEn: string;
-  quoteAr: string;
+  slug: string;
+  coverImage: string | null;
+  category: string;
+  tags: string;
+  titleEn: string;
+  titleAr: string;
+  shortDescEn: string;
+  shortDescAr: string;
 }
 
-export function TestimonialsCarousel({
-  items,
+export function ProjectsSwiper({
+  projects,
   locale,
 }: {
-  items: Testimonial[];
+  projects: ProjectItem[];
   locale: Locale;
 }) {
   const trackRef = React.useRef<HTMLDivElement>(null);
   const [index, setIndex] = React.useState(0);
-  // Suppresses the scroll listener while we're animating a button-driven scroll,
-  // so the dot we just chose isn't overwritten mid-animation.
   const lockUntilRef = React.useRef(0);
 
   const scrollTo = (i: number) => {
     const track = trackRef.current;
     if (!track) return;
-    const clamped = Math.max(0, Math.min(items.length - 1, i));
+    const clamped = Math.max(0, Math.min(projects.length - 1, i));
     setIndex(clamped);
     lockUntilRef.current = Date.now() + 700;
 
     let targetLeft: number;
     if (clamped === 0) {
       targetLeft = 0;
-    } else if (clamped === items.length - 1) {
+    } else if (clamped === projects.length - 1) {
       targetLeft = track.scrollWidth;
     } else {
       const card = track.children[clamped] as HTMLElement | undefined;
@@ -64,10 +62,7 @@ export function TestimonialsCarousel({
     if (!track) return;
     let raf = 0;
     const compute = () => {
-      // Ignore listener-driven updates while a programmatic scroll is settling.
       if (Date.now() < lockUntilRef.current) return;
-
-      // If nothing scrolls (cards fit), the active index is just 0 (start).
       if (track.scrollWidth - track.clientWidth < 2) {
         setIndex(0);
         return;
@@ -94,6 +89,7 @@ export function TestimonialsCarousel({
     track.addEventListener("scroll", onScroll, { passive: true });
 
     // Convert vertical mouse-wheel scroll into horizontal panning.
+    // Lets the page scroll keep flowing once we hit either edge.
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
       const max = track.scrollWidth - track.clientWidth;
@@ -106,65 +102,42 @@ export function TestimonialsCarousel({
     };
     track.addEventListener("wheel", onWheel, { passive: false });
 
-    // Start at 0 — do NOT auto-compute on mount, which would lock the centre
-    // card (e.g. item 2 of 3) as the initial active state.
     return () => {
       track.removeEventListener("scroll", onScroll);
       track.removeEventListener("wheel", onWheel);
       cancelAnimationFrame(raf);
     };
-  }, [items.length]);
+  }, [projects.length]);
 
   return (
     <div className="relative">
       <div
         ref={trackRef}
-        className="-mx-6 flex snap-x snap-proximity gap-5 overflow-x-auto overscroll-x-contain px-6 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-6 flex snap-x snap-proximity gap-6 overflow-x-auto overscroll-x-contain px-6 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
           scrollPadding: "0 24px",
           maskImage:
-            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
         }}
       >
-        {items.map((tm) => (
-          <figure
-            key={tm.id}
-            className="surface flex min-w-[min(420px,85vw)] snap-center flex-col gap-5 p-8"
+        {projects.map((p) => (
+          <div
+            key={p.id}
+            className="w-[clamp(280px,40vw,460px)] shrink-0 snap-center"
           >
-            <Quote className="h-5 w-5 text-accent" />
-            <blockquote className="text-pretty text-base text-white/85 md:text-lg">
-              &ldquo;{pickField(tm, locale, "quote")}&rdquo;
-            </blockquote>
-            <figcaption className="mt-auto flex items-center gap-3">
-              {tm.avatarUrl ? (
-                <Image
-                  src={tm.avatarUrl}
-                  alt={tm.author}
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="h-10 w-10 rounded-full bg-white/[0.08]" />
-              )}
-              <div>
-                <div className="text-sm font-medium">{tm.author}</div>
-                <div className="text-xs text-white/50">
-                  {pickField(tm, locale, "role")} · {tm.company}
-                </div>
-              </div>
-            </figcaption>
-          </figure>
+            <ProjectCard project={p} locale={locale} />
+          </div>
         ))}
       </div>
 
       <div className="mt-2 flex items-center justify-between gap-4 px-1">
         <div className="flex items-center gap-1.5">
-          {items.map((_, i) => (
+          {projects.map((_, i) => (
             <button
               key={i}
+              type="button"
               onClick={() => scrollTo(i)}
               aria-label={`Go to ${i + 1}`}
               className={cn(
@@ -187,7 +160,7 @@ export function TestimonialsCarousel({
           <button
             type="button"
             aria-label="Next"
-            disabled={index === items.length - 1}
+            disabled={index === projects.length - 1}
             onClick={() => scrollTo(index + 1)}
             className="grid h-10 w-10 place-items-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/70 transition hover:border-white/30 hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white/[0.03] disabled:hover:text-white/70"
           >

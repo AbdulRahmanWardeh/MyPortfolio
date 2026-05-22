@@ -4,6 +4,7 @@ import type { LucideIcon } from "lucide-react";
 import { DynamicIcon } from "@/lib/hugeicon";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { parseJson } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface ServiceCardProps {
   service: {
@@ -72,13 +73,12 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
             {pickField(service, locale, "timeline")}
           </div>
         </div>
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/[0.10]"
-        >
-          {pickField(service, locale, "ctaLabel")}
-          <DynamicIcon name={ctaIcon} className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
-        </Link>
+        <Button asChild variant="accent" size="sm">
+          <Link href="/contact">
+            {pickField(service, locale, "ctaLabel")}
+            <DynamicIcon name={ctaIcon} className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
+          </Link>
+        </Button>
       </div>
     </div>
   );

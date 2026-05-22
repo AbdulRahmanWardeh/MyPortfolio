@@ -6,7 +6,6 @@ import { Link, usePathname } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
 import { Menu02Icon } from "hugeicons-react";
 import { DynamicIcon } from "@/lib/hugeicon";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,7 +56,7 @@ export function Navbar({
     >
       <div
         className={cn(
-          "grid h-14 w-full max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-[999px] border px-3 transition-all md:h-16 md:px-5",
+          "flex h-16 w-full max-w-[1200px] items-center justify-between gap-4 rounded-[999px] border px-3 transition-all md:grid md:h-20 md:grid-cols-[1fr_auto_1fr] md:px-5",
           scrolled
             ? "border-white/[0.10] bg-background/70 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]"
             : "border-white/[0.08] bg-white/[0.03] backdrop-blur-md",
@@ -97,7 +96,6 @@ export function Navbar({
 
         <div className="flex items-center justify-self-end gap-2">
           {/* LocaleSwitcher kept for future use — see ./LocaleSwitcher.tsx */}
-          <ThemeToggle />
           <Button asChild variant="accent" size="sm" className="hidden md:inline-flex">
             <Link href="/contact">
               {t("bookMeeting")}

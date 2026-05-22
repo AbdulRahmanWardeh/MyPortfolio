@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { DynamicIcon } from "@/lib/hugeicon";
 import { getSiteSettings } from "@/lib/seo";
-import { prisma } from "@/lib/db";
+import { getAboutContent } from "@/lib/content";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { parseJson } from "@/lib/utils";
 import { Reveal, Stagger, StaggerItem } from "./Motion";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 
 export async function AboutPreview({ locale }: { locale: Locale }) {
   const [about, settings] = await Promise.all([
-    prisma.aboutContent.findUnique({ where: { id: "singleton" } }),
+    getAboutContent(),
     getSiteSettings(),
   ]);
   if (!about) return null;
@@ -22,7 +22,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
     <section className="section">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
         <Reveal className="relative">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
             {about.profileImage ? (
               <Image
                 src={about.profileImage}
@@ -58,7 +58,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
             <Stagger className="mt-4 grid gap-3 sm:grid-cols-3">
               {highlights.map((h, i) => (
                 <StaggerItem key={i}>
-                  <div className="surface h-full p-5">
+                  <div className="surface h-full rounded-xl p-5">
                     <div className="text-sm font-medium">
                       {locale === "ar" ? h.titleAr : h.titleEn}
                     </div>
@@ -72,10 +72,10 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
           ) : null}
 
           <Reveal delay={0.25}>
-            <Button asChild variant="accent" size="lg" className="mt-2 w-fit">
+            <Button asChild variant="outline" size="sm" className="mt-2 w-fit">
               <Link href="/about">
                 {locale === "ar" ? "اقرأ المزيد" : "Read more"}
-                <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 rtl:rotate-[-90deg]" />
+                <DynamicIcon name={settings.ctaIcon} className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
               </Link>
             </Button>
           </Reveal>

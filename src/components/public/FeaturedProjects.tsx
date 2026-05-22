@@ -4,8 +4,7 @@ import { DynamicIcon } from "@/lib/hugeicon";
 import { getSiteSettings } from "@/lib/seo";
 import { prisma } from "@/lib/db";
 import { type Locale } from "@/lib/i18n-helpers";
-import { Stagger, StaggerItem } from "./Motion";
-import { ProjectCard } from "./ProjectCard";
+import { ProjectsSwiper } from "./ProjectsSwiper";
 import { SectionHeader } from "./SectionHeader";
 import { getTranslations } from "next-intl/server";
 
@@ -15,7 +14,7 @@ export async function FeaturedProjects({ locale }: { locale: Locale }) {
     prisma.project.findMany({
       where: { isFeatured: true, isPublished: true },
       orderBy: { order: "asc" },
-      take: 6,
+      take: 8,
     }),
     getSiteSettings(),
   ]);
@@ -40,13 +39,9 @@ export async function FeaturedProjects({ locale }: { locale: Locale }) {
           </Button>
         </div>
 
-        <Stagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p) => (
-            <StaggerItem key={p.id}>
-              <ProjectCard project={p} locale={locale} />
-            </StaggerItem>
-          ))}
-        </Stagger>
+        <div className="mt-14">
+          <ProjectsSwiper projects={projects} locale={locale} />
+        </div>
       </div>
     </section>
   );

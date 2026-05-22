@@ -7,15 +7,8 @@ import {
 import { getSiteSettings } from "@/lib/seo";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { SocialButtonsRow } from "./SocialIcons";
-import { Mail01Icon as Mail } from "hugeicons-react";
-
-const navLinks = [
-  { href: "/", key: "home" },
-  { href: "/about", key: "about" },
-  { href: "/projects", key: "projects" },
-  { href: "/services", key: "services" },
-  { href: "/contact", key: "contact" },
-] as const;
+import { ArrowUpRight02Icon } from "hugeicons-react";
+import { FooterEmail } from "./FooterEmail";
 
 export async function Footer({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale });
@@ -24,56 +17,86 @@ export async function Footer({ locale }: { locale: Locale }) {
     getActiveSocialLinks(),
     getSiteSettings(),
   ]);
+  void t;
+
+  const ctaLabel = locale === "ar" ? "تواصل معي" : "Say Hello";
+  const headline =
+    locale === "ar" ? "لنعمل معاً" : "Let's work together";
 
   return (
     <div className="px-4 pb-4 md:px-6 md:pb-6">
-      <footer className="overflow-hidden rounded-3xl border border-white/[0.10] bg-white/[0.04] backdrop-blur-md">
-        <div className="grid gap-12 px-8 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:px-12 md:py-16">
-          <div>
-            <div className="h-display text-2xl font-semibold tracking-tight">
-              {settings.siteName}
-            </div>
-            <p className="mt-4 max-w-sm text-sm text-white/55">
+      <footer className="relative overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.04] backdrop-blur-md">
+        {/* Soft purple glow at top-center */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 left-1/2 h-72 w-[60vw] -translate-x-1/2 rounded-full blur-[80px]"
+          style={{
+            background:
+              "radial-gradient(closest-side, hsl(var(--accent) / 0.22), transparent 70%)",
+          }}
+        />
+
+        {/* Statement headline */}
+        <div className="relative px-6 pt-16 md:px-12 md:pt-24">
+          <h2 className="h-display text-center font-bold uppercase leading-[0.85] tracking-tight">
+            <span
+              className="block text-[clamp(2.5rem,11vw,9.5rem)]"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.30) 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              {headline}
+            </span>
+          </h2>
+        </div>
+
+        {/* CTA + intro */}
+        <div className="relative mx-auto mt-12 flex max-w-4xl flex-col items-center gap-10 px-6 pb-16 md:flex-row md:items-center md:gap-12 md:px-12 md:pb-20">
+          <Link
+            href="/contact"
+            className="group relative grid h-44 w-44 shrink-0 place-items-center rounded-full bg-accent text-center font-display text-base font-semibold text-accent-foreground shadow-[0_30px_80px_-20px_hsl(var(--accent)/0.7)] transition-transform duration-300 hover:scale-105 md:h-48 md:w-48"
+          >
+            <span className="inline-flex items-center gap-2">
+              {ctaLabel}
+              <ArrowUpRight02Icon className="h-4 w-4 rtl:rotate-[-90deg]" />
+            </span>
+            <span
+              aria-hidden
+              className="absolute inset-0 rounded-full opacity-0 ring-2 ring-accent/60 transition-opacity duration-300 group-hover:opacity-100"
+            />
+          </Link>
+
+          <div className="flex max-w-md flex-col items-center gap-5 text-center md:items-start md:text-start">
+            <p className="text-pretty text-base text-white/65 md:text-lg">
               {pickField(footer, locale, "bio")}
             </p>
-            <a
-              href={`mailto:${footer.email}`}
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-sm text-white/85 transition hover:bg-white hover:text-black"
-            >
-              <Mail className="h-3.5 w-3.5" />
-              {footer.email}
-            </a>
-          </div>
-
-          <div>
-            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40">
-              {t("footer.navigation")}
-            </h4>
-            <ul className="mt-5 flex flex-col gap-2.5 text-sm text-white/75">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="transition hover:text-white">
-                    {t(`nav.${l.key}`)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40">
-              {t("footer.social")}
-            </h4>
-            <SocialButtonsRow links={social} className="mt-5" />
+            <FooterEmail email={footer.email} />
           </div>
         </div>
 
-        <div className="border-t border-white/[0.06]">
-          <div className="flex items-center justify-between px-8 py-5 text-xs text-white/40 md:px-12">
-            <span>
+        {/* Bottom bar */}
+        <div className="relative border-t border-white/[0.06]">
+          <div className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 md:px-12">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-4 py-1.5 text-sm font-medium text-accent transition hover:border-white/30 hover:bg-white hover:text-black"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              {settings.siteName}
+            </Link>
+
+            <SocialButtonsRow
+              links={social.slice(0, 5)}
+              className="order-last w-full justify-center md:order-none md:w-auto"
+            />
+
+            <span className="text-xs text-white/50">
               {pickField(footer, locale, "copyright")} {new Date().getFullYear()}
             </span>
-            <span>{settings.siteName}</span>
           </div>
         </div>
       </footer>

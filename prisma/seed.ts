@@ -50,6 +50,9 @@ async function main() {
       introAr:
         "أصمم منتجات رقمية هادئة وراقية، وأحوّل المشكلات المعقدة إلى واجهات أنيقة يحبها المستخدمون.",
       profileImage: PLACEHOLDER_PROFILE,
+      yearsExperience: 6,
+      projectsBuilt: 32,
+      clientsServed: 18,
     },
   });
 

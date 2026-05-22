@@ -11,7 +11,20 @@ import {
   Tick02Icon as Check,
   Clock01Icon as Clock,
 } from "hugeicons-react";
-import { Calendar } from "@/components/ui/calendar";
+import dynamic from "next/dynamic";
+
+// react-day-picker is ~80 kB — only load it when the user reaches the date step.
+const Calendar = dynamic(
+  () => import("@/components/ui/calendar").then((m) => m.Calendar),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="grid h-[320px] w-[280px] place-items-center text-sm text-white/40">
+        Loading calendar…
+      </div>
+    ),
+  },
+);
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

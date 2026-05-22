@@ -59,7 +59,7 @@ export default async function AboutPage({
 
           <div className="mt-12 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal className="relative">
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
                 {about.profileImage ? (
                   <Image
                     src={about.profileImage}
@@ -115,7 +115,7 @@ export default async function AboutPage({
             <Stagger className="mt-20 grid gap-4 sm:grid-cols-3">
               {highlights.map((h, i) => (
                 <StaggerItem key={i}>
-                  <div className="surface h-full p-6">
+                  <div className="surface h-full rounded-xl p-6">
                     <div className="text-sm font-medium">
                       {l === "ar" ? h.titleAr : h.titleEn}
                     </div>

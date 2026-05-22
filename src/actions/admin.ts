@@ -45,6 +45,9 @@ export async function updateHero(fd: FormData) {
       secondaryCtaLabelAr: str(fd.get("secondaryCtaLabelAr")),
       secondaryCtaHref: str(fd.get("secondaryCtaHref")) || "/contact",
       profileImage: strOrNull(fd.get("profileImage")),
+      yearsExperience: int(fd.get("yearsExperience")),
+      projectsBuilt: int(fd.get("projectsBuilt")),
+      clientsServed: int(fd.get("clientsServed")),
     },
     create: {
       id: "singleton",

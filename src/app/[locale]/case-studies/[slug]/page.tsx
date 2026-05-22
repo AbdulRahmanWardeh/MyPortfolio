@@ -71,7 +71,7 @@ export default async function CaseStudyPage({
 
         {cs.coverImage ? (
           <Reveal delay={0.15}>
-            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/[0.10]">
+            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
               <Image
                 src={cs.coverImage}
                 alt={pickField(cs, l, "title")}

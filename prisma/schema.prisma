@@ -56,6 +56,9 @@ model HeroContent {
   secondaryCtaLabelAr String @default("احجز اجتماعاً")
   secondaryCtaHref String  @default("/contact")
   profileImage    String?
+  yearsExperience  Int     @default(0)
+  projectsBuilt    Int     @default(0)
+  clientsServed    Int     @default(0)
   updatedAt       DateTime @updatedAt
 }
 

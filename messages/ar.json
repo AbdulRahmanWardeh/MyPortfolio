@@ -43,7 +43,10 @@
     "experience": "الخبرة",
     "testimonials": "آراء العملاء",
     "tools": "الأدوات",
-    "viewAllProjects": "عرض جميع الأعمال"
+    "viewAllProjects": "عرض جميع الأعمال",
+    "yearsExperience": "سنوات الخبرة",
+    "projectsBuilt": "مشاريع منجزة",
+    "clientsServed": "عملاء"
   },
   "projects": {
     "title": "الأعمال",

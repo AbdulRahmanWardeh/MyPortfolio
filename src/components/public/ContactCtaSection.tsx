@@ -16,7 +16,7 @@ export async function ContactCtaSection({ locale }: { locale: Locale }) {
     <section className="section">
       <div className="mx-auto max-w-7xl px-6">
         <Reveal>
-          <div className="relative isolate overflow-hidden rounded-3xl border border-white/[0.10] bg-gradient-to-br from-accent/30 via-white/[0.02] to-transparent px-8 py-16 md:px-16 md:py-24">
+          <div className="relative isolate overflow-hidden rounded-2xl border border-white/[0.10] bg-gradient-to-br from-accent/30 via-white/[0.02] to-transparent px-8 py-16 md:px-16 md:py-24">
             <div className="absolute inset-0 -z-10 noise opacity-30" />
             <div className="max-w-3xl">
               <h2 className="h-display text-balance text-3xl font-semibold md:text-5xl">
