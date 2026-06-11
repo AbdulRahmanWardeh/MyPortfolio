@@ -21,17 +21,12 @@ interface Tool {
 interface ProjectDefaults {
   slug: string;
   titleEn: string;
-  titleAr: string;
   shortDescEn: string;
-  shortDescAr: string;
   fullDescEn: string;
-  fullDescAr: string;
   coverImage: string | null;
   category: string;
   roleEn: string;
-  roleAr: string;
   timelineEn: string;
-  timelineAr: string;
   client: string | null;
   projectType: string;
   tags: string;
@@ -42,7 +37,7 @@ interface ProjectDefaults {
   isFeatured: boolean;
   isPublished: boolean;
   order: number;
-  images?: Array<{ url: string; altEn: string; altAr: string }>;
+  images?: Array<{ url: string; altEn: string }>;
   tools?: Array<{ toolId: string }>;
 }
 
@@ -55,12 +50,11 @@ interface Props {
 interface GalleryItem {
   url: string;
   altEn: string;
-  altAr: string;
 }
 
 export function ProjectForm({ action, defaults, allTools }: Props) {
   const [gallery, setGallery] = React.useState<GalleryItem[]>(
-    defaults?.images?.map((g) => ({ url: g.url, altEn: g.altEn, altAr: g.altAr })) ?? [],
+    defaults?.images?.map((g) => ({ url: g.url, altEn: g.altEn })) ?? [],
   );
   const [selectedTools, setSelectedTools] = React.useState<string[]>(
     defaults?.tools?.map((t) => t.toolId) ?? [],
@@ -83,44 +77,11 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Card>
           <CardContent className="flex flex-col gap-5 p-6">
-            <BilingualField
-              label="Title"
-              nameEn="titleEn"
-              nameAr="titleAr"
-              defaultEn={defaults?.titleEn}
-              defaultAr={defaults?.titleAr}
-              required
-            />
-            <BilingualField
-              label="Short description"
-              nameEn="shortDescEn"
-              nameAr="shortDescAr"
-              defaultEn={defaults?.shortDescEn}
-              defaultAr={defaults?.shortDescAr}
-              textarea
-            />
-            <BilingualField
-              label="Full description"
-              nameEn="fullDescEn"
-              nameAr="fullDescAr"
-              defaultEn={defaults?.fullDescEn}
-              defaultAr={defaults?.fullDescAr}
-              textarea
-            />
-            <BilingualField
-              label="Role"
-              nameEn="roleEn"
-              nameAr="roleAr"
-              defaultEn={defaults?.roleEn}
-              defaultAr={defaults?.roleAr}
-            />
-            <BilingualField
-              label="Timeline"
-              nameEn="timelineEn"
-              nameAr="timelineAr"
-              defaultEn={defaults?.timelineEn}
-              defaultAr={defaults?.timelineAr}
-            />
+            <BilingualField label="Title" nameEn="titleEn" defaultEn={defaults?.titleEn} required />
+            <BilingualField label="Short description" nameEn="shortDescEn" defaultEn={defaults?.shortDescEn} textarea />
+            <BilingualField label="Full description" nameEn="fullDescEn" defaultEn={defaults?.fullDescEn} textarea />
+            <BilingualField label="Role" nameEn="roleEn" defaultEn={defaults?.roleEn} />
+            <BilingualField label="Timeline" nameEn="timelineEn" defaultEn={defaults?.timelineEn} />
           </CardContent>
         </Card>
 
@@ -252,7 +213,7 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
                   </div>
                   <div className="flex flex-col gap-1.5 p-3">
                     <Input
-                      placeholder="Alt EN"
+                      placeholder="Alt text"
                       value={g.altEn}
                       onChange={(e) => {
                         const next = [...gallery];
@@ -260,17 +221,6 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
                         setGallery(next);
                       }}
                       className="h-8 text-xs"
-                    />
-                    <Input
-                      placeholder="Alt AR"
-                      value={g.altAr}
-                      onChange={(e) => {
-                        const next = [...gallery];
-                        next[i].altAr = e.target.value;
-                        setGallery(next);
-                      }}
-                      className="h-8 text-xs"
-                      dir="rtl"
                     />
                   </div>
                   <button
@@ -295,7 +245,7 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
               ).filter((u): u is string => !!u);
               setGallery([
                 ...gallery,
-                ...urls.map((url) => ({ url, altEn: "", altAr: "" })),
+                ...urls.map((url) => ({ url, altEn: "" })),
               ]);
               toast.success(`Uploaded ${urls.length} image${urls.length === 1 ? "" : "s"}`);
             }}
@@ -336,7 +286,7 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
                   e.preventDefault();
                   const v = e.currentTarget.value.trim();
                   if (v) {
-                    setGallery([...gallery, { url: v, altEn: "", altAr: "" }]);
+                    setGallery([...gallery, { url: v, altEn: "" }]);
                     e.currentTarget.value = "";
                   }
                 }
@@ -351,7 +301,7 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
                   .previousElementSibling as HTMLInputElement;
                 const v = input.value.trim();
                 if (v) {
-                  setGallery([...gallery, { url: v, altEn: "", altAr: "" }]);
+                  setGallery([...gallery, { url: v, altEn: "" }]);
                   input.value = "";
                 }
               }}

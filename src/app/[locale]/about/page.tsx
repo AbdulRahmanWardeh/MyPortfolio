@@ -1,10 +1,13 @@
 import Image from "next/image";
+import { Suspense } from "react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/db";
+import { getAboutContent } from "@/lib/content";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { ExperienceTimeline } from "@/components/public/ExperienceTimeline";
 import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
+
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -30,7 +33,7 @@ export default async function AboutPage({
   const l = locale as Locale;
   const t = await getTranslations({ locale });
 
-  const about = await prisma.aboutContent.findUnique({ where: { id: "singleton" } });
+  const about = await getAboutContent();
   if (!about) return null;
 
   type Highlight = {
@@ -116,12 +119,8 @@ export default async function AboutPage({
               {highlights.map((h, i) => (
                 <StaggerItem key={i}>
                   <div className="surface h-full rounded-xl p-6">
-                    <div className="text-sm font-medium">
-                      {l === "ar" ? h.titleAr : h.titleEn}
-                    </div>
-                    <p className="mt-2 text-sm text-white/55">
-                      {l === "ar" ? h.descAr : h.descEn}
-                    </p>
+                    <div className="text-sm font-medium">{h.titleEn}</div>
+                    <p className="mt-2 text-sm text-white/55">{h.descEn}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -130,7 +129,9 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <ExperienceTimeline locale={l} />
+      <Suspense fallback={<div className="section" />}>
+        <ExperienceTimeline locale={l} />
+      </Suspense>
     </>
   );
 }

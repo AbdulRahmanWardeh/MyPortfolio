@@ -49,7 +49,6 @@ export default async function AdminServicesPage() {
                 <TableRow key={s.id}>
                   <TableCell>
                     <div className="font-medium">{s.titleEn}</div>
-                    <div className="text-xs text-white/40">{s.titleAr}</div>
                   </TableCell>
                   <TableCell className="text-white/60">{s.icon}</TableCell>
                   <TableCell className="text-white/60">{s.timelineEn}</TableCell>

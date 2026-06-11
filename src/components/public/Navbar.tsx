@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { Link, usePathname } from "@/i18n/routing";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Menu02Icon } from "hugeicons-react";
 import { DynamicIcon } from "@/lib/hugeicon";
 import { cn } from "@/lib/utils";
@@ -15,9 +15,6 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
-// Kept around — re-enable in JSX below to show the EN/AR switcher again.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { LocaleSwitcher as _LocaleSwitcher } from "./LocaleSwitcher";
 
 const links = [
   { href: "/", key: "home" },
@@ -35,7 +32,6 @@ export function Navbar({
   ctaIcon?: string;
 }) {
   const t = useTranslations("nav");
-  const locale = useLocale();
   const pathname = usePathname();
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -52,7 +48,7 @@ export function Navbar({
   return (
     <header
       className="fixed inset-x-0 top-0 z-40 flex justify-center px-4 pt-4 md:px-6 md:pt-6"
-      dir={locale === "ar" ? "rtl" : "ltr"}
+      dir="ltr"
     >
       <div
         className={cn(
@@ -102,7 +98,7 @@ export function Navbar({
               {ctaIcon ? (
                 <DynamicIcon
                   name={ctaIcon}
-                  className="h-3.5 w-3.5 rtl:rotate-[-90deg]"
+                  className="h-3.5 w-3.5"
                 />
               ) : null}
             </Link>
@@ -120,7 +116,7 @@ export function Navbar({
               </Button>
             </SheetTrigger>
             <SheetContent
-              side={locale === "ar" ? "left" : "right"}
+              side="right"
               className="flex flex-col gap-6"
             >
               <SheetTitle className="text-sm uppercase tracking-wide text-white/50">

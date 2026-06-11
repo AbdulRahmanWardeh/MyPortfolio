@@ -14,7 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import {
   upsertCaseStudySection,
@@ -51,9 +50,7 @@ type Section = {
   type: string;
   order: number;
   titleEn: string;
-  titleAr: string;
   bodyEn: string;
-  bodyAr: string;
   blocks: unknown;
 }
 
@@ -77,9 +74,7 @@ export function CaseStudySectionsEditor({
         type: "CUSTOM",
         order,
         titleEn: "Untitled section",
-        titleAr: "قسم جديد",
         bodyEn: "",
-        bodyAr: "",
         blocks: [],
       });
       toast.success("Section added");
@@ -130,7 +125,6 @@ export function CaseStudySectionsEditor({
                   {TYPES.find((t) => t.value === s.type)?.label ?? s.type}
                 </span>
               </div>
-              <div className="text-xs text-white/40">{s.titleAr}</div>
             </div>
             <div className="flex items-center gap-1">
               <Button
@@ -210,9 +204,7 @@ function SectionEditor({
     section.type as CaseStudySectionType,
   );
   const [titleEn, setTitleEn] = React.useState(section.titleEn);
-  const [titleAr, setTitleAr] = React.useState(section.titleAr);
   const [bodyEn, setBodyEn] = React.useState(section.bodyEn);
-  const [bodyAr, setBodyAr] = React.useState(section.bodyAr);
   const [blocksJson, setBlocksJson] = React.useState(
     JSON.stringify(parseJson<unknown[]>(section.blocks, []), null, 2),
   );
@@ -235,12 +227,10 @@ function SectionEditor({
         type,
         order: section.order,
         titleEn,
-        titleAr,
         bodyEn,
-        bodyAr,
         blocks,
       });
-      onSaved({ ...section, type, titleEn, titleAr, bodyEn, bodyAr, blocks });
+      onSaved({ ...section, type, titleEn, bodyEn, blocks });
       toast.success("Saved");
     } catch {
       toast.error("Could not save");
@@ -269,43 +259,16 @@ function SectionEditor({
 
       <div className="flex flex-col gap-2">
         <Label>Title</Label>
-        <Tabs defaultValue="en">
-          <TabsList>
-            <TabsTrigger value="en">English</TabsTrigger>
-            <TabsTrigger value="ar">العربية</TabsTrigger>
-          </TabsList>
-          <TabsContent value="en">
-            <Input value={titleEn} onChange={(e) => setTitleEn(e.target.value)} />
-          </TabsContent>
-          <TabsContent value="ar">
-            <Input value={titleAr} onChange={(e) => setTitleAr(e.target.value)} dir="rtl" />
-          </TabsContent>
-        </Tabs>
+        <Input value={titleEn} onChange={(e) => setTitleEn(e.target.value)} />
       </div>
 
       <div className="flex flex-col gap-2">
         <Label>Body</Label>
-        <Tabs defaultValue="en">
-          <TabsList>
-            <TabsTrigger value="en">English</TabsTrigger>
-            <TabsTrigger value="ar">العربية</TabsTrigger>
-          </TabsList>
-          <TabsContent value="en">
-            <Textarea
-              value={bodyEn}
-              onChange={(e) => setBodyEn(e.target.value)}
-              className="min-h-[140px]"
-            />
-          </TabsContent>
-          <TabsContent value="ar">
-            <Textarea
-              value={bodyAr}
-              onChange={(e) => setBodyAr(e.target.value)}
-              className="min-h-[140px]"
-              dir="rtl"
-            />
-          </TabsContent>
-        </Tabs>
+        <Textarea
+          value={bodyEn}
+          onChange={(e) => setBodyEn(e.target.value)}
+          className="min-h-[140px]"
+        />
       </div>
 
       <div className="flex flex-col gap-2">

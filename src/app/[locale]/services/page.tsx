@@ -1,11 +1,14 @@
+import { Suspense } from "react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/db";
+import { getActiveServices } from "@/lib/content";
 import type { Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { ServiceCard } from "@/components/public/ServiceCard";
 import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
 import { ContactCtaSection } from "@/components/public/ContactCtaSection";
 import { getSiteSettings } from "@/lib/seo";
+
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -32,10 +35,7 @@ export default async function ServicesPage({
   const t = await getTranslations({ locale });
 
   const [services, settings] = await Promise.all([
-    prisma.service.findMany({
-      where: { isActive: true },
-      orderBy: { order: "asc" },
-    }),
+    getActiveServices(),
     getSiteSettings(),
   ]);
 
@@ -72,7 +72,9 @@ export default async function ServicesPage({
         </div>
       </section>
 
-      <ContactCtaSection locale={l} />
+      <Suspense fallback={<div className="section" />}>
+        <ContactCtaSection locale={l} />
+      </Suspense>
     </>
   );
 }

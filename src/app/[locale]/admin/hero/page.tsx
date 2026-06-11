@@ -15,11 +15,8 @@ export default async function AdminHeroPage() {
     create: {
       id: "singleton",
       nameEn: "",
-      nameAr: "",
       titleEn: "",
-      titleAr: "",
       introEn: "",
-      introAr: "",
     },
   });
 
@@ -33,25 +30,19 @@ export default async function AdminHeroPage() {
               <BilingualField
                 label="Name"
                 nameEn="nameEn"
-                nameAr="nameAr"
                 defaultEn={hero.nameEn}
-                defaultAr={hero.nameAr}
                 required
               />
               <BilingualField
                 label="Title"
                 nameEn="titleEn"
-                nameAr="titleAr"
                 defaultEn={hero.titleEn}
-                defaultAr={hero.titleAr}
                 required
               />
               <BilingualField
                 label="Intro"
                 nameEn="introEn"
-                nameAr="introAr"
                 defaultEn={hero.introEn}
-                defaultAr={hero.introAr}
                 textarea
               />
             </CardContent>
@@ -64,24 +55,18 @@ export default async function AdminHeroPage() {
                 name="profileImage"
                 defaultValue={hero.profileImage}
               />
-              <BilingualField
-                label="Primary CTA label"
-                nameEn="primaryCtaLabelEn"
-                nameAr="primaryCtaLabelAr"
-                defaultEn={hero.primaryCtaLabelEn}
-                defaultAr={hero.primaryCtaLabelAr}
-              />
+              <div className="flex flex-col gap-2">
+                <Label>Primary CTA label</Label>
+                <Input name="primaryCtaLabel" defaultValue={hero.primaryCtaLabel} />
+              </div>
               <div className="flex flex-col gap-2">
                 <Label>Primary CTA URL</Label>
                 <Input name="primaryCtaHref" defaultValue={hero.primaryCtaHref} />
               </div>
-              <BilingualField
-                label="Secondary CTA label"
-                nameEn="secondaryCtaLabelEn"
-                nameAr="secondaryCtaLabelAr"
-                defaultEn={hero.secondaryCtaLabelEn}
-                defaultAr={hero.secondaryCtaLabelAr}
-              />
+              <div className="flex flex-col gap-2">
+                <Label>Secondary CTA label</Label>
+                <Input name="secondaryCtaLabel" defaultValue={hero.secondaryCtaLabel} />
+              </div>
               <div className="flex flex-col gap-2">
                 <Label>Secondary CTA URL</Label>
                 <Input name="secondaryCtaHref" defaultValue={hero.secondaryCtaHref} />
@@ -90,39 +75,22 @@ export default async function AdminHeroPage() {
               <div className="grid gap-4 sm:grid-cols-3 pt-2 border-t border-white/[0.06]">
                 <div className="flex flex-col gap-2">
                   <Label>Years of experience</Label>
-                  <Input
-                    name="yearsExperience"
-                    type="number"
-                    min={0}
-                    defaultValue={hero.yearsExperience}
-                  />
+                  <Input name="yearsExperience" type="number" min={0} defaultValue={hero.yearsExperience} />
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label>Projects built</Label>
-                  <Input
-                    name="projectsBuilt"
-                    type="number"
-                    min={0}
-                    defaultValue={hero.projectsBuilt}
-                  />
+                  <Input name="projectsBuilt" type="number" min={0} defaultValue={hero.projectsBuilt} />
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label>Clients served</Label>
-                  <Input
-                    name="clientsServed"
-                    type="number"
-                    min={0}
-                    defaultValue={hero.clientsServed}
-                  />
+                  <Input name="clientsServed" type="number" min={0} defaultValue={hero.clientsServed} />
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
         <div className="mt-6 flex justify-end">
-          <SubmitButton variant="accent" size="lg">
-            Save changes
-          </SubmitButton>
+          <SubmitButton variant="accent" size="lg">Save changes</SubmitButton>
         </div>
       </form>
     </div>

@@ -33,16 +33,11 @@ export async function updateHero(fd: FormData) {
     where: { id: "singleton" },
     update: {
       nameEn: str(fd.get("nameEn")),
-      nameAr: str(fd.get("nameAr")),
       titleEn: str(fd.get("titleEn")),
-      titleAr: str(fd.get("titleAr")),
       introEn: str(fd.get("introEn")),
-      introAr: str(fd.get("introAr")),
-      primaryCtaLabelEn: str(fd.get("primaryCtaLabelEn")),
-      primaryCtaLabelAr: str(fd.get("primaryCtaLabelAr")),
+      primaryCtaLabel: str(fd.get("primaryCtaLabel")) || "View Projects",
       primaryCtaHref: str(fd.get("primaryCtaHref")) || "/projects",
-      secondaryCtaLabelEn: str(fd.get("secondaryCtaLabelEn")),
-      secondaryCtaLabelAr: str(fd.get("secondaryCtaLabelAr")),
+      secondaryCtaLabel: str(fd.get("secondaryCtaLabel")) || "Book a Meeting",
       secondaryCtaHref: str(fd.get("secondaryCtaHref")) || "/contact",
       profileImage: strOrNull(fd.get("profileImage")),
       yearsExperience: int(fd.get("yearsExperience")),
@@ -52,11 +47,8 @@ export async function updateHero(fd: FormData) {
     create: {
       id: "singleton",
       nameEn: str(fd.get("nameEn")),
-      nameAr: str(fd.get("nameAr")),
       titleEn: str(fd.get("titleEn")),
-      titleAr: str(fd.get("titleAr")),
       introEn: str(fd.get("introEn")),
-      introAr: str(fd.get("introAr")),
     },
   });
   revalidateAll();
@@ -75,26 +67,18 @@ export async function updateAbout(fd: FormData) {
     where: { id: "singleton" },
     update: {
       headlineEn: str(fd.get("headlineEn")),
-      headlineAr: str(fd.get("headlineAr")),
       biographyEn: str(fd.get("biographyEn")),
-      biographyAr: str(fd.get("biographyAr")),
       philosophyEn: str(fd.get("philosophyEn")),
-      philosophyAr: str(fd.get("philosophyAr")),
       experienceSummaryEn: str(fd.get("experienceSummaryEn")),
-      experienceSummaryAr: str(fd.get("experienceSummaryAr")),
       profileImage: strOrNull(fd.get("profileImage")),
       highlights: JSON.stringify(highlights),
     },
     create: {
       id: "singleton",
       headlineEn: str(fd.get("headlineEn")),
-      headlineAr: str(fd.get("headlineAr")),
       biographyEn: str(fd.get("biographyEn")),
-      biographyAr: str(fd.get("biographyAr")),
       philosophyEn: str(fd.get("philosophyEn")),
-      philosophyAr: str(fd.get("philosophyAr")),
       experienceSummaryEn: str(fd.get("experienceSummaryEn")),
-      experienceSummaryAr: str(fd.get("experienceSummaryAr")),
     },
   });
   revalidateAll();
@@ -106,11 +90,8 @@ export async function updateContactCta(fd: FormData) {
     where: { id: "singleton" },
     update: {
       headlineEn: str(fd.get("headlineEn")),
-      headlineAr: str(fd.get("headlineAr")),
       subtitleEn: str(fd.get("subtitleEn")),
-      subtitleAr: str(fd.get("subtitleAr")),
       ctaLabelEn: str(fd.get("ctaLabelEn")),
-      ctaLabelAr: str(fd.get("ctaLabelAr")),
       ctaHref: str(fd.get("ctaHref")) || "/contact",
     },
     create: { id: "singleton" },
@@ -124,10 +105,8 @@ export async function updateFooter(fd: FormData) {
     where: { id: "singleton" },
     update: {
       bioEn: str(fd.get("bioEn")),
-      bioAr: str(fd.get("bioAr")),
       email: str(fd.get("email")),
       copyrightEn: str(fd.get("copyrightEn")),
-      copyrightAr: str(fd.get("copyrightAr")),
     },
     create: { id: "singleton" },
   });
@@ -142,7 +121,6 @@ export async function updateSettings(fd: FormData) {
       siteName: str(fd.get("siteName")),
       primaryColor: str(fd.get("primaryColor")) || "#0a0a0a",
       accentColor: str(fd.get("accentColor")) || "#8b5cf6",
-      defaultLocale: str(fd.get("defaultLocale")) || "en",
       ogImage: strOrNull(fd.get("ogImage")),
       ctaIcon: str(fd.get("ctaIcon")),
     },
@@ -156,10 +134,8 @@ export async function updateSeo(fd: FormData) {
   await prisma.siteSettings.upsert({
     where: { id: "singleton" },
     update: {
-      seoTitleEn: str(fd.get("seoTitleEn")),
-      seoTitleAr: str(fd.get("seoTitleAr")),
-      seoDescEn: str(fd.get("seoDescEn")),
-      seoDescAr: str(fd.get("seoDescAr")),
+      seoTitle: str(fd.get("seoTitle")),
+      seoDesc: str(fd.get("seoDesc")),
       ogImage: strOrNull(fd.get("ogImage")),
     },
     create: { id: "singleton" },
@@ -242,12 +218,9 @@ export async function createExperience(fd: FormData) {
   await prisma.experience.create({
     data: {
       roleEn: str(fd.get("roleEn")),
-      roleAr: str(fd.get("roleAr")),
       company: str(fd.get("company")),
       locationEn: str(fd.get("locationEn")),
-      locationAr: str(fd.get("locationAr")),
       descriptionEn: str(fd.get("descriptionEn")),
-      descriptionAr: str(fd.get("descriptionAr")),
       startDate: new Date(str(fd.get("startDate"))),
       endDate: strOrNull(fd.get("endDate"))
         ? new Date(str(fd.get("endDate")))
@@ -264,12 +237,9 @@ export async function updateExperience(id: string, fd: FormData) {
     where: { id },
     data: {
       roleEn: str(fd.get("roleEn")),
-      roleAr: str(fd.get("roleAr")),
       company: str(fd.get("company")),
       locationEn: str(fd.get("locationEn")),
-      locationAr: str(fd.get("locationAr")),
       descriptionEn: str(fd.get("descriptionEn")),
-      descriptionAr: str(fd.get("descriptionAr")),
       startDate: new Date(str(fd.get("startDate"))),
       endDate: strOrNull(fd.get("endDate"))
         ? new Date(str(fd.get("endDate")))
@@ -294,11 +264,9 @@ export async function createTestimonial(fd: FormData) {
     data: {
       author: str(fd.get("author")),
       roleEn: str(fd.get("roleEn")),
-      roleAr: str(fd.get("roleAr")),
       company: str(fd.get("company")),
       avatarUrl: strOrNull(fd.get("avatarUrl")),
       quoteEn: str(fd.get("quoteEn")),
-      quoteAr: str(fd.get("quoteAr")),
       rating: int(fd.get("rating"), 5),
       isFeatured: bool(fd.get("isFeatured")),
       order: int(fd.get("order")),
@@ -313,11 +281,9 @@ export async function updateTestimonial(id: string, fd: FormData) {
     data: {
       author: str(fd.get("author")),
       roleEn: str(fd.get("roleEn")),
-      roleAr: str(fd.get("roleAr")),
       company: str(fd.get("company")),
       avatarUrl: strOrNull(fd.get("avatarUrl")),
       quoteEn: str(fd.get("quoteEn")),
-      quoteAr: str(fd.get("quoteAr")),
       rating: int(fd.get("rating"), 5),
       isFeatured: bool(fd.get("isFeatured")),
       order: int(fd.get("order")),
@@ -346,14 +312,10 @@ export async function createService(fd: FormData) {
     data: {
       icon: str(fd.get("icon")) || "Sparkles",
       titleEn: str(fd.get("titleEn")),
-      titleAr: str(fd.get("titleAr")),
       descriptionEn: str(fd.get("descriptionEn")),
-      descriptionAr: str(fd.get("descriptionAr")),
       deliverables: JSON.stringify(deliverables),
       timelineEn: str(fd.get("timelineEn")),
-      timelineAr: str(fd.get("timelineAr")),
       ctaLabelEn: str(fd.get("ctaLabelEn")) || "Book a meeting",
-      ctaLabelAr: str(fd.get("ctaLabelAr")) || "احجز اجتماعاً",
       isActive: bool(fd.get("isActive")),
       order: int(fd.get("order")),
     },
@@ -374,14 +336,10 @@ export async function updateService(id: string, fd: FormData) {
     data: {
       icon: str(fd.get("icon")) || "Sparkles",
       titleEn: str(fd.get("titleEn")),
-      titleAr: str(fd.get("titleAr")),
       descriptionEn: str(fd.get("descriptionEn")),
-      descriptionAr: str(fd.get("descriptionAr")),
       deliverables: JSON.stringify(deliverables),
       timelineEn: str(fd.get("timelineEn")),
-      timelineAr: str(fd.get("timelineAr")),
       ctaLabelEn: str(fd.get("ctaLabelEn")) || "Book a meeting",
-      ctaLabelAr: str(fd.get("ctaLabelAr")) || "احجز اجتماعاً",
       isActive: bool(fd.get("isActive")),
       order: int(fd.get("order")),
     },
@@ -399,7 +357,7 @@ export async function deleteService(id: string) {
 export async function createProject(fd: FormData) {
   await requireAdmin();
   const galleryRaw = str(fd.get("gallery"));
-  let gallery: Array<{ url: string; altEn?: string; altAr?: string }> = [];
+  let gallery: Array<{ url: string; altEn?: string }> = [];
   try {
     gallery = galleryRaw ? JSON.parse(galleryRaw) : [];
   } catch {
@@ -412,17 +370,12 @@ export async function createProject(fd: FormData) {
     data: {
       slug,
       titleEn: str(fd.get("titleEn")),
-      titleAr: str(fd.get("titleAr")),
       shortDescEn: str(fd.get("shortDescEn")),
-      shortDescAr: str(fd.get("shortDescAr")),
       fullDescEn: str(fd.get("fullDescEn")),
-      fullDescAr: str(fd.get("fullDescAr")),
       coverImage: strOrNull(fd.get("coverImage")),
       category: str(fd.get("category")) || "UX/UI",
       roleEn: str(fd.get("roleEn")),
-      roleAr: str(fd.get("roleAr")),
       timelineEn: str(fd.get("timelineEn")),
-      timelineAr: str(fd.get("timelineAr")),
       client: strOrNull(fd.get("client")),
       projectType: str(fd.get("projectType")) || "Case Study",
       tags: str(fd.get("tags")),
@@ -437,7 +390,6 @@ export async function createProject(fd: FormData) {
         create: gallery.map((g, i) => ({
           url: g.url,
           altEn: g.altEn ?? "",
-          altAr: g.altAr ?? "",
           order: i,
         })),
       },
@@ -452,7 +404,7 @@ export async function createProject(fd: FormData) {
 export async function updateProject(id: string, fd: FormData) {
   await requireAdmin();
   const galleryRaw = str(fd.get("gallery"));
-  let gallery: Array<{ url: string; altEn?: string; altAr?: string }> = [];
+  let gallery: Array<{ url: string; altEn?: string }> = [];
   try {
     gallery = galleryRaw ? JSON.parse(galleryRaw) : [];
   } catch {
@@ -469,17 +421,12 @@ export async function updateProject(id: string, fd: FormData) {
       data: {
         slug,
         titleEn: str(fd.get("titleEn")),
-        titleAr: str(fd.get("titleAr")),
         shortDescEn: str(fd.get("shortDescEn")),
-        shortDescAr: str(fd.get("shortDescAr")),
         fullDescEn: str(fd.get("fullDescEn")),
-        fullDescAr: str(fd.get("fullDescAr")),
         coverImage: strOrNull(fd.get("coverImage")),
         category: str(fd.get("category")) || "UX/UI",
         roleEn: str(fd.get("roleEn")),
-        roleAr: str(fd.get("roleAr")),
         timelineEn: str(fd.get("timelineEn")),
-        timelineAr: str(fd.get("timelineAr")),
         client: strOrNull(fd.get("client")),
         projectType: str(fd.get("projectType")) || "Case Study",
         tags: str(fd.get("tags")),
@@ -494,7 +441,6 @@ export async function updateProject(id: string, fd: FormData) {
           create: gallery.map((g, i) => ({
             url: g.url,
             altEn: g.altEn ?? "",
-            altAr: g.altAr ?? "",
             order: i,
           })),
         },
@@ -522,15 +468,11 @@ export async function createCaseStudy(fd: FormData) {
     data: {
       slug,
       titleEn: str(fd.get("titleEn")),
-      titleAr: str(fd.get("titleAr")),
       summaryEn: str(fd.get("summaryEn")),
-      summaryAr: str(fd.get("summaryAr")),
       coverImage: strOrNull(fd.get("coverImage")),
       client: strOrNull(fd.get("client")),
       roleEn: str(fd.get("roleEn")),
-      roleAr: str(fd.get("roleAr")),
       timelineEn: str(fd.get("timelineEn")),
-      timelineAr: str(fd.get("timelineAr")),
       isPublished: bool(fd.get("isPublished")),
       isFeatured: bool(fd.get("isFeatured")),
       order: int(fd.get("order")),
@@ -547,15 +489,11 @@ export async function updateCaseStudy(id: string, fd: FormData) {
     data: {
       slug,
       titleEn: str(fd.get("titleEn")),
-      titleAr: str(fd.get("titleAr")),
       summaryEn: str(fd.get("summaryEn")),
-      summaryAr: str(fd.get("summaryAr")),
       coverImage: strOrNull(fd.get("coverImage")),
       client: strOrNull(fd.get("client")),
       roleEn: str(fd.get("roleEn")),
-      roleAr: str(fd.get("roleAr")),
       timelineEn: str(fd.get("timelineEn")),
-      timelineAr: str(fd.get("timelineAr")),
       isPublished: bool(fd.get("isPublished")),
       isFeatured: bool(fd.get("isFeatured")),
       order: int(fd.get("order")),
@@ -576,9 +514,7 @@ export async function upsertCaseStudySection(input: {
   type: CaseStudySectionType;
   order: number;
   titleEn: string;
-  titleAr: string;
   bodyEn: string;
-  bodyAr: string;
   blocks: unknown[];
 }) {
   await requireAdmin();
@@ -589,9 +525,7 @@ export async function upsertCaseStudySection(input: {
         type: input.type,
         order: input.order,
         titleEn: input.titleEn,
-        titleAr: input.titleAr,
         bodyEn: input.bodyEn,
-        bodyAr: input.bodyAr,
         blocks: JSON.stringify(input.blocks),
       },
     });
@@ -602,9 +536,7 @@ export async function upsertCaseStudySection(input: {
         type: input.type,
         order: input.order,
         titleEn: input.titleEn,
-        titleAr: input.titleAr,
         bodyEn: input.bodyEn,
-        bodyAr: input.bodyAr,
         blocks: JSON.stringify(input.blocks),
       },
     });
@@ -640,9 +572,7 @@ export async function createMeetingType(fd: FormData) {
     data: {
       slug,
       nameEn: str(fd.get("nameEn")),
-      nameAr: str(fd.get("nameAr")),
       descriptionEn: str(fd.get("descriptionEn")),
-      descriptionAr: str(fd.get("descriptionAr")),
       durationMinutes: int(fd.get("durationMinutes"), 30),
       isActive: bool(fd.get("isActive")),
       order: int(fd.get("order")),
@@ -658,9 +588,7 @@ export async function updateMeetingType(id: string, fd: FormData) {
     data: {
       slug,
       nameEn: str(fd.get("nameEn")),
-      nameAr: str(fd.get("nameAr")),
       descriptionEn: str(fd.get("descriptionEn")),
-      descriptionAr: str(fd.get("descriptionAr")),
       durationMinutes: int(fd.get("durationMinutes"), 30),
       isActive: bool(fd.get("isActive")),
       order: int(fd.get("order")),

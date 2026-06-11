@@ -19,32 +19,13 @@ export default async function AdminSeoPage() {
       <form action={updateSeo}>
         <Card>
           <CardContent className="flex flex-col gap-5 p-6">
-            <BilingualField
-              label="SEO title"
-              nameEn="seoTitleEn"
-              nameAr="seoTitleAr"
-              defaultEn={s.seoTitleEn}
-              defaultAr={s.seoTitleAr}
-            />
-            <BilingualField
-              label="SEO description"
-              nameEn="seoDescEn"
-              nameAr="seoDescAr"
-              defaultEn={s.seoDescEn}
-              defaultAr={s.seoDescAr}
-              textarea
-            />
-            <ImageUploadField
-              label="Open Graph image"
-              name="ogImage"
-              defaultValue={s.ogImage}
-            />
+            <BilingualField label="SEO title" nameEn="seoTitle" defaultEn={s.seoTitle} />
+            <BilingualField label="SEO description" nameEn="seoDesc" defaultEn={s.seoDesc} textarea />
+            <ImageUploadField label="Open Graph image" name="ogImage" defaultValue={s.ogImage} />
           </CardContent>
         </Card>
         <div className="mt-6 flex justify-end">
-          <SubmitButton variant="accent" size="lg">
-            Save changes
-          </SubmitButton>
+          <SubmitButton variant="accent" size="lg">Save changes</SubmitButton>
         </div>
       </form>
     </div>

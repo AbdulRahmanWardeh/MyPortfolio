@@ -15,13 +15,9 @@ export default async function AdminAboutPage() {
     create: {
       id: "singleton",
       headlineEn: "",
-      headlineAr: "",
       biographyEn: "",
-      biographyAr: "",
       philosophyEn: "",
-      philosophyAr: "",
       experienceSummaryEn: "",
-      experienceSummaryAr: "",
     },
   });
 
@@ -36,64 +32,27 @@ export default async function AdminAboutPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardContent className="flex flex-col gap-5 p-6">
-              <BilingualField
-                label="Headline"
-                nameEn="headlineEn"
-                nameAr="headlineAr"
-                defaultEn={about.headlineEn}
-                defaultAr={about.headlineAr}
-              />
-              <BilingualField
-                label="Biography"
-                nameEn="biographyEn"
-                nameAr="biographyAr"
-                defaultEn={about.biographyEn}
-                defaultAr={about.biographyAr}
-                textarea
-              />
-              <BilingualField
-                label="Design philosophy"
-                nameEn="philosophyEn"
-                nameAr="philosophyAr"
-                defaultEn={about.philosophyEn}
-                defaultAr={about.philosophyAr}
-                textarea
-              />
-              <BilingualField
-                label="Experience summary"
-                nameEn="experienceSummaryEn"
-                nameAr="experienceSummaryAr"
-                defaultEn={about.experienceSummaryEn}
-                defaultAr={about.experienceSummaryAr}
-                textarea
-              />
+              <BilingualField label="Headline" nameEn="headlineEn" defaultEn={about.headlineEn} />
+              <BilingualField label="Biography" nameEn="biographyEn" defaultEn={about.biographyEn} textarea />
+              <BilingualField label="Design philosophy" nameEn="philosophyEn" defaultEn={about.philosophyEn} textarea />
+              <BilingualField label="Experience summary" nameEn="experienceSummaryEn" defaultEn={about.experienceSummaryEn} textarea />
             </CardContent>
           </Card>
           <Card>
             <CardContent className="flex flex-col gap-5 p-6">
-              <ImageUploadField
-                label="Profile image"
-                name="profileImage"
-                defaultValue={about.profileImage}
-              />
+              <ImageUploadField label="Profile image" name="profileImage" defaultValue={about.profileImage} />
               <div className="flex flex-col gap-2">
                 <Label>Highlights (JSON array)</Label>
-                <Textarea
-                  name="highlights"
-                  defaultValue={highlights}
-                  className="min-h-[220px] font-mono text-xs"
-                />
+                <Textarea name="highlights" defaultValue={highlights} className="min-h-[220px] font-mono text-xs" />
                 <p className="text-xs text-white/40">
-                  Array of {`{ titleEn, titleAr, descEn, descAr }`}
+                  Array of {`{ title, desc }`}
                 </p>
               </div>
             </CardContent>
           </Card>
         </div>
         <div className="mt-6 flex justify-end">
-          <SubmitButton variant="accent" size="lg">
-            Save changes
-          </SubmitButton>
+          <SubmitButton variant="accent" size="lg">Save changes</SubmitButton>
         </div>
       </form>
     </div>

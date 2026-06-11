@@ -20,27 +20,9 @@ export default async function AdminContactCtaPage() {
       <form action={updateContactCta}>
         <Card>
           <CardContent className="flex flex-col gap-5 p-6">
-            <BilingualField
-              label="Headline"
-              nameEn="headlineEn"
-              nameAr="headlineAr"
-              defaultEn={cta.headlineEn}
-              defaultAr={cta.headlineAr}
-            />
-            <BilingualField
-              label="Subtitle"
-              nameEn="subtitleEn"
-              nameAr="subtitleAr"
-              defaultEn={cta.subtitleEn}
-              defaultAr={cta.subtitleAr}
-            />
-            <BilingualField
-              label="CTA label"
-              nameEn="ctaLabelEn"
-              nameAr="ctaLabelAr"
-              defaultEn={cta.ctaLabelEn}
-              defaultAr={cta.ctaLabelAr}
-            />
+            <BilingualField label="Headline" nameEn="headlineEn" defaultEn={cta.headlineEn} />
+            <BilingualField label="Subtitle" nameEn="subtitleEn" defaultEn={cta.subtitleEn} />
+            <BilingualField label="CTA label" nameEn="ctaLabelEn" defaultEn={cta.ctaLabelEn} />
             <div className="flex flex-col gap-2">
               <Label>CTA URL</Label>
               <Input name="ctaHref" defaultValue={cta.ctaHref} />
@@ -48,9 +30,7 @@ export default async function AdminContactCtaPage() {
           </CardContent>
         </Card>
         <div className="mt-6 flex justify-end">
-          <SubmitButton variant="accent" size="lg">
-            Save changes
-          </SubmitButton>
+          <SubmitButton variant="accent" size="lg">Save changes</SubmitButton>
         </div>
       </form>
     </div>

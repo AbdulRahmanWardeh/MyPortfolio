@@ -49,7 +49,7 @@ export default async function CaseStudyPage({
           href="/projects"
           className="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 rtl:rotate-180" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           {t("caseStudy.backToCaseStudies")}
         </Link>
 

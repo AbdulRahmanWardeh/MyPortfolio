@@ -16,9 +16,7 @@ interface ProjectItem {
   category: string;
   tags: string;
   titleEn: string;
-  titleAr: string;
   shortDescEn: string;
-  shortDescAr: string;
 }
 
 interface Props {

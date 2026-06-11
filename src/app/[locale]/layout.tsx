@@ -9,9 +9,9 @@ import { FallingParticles } from "@/components/public/FallingParticles";
 import { ScrollToTop } from "@/components/public/ScrollToTop";
 import { Toaster } from "@/components/ui/toaster";
 import { getSiteSettings } from "@/lib/seo";
-import { dirFor, type Locale } from "@/lib/i18n-helpers";
+import { type Locale } from "@/lib/i18n-helpers";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -36,7 +36,7 @@ export default async function LocaleLayout({
   const themeCss = `:root{--background:${hexToHsl(settings.primaryColor)};--accent:${hexToHsl(settings.accentColor)};--ring:${hexToHsl(settings.accentColor)};}`;
 
   return (
-    <div lang={locale} dir={dirFor(locale as Locale)} className="min-h-screen">
+    <div lang="en" dir="ltr" className="min-h-screen">
       <style dangerouslySetInnerHTML={{ __html: themeCss }} />
       <NextIntlClientProvider messages={messages} locale={locale}>
         <FallingParticles />

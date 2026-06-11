@@ -42,14 +42,17 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background-image:
       radial-gradient(60% 50% at 50% 0%, hsl(var(--accent) / 0.06) 0%, transparent 60%),
       radial-gradient(40% 30% at 100% 100%, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
-    background-attachment: fixed;
-  }
-
-  html[dir="rtl"] body {
-    @apply font-arabic;
   }
 
   ::selection {
@@ -120,7 +123,7 @@
     position: absolute;
     border-radius: 9999px;
     filter: blur(80px);
-    will-change: transform, opacity;
+    will-change: transform;
   }
 
   .hero-orb--purple {
@@ -133,41 +136,11 @@
     animation: hero-orb-purple 16s ease-in-out infinite;
   }
 
-  .hero-orb--cool {
-    bottom: -10rem;
-    left: -8rem;
-    height: 32rem;
-    width: 32rem;
-    background: radial-gradient(closest-side, rgba(120, 180, 255, 0.18), transparent 70%);
-    animation: hero-orb-cool 20s ease-in-out infinite;
-  }
-
-  .hero-orb--warm {
-    bottom: -8rem;
-    right: -8rem;
-    height: 28rem;
-    width: 28rem;
-    background: radial-gradient(closest-side, rgba(255, 200, 140, 0.14), transparent 70%);
-    animation: hero-orb-warm 24s ease-in-out infinite;
-  }
-
   @keyframes hero-orb-purple {
-    0%, 100% { transform: translate(-50%, 0); opacity: 0.85; }
-    25% { transform: translate(-46%, 2%); opacity: 1; }
-    50% { transform: translate(-54%, -2%); opacity: 0.85; }
-    75% { transform: translate(-50%, 1%); opacity: 1; }
-  }
-
-  @keyframes hero-orb-cool {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(40px, -30px); }
-    66% { transform: translate(-20px, 20px); }
-  }
-
-  @keyframes hero-orb-warm {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(-30px, 20px); }
-    66% { transform: translate(30px, -10px); }
+    0%, 100% { transform: translate(-50%, 0); }
+    25% { transform: translate(-46%, 2%); }
+    50% { transform: translate(-54%, -2%); }
+    75% { transform: translate(-50%, 1%); }
   }
 
   /* ------------------------------------------------------------------ */
@@ -270,7 +243,7 @@
     opacity: 0;
     animation: particle-fall var(--p-duration, 14s) linear infinite;
     animation-delay: var(--p-delay, 0s);
-    will-change: transform, opacity;
+    will-change: transform;
   }
 
   .falling-particles--left .particle { left: var(--p-x, 0%); }

@@ -19,31 +19,16 @@ export default async function AdminFooterPage() {
       <form action={updateFooter}>
         <Card>
           <CardContent className="flex flex-col gap-5 p-6">
-            <BilingualField
-              label="Bio"
-              nameEn="bioEn"
-              nameAr="bioAr"
-              defaultEn={f.bioEn}
-              defaultAr={f.bioAr}
-              textarea
-            />
+            <BilingualField label="Bio" nameEn="bioEn" defaultEn={f.bioEn} textarea />
             <div className="flex flex-col gap-2">
               <Label>Contact email</Label>
               <Input name="email" type="email" defaultValue={f.email} />
             </div>
-            <BilingualField
-              label="Copyright"
-              nameEn="copyrightEn"
-              nameAr="copyrightAr"
-              defaultEn={f.copyrightEn}
-              defaultAr={f.copyrightAr}
-            />
+            <BilingualField label="Copyright" nameEn="copyrightEn" defaultEn={f.copyrightEn} />
           </CardContent>
         </Card>
         <div className="mt-6 flex justify-end">
-          <SubmitButton variant="accent" size="lg">
-            Save changes
-          </SubmitButton>
+          <SubmitButton variant="accent" size="lg">Save changes</SubmitButton>
         </div>
       </form>
     </div>

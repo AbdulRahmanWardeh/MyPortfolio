@@ -15,7 +15,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
   ]);
   if (!about) return null;
 
-  type Highlight = { titleEn: string; titleAr: string; descEn: string; descAr: string };
+  type Highlight = { titleEn: string; descEn: string };
   const highlights = parseJson<Highlight[]>(about.highlights, []);
 
   return (
@@ -28,6 +28,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
                 src={about.profileImage}
                 alt=""
                 fill
+                priority
                 sizes="(min-width:1024px) 480px, 100vw"
                 className="object-cover"
               />
@@ -40,7 +41,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
         <div className="flex flex-col gap-6">
           <Reveal>
             <span className="text-xs uppercase tracking-[0.18em] text-white/40">
-              {locale === "ar" ? "نبذة عني" : "About me"}
+              About me
             </span>
           </Reveal>
           <Reveal delay={0.05}>
@@ -59,12 +60,8 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
               {highlights.map((h, i) => (
                 <StaggerItem key={i}>
                   <div className="surface h-full rounded-xl p-5">
-                    <div className="text-sm font-medium">
-                      {locale === "ar" ? h.titleAr : h.titleEn}
-                    </div>
-                    <p className="mt-2 text-xs text-white/50">
-                      {locale === "ar" ? h.descAr : h.descEn}
-                    </p>
+                    <div className="text-sm font-medium">{h.titleEn}</div>
+                    <p className="mt-2 text-xs text-white/50">{h.descEn}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -74,8 +71,8 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
           <Reveal delay={0.25}>
             <Button asChild variant="outline" size="sm" className="mt-2 w-fit">
               <Link href="/about">
-                {locale === "ar" ? "اقرأ المزيد" : "Read more"}
-                <DynamicIcon name={settings.ctaIcon} className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
+                Read more
+                <DynamicIcon name={settings.ctaIcon} className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </Reveal>

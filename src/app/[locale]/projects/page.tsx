@@ -1,9 +1,11 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/db";
+import { getPublishedProjects } from "@/lib/content";
 import type { Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { ProjectFilters } from "@/components/public/ProjectFilters";
 import { Reveal } from "@/components/public/Motion";
+
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -28,10 +30,7 @@ export default async function ProjectsPage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale });
 
-  const projects = await prisma.project.findMany({
-    where: { isPublished: true },
-    orderBy: [{ isFeatured: "desc" }, { order: "asc" }],
-  });
+  const projects = await getPublishedProjects();
 
   return (
     <section className="pt-24 md:pt-32">

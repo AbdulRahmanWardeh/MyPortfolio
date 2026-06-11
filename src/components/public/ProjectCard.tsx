@@ -9,9 +9,7 @@ interface ProjectCardProps {
     category: string;
     tags?: string;
     titleEn: string;
-    titleAr: string;
     shortDescEn: string;
-    shortDescAr: string;
   };
   locale: Locale;
 }

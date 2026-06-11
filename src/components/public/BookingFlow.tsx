@@ -36,9 +36,7 @@ interface MeetingType {
   id: string;
   slug: string;
   nameEn: string;
-  nameAr: string;
   descriptionEn: string;
-  descriptionAr: string;
   durationMinutes: number;
 }
 
@@ -203,7 +201,7 @@ export function BookingFlow({
                       {pickField(m, locale, "description")}
                     </p>
                   </div>
-                  <ArrowRight className="mt-1 h-4 w-4 text-white/30 transition group-hover:text-white rtl:rotate-180" />
+                  <ArrowRight className="mt-1 h-4 w-4 text-white/30 transition group-hover:text-white" />
                 </button>
               ))}
             </div>
@@ -221,7 +219,7 @@ export function BookingFlow({
                     if (d) setStep("time");
                   }}
                   disabled={disabledFn}
-                  weekStartsOn={locale === "ar" ? 6 : 1}
+                  weekStartsOn={1}
                 />
               </div>
             </div>
@@ -386,7 +384,7 @@ function BackButton({ onClick, label }: { onClick: () => void; label: string }) 
       onClick={onClick}
       className="inline-flex w-fit items-center gap-1.5 text-xs text-white/60 hover:text-white"
     >
-      <ArrowLeft className="h-3.5 w-3.5 rtl:rotate-180" />
+      <ArrowLeft className="h-3.5 w-3.5" />
       {label}
     </button>
   );

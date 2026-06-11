@@ -95,7 +95,7 @@ export default async function ProjectDetailPage({
           href="/projects"
           className="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 rtl:rotate-180" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           {t("projects.backToProjects")}
         </Link>
 
@@ -114,7 +114,7 @@ export default async function ProjectDetailPage({
         {stats.length > 0 ? (
           <Reveal delay={0.1}>
             <div className="mt-10 overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.04]">
-              <div className="flex flex-wrap items-stretch divide-x divide-white/[0.08] sm:flex-nowrap rtl:divide-x-reverse">
+              <div className="flex flex-wrap items-stretch divide-x divide-white/[0.08] sm:flex-nowrap">
                 {stats.map((s) => (
                   <div
                     key={s.label}
@@ -211,7 +211,7 @@ export default async function ProjectDetailPage({
                   {t("common.viewAll")}
                   <DynamicIcon
                     name={settings.ctaIcon}
-                    className="h-3.5 w-3.5 rtl:rotate-[-90deg]"
+                    className="h-3.5 w-3.5"
                   />
                 </Link>
               </Button>

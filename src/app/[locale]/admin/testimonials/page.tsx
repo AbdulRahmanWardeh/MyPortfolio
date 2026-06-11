@@ -2,12 +2,7 @@ import { prisma } from "@/lib/db";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { InlineForm } from "@/components/admin/InlineForm";
 import { SubmitButton } from "@/components/admin/SubmitButton";
@@ -17,11 +12,7 @@ import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import {
-  createTestimonial,
-  updateTestimonial,
-  deleteTestimonial,
-} from "@/actions/admin";
+import { createTestimonial, updateTestimonial, deleteTestimonial } from "@/actions/admin";
 
 export default async function AdminTestimonialsPage() {
   const items = await prisma.testimonial.findMany({ orderBy: { order: "asc" } });
@@ -86,11 +77,9 @@ function Form({
   defaults?: {
     author: string;
     roleEn: string;
-    roleAr: string;
     company: string;
     avatarUrl: string | null;
     quoteEn: string;
-    quoteAr: string;
     rating: number;
     isFeatured: boolean;
     order: number;
@@ -108,23 +97,9 @@ function Form({
           <Input name="company" defaultValue={defaults?.company ?? ""} />
         </div>
       </div>
-      <BilingualField
-        label="Role"
-        nameEn="roleEn"
-        nameAr="roleAr"
-        defaultEn={defaults?.roleEn}
-        defaultAr={defaults?.roleAr}
-      />
+      <BilingualField label="Role" nameEn="roleEn" defaultEn={defaults?.roleEn} />
       <ImageUploadField label="Avatar" name="avatarUrl" defaultValue={defaults?.avatarUrl ?? ""} />
-      <BilingualField
-        label="Quote"
-        nameEn="quoteEn"
-        nameAr="quoteAr"
-        defaultEn={defaults?.quoteEn}
-        defaultAr={defaults?.quoteAr}
-        textarea
-        required
-      />
+      <BilingualField label="Quote" nameEn="quoteEn" defaultEn={defaults?.quoteEn} textarea required />
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-2">
           <Label>Rating (1-5)</Label>
@@ -136,12 +111,7 @@ function Form({
         </div>
       </div>
       <label className="inline-flex items-center gap-2 text-sm text-white/80">
-        <input
-          type="checkbox"
-          name="isFeatured"
-          defaultChecked={defaults?.isFeatured ?? false}
-          className="h-4 w-4"
-        />
+        <input type="checkbox" name="isFeatured" defaultChecked={defaults?.isFeatured ?? false} className="h-4 w-4" />
         Featured
       </label>
       <div className="flex justify-end">

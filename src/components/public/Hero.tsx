@@ -34,7 +34,7 @@ export async function Hero({ locale }: { locale: Locale }) {
         <Reveal delay={0.06}>
           <h1 className="h-display text-[clamp(3.5rem,11vw,7rem)] font-semibold leading-[0.9] tracking-tight">
             <span className="block font-light text-white">
-              {locale === "ar" ? "مرحباً، أنا" : "Hello, I'm"}
+              Hello, I&apos;m
             </span>
             <span className="block md:whitespace-nowrap">
               {pickField(hero, locale, "name")}
@@ -50,7 +50,7 @@ export async function Hero({ locale }: { locale: Locale }) {
 
         {stats.length > 0 ? (
           <Reveal delay={0.18} className="mt-10 w-full md:mt-12">
-            <dl className="mx-auto grid w-full max-w-3xl grid-cols-3 divide-x divide-white/[0.08] rtl:divide-x-reverse sm:gap-4 sm:divide-x-0">
+            <dl className="mx-auto grid w-full max-w-3xl grid-cols-3 divide-x divide-white/[0.08] sm:gap-4 sm:divide-x-0">
               {stats.map((s) => (
                 <div
                   key={s.label}
@@ -74,13 +74,13 @@ export async function Hero({ locale }: { locale: Locale }) {
             <Button asChild variant="accent" size="lg">
               <Link href={hero.primaryCtaHref}>
                 {pickField(hero, locale, "primaryCtaLabel")}
-                <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 rtl:rotate-[-90deg]" />
+                <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 " />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href={hero.secondaryCtaHref}>
                 {pickField(hero, locale, "secondaryCtaLabel")}
-                <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 rtl:rotate-[-90deg]" />
+                <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 " />
               </Link>
             </Button>
           </div>

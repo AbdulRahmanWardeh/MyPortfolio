@@ -53,7 +53,6 @@ export default async function AdminMeetingTypesPage() {
                 <TableRow key={m.id}>
                   <TableCell>
                     <div className="font-medium">{m.nameEn}</div>
-                    <div className="text-xs text-white/40">{m.nameAr}</div>
                   </TableCell>
                   <TableCell>{m.durationMinutes} min</TableCell>
                   <TableCell>
@@ -88,9 +87,7 @@ function MtForm({
   defaults?: {
     slug: string;
     nameEn: string;
-    nameAr: string;
     descriptionEn: string;
-    descriptionAr: string;
     durationMinutes: number;
     isActive: boolean;
     order: number;
@@ -98,22 +95,8 @@ function MtForm({
 }) {
   return (
     <form action={action} className="flex flex-col gap-5">
-      <BilingualField
-        label="Name"
-        nameEn="nameEn"
-        nameAr="nameAr"
-        defaultEn={defaults?.nameEn}
-        defaultAr={defaults?.nameAr}
-        required
-      />
-      <BilingualField
-        label="Description"
-        nameEn="descriptionEn"
-        nameAr="descriptionAr"
-        defaultEn={defaults?.descriptionEn}
-        defaultAr={defaults?.descriptionAr}
-        textarea
-      />
+      <BilingualField label="Name" nameEn="nameEn" defaultEn={defaults?.nameEn} required />
+      <BilingualField label="Description" nameEn="descriptionEn" defaultEn={defaults?.descriptionEn} textarea />
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="flex flex-col gap-2">
           <Label>Slug</Label>

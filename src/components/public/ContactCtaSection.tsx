@@ -31,7 +31,7 @@ export async function ContactCtaSection({ locale }: { locale: Locale }) {
                     {pickField(cta, locale, "ctaLabel")}
                     <DynamicIcon
                       name={settings.ctaIcon}
-                      className="h-4 w-4 rtl:rotate-[-90deg]"
+                      className="h-4 w-4"
                     />
                   </Link>
                 </Button>

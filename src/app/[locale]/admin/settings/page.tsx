@@ -37,11 +37,6 @@ export default async function AdminSettingsPage() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <Label>Default locale</Label>
-              <Input name="defaultLocale" defaultValue={s.defaultLocale} />
-            </div>
-
             <ImageUploadField
               label="Default OG image"
               name="ogImage"

@@ -10,15 +10,11 @@ interface Props {
   defaults?: {
     slug: string;
     titleEn: string;
-    titleAr: string;
     summaryEn: string;
-    summaryAr: string;
     coverImage: string | null;
     client: string | null;
     roleEn: string;
-    roleAr: string;
     timelineEn: string;
-    timelineAr: string;
     isPublished: boolean;
     isFeatured: boolean;
     order: number;
@@ -31,36 +27,10 @@ export function CaseStudyForm({ action, defaults }: Props) {
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Card>
           <CardContent className="flex flex-col gap-5 p-6">
-            <BilingualField
-              label="Title"
-              nameEn="titleEn"
-              nameAr="titleAr"
-              defaultEn={defaults?.titleEn}
-              defaultAr={defaults?.titleAr}
-              required
-            />
-            <BilingualField
-              label="Summary"
-              nameEn="summaryEn"
-              nameAr="summaryAr"
-              defaultEn={defaults?.summaryEn}
-              defaultAr={defaults?.summaryAr}
-              textarea
-            />
-            <BilingualField
-              label="Role"
-              nameEn="roleEn"
-              nameAr="roleAr"
-              defaultEn={defaults?.roleEn}
-              defaultAr={defaults?.roleAr}
-            />
-            <BilingualField
-              label="Timeline"
-              nameEn="timelineEn"
-              nameAr="timelineAr"
-              defaultEn={defaults?.timelineEn}
-              defaultAr={defaults?.timelineAr}
-            />
+            <BilingualField label="Title" nameEn="titleEn" defaultEn={defaults?.titleEn} required />
+            <BilingualField label="Summary" nameEn="summaryEn" defaultEn={defaults?.summaryEn} textarea />
+            <BilingualField label="Role" nameEn="roleEn" defaultEn={defaults?.roleEn} />
+            <BilingualField label="Timeline" nameEn="timelineEn" defaultEn={defaults?.timelineEn} />
           </CardContent>
         </Card>
         <Card>

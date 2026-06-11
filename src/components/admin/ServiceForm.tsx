@@ -11,14 +11,10 @@ interface Props {
   defaults?: {
     icon: string;
     titleEn: string;
-    titleAr: string;
     descriptionEn: string;
-    descriptionAr: string;
     deliverables: unknown;
     timelineEn: string;
-    timelineAr: string;
     ctaLabelEn: string;
-    ctaLabelAr: string;
     isActive: boolean;
     order: number;
   };
@@ -26,7 +22,7 @@ interface Props {
 
 export function ServiceForm({ action, defaults }: Props) {
   const deliverables = JSON.stringify(
-    parseJson<unknown[]>(defaults?.deliverables, [{ en: "", ar: "" }]),
+    parseJson<unknown[]>(defaults?.deliverables, [{ en: "" }]),
     null,
     2,
   );
@@ -42,36 +38,10 @@ export function ServiceForm({ action, defaults }: Props) {
               See https://lucide.dev for names. E.g. Search, Layout, Smartphone.
             </p>
           </div>
-          <BilingualField
-            label="Title"
-            nameEn="titleEn"
-            nameAr="titleAr"
-            defaultEn={defaults?.titleEn}
-            defaultAr={defaults?.titleAr}
-            required
-          />
-          <BilingualField
-            label="Description"
-            nameEn="descriptionEn"
-            nameAr="descriptionAr"
-            defaultEn={defaults?.descriptionEn}
-            defaultAr={defaults?.descriptionAr}
-            textarea
-          />
-          <BilingualField
-            label="Timeline"
-            nameEn="timelineEn"
-            nameAr="timelineAr"
-            defaultEn={defaults?.timelineEn}
-            defaultAr={defaults?.timelineAr}
-          />
-          <BilingualField
-            label="CTA label"
-            nameEn="ctaLabelEn"
-            nameAr="ctaLabelAr"
-            defaultEn={defaults?.ctaLabelEn}
-            defaultAr={defaults?.ctaLabelAr}
-          />
+          <BilingualField label="Title" nameEn="titleEn" defaultEn={defaults?.titleEn} required />
+          <BilingualField label="Description" nameEn="descriptionEn" defaultEn={defaults?.descriptionEn} textarea />
+          <BilingualField label="Timeline" nameEn="timelineEn" defaultEn={defaults?.timelineEn} />
+          <BilingualField label="CTA label" nameEn="ctaLabelEn" defaultEn={defaults?.ctaLabelEn} />
         </CardContent>
       </Card>
 
@@ -85,7 +55,7 @@ export function ServiceForm({ action, defaults }: Props) {
               className="min-h-[180px] font-mono text-xs"
             />
             <p className="text-xs text-white/40">
-              Array of {`{ en, ar }`} strings.
+              Array of {`{ en }`} strings.
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">

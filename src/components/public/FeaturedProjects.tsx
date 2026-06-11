@@ -2,20 +2,16 @@ import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { DynamicIcon } from "@/lib/hugeicon";
 import { getSiteSettings } from "@/lib/seo";
-import { prisma } from "@/lib/db";
+import { getFeaturedProjects } from "@/lib/content";
 import { type Locale } from "@/lib/i18n-helpers";
-import { ProjectsSwiper } from "./ProjectsSwiper";
+import { ProjectCard } from "./ProjectCard";
 import { SectionHeader } from "./SectionHeader";
 import { getTranslations } from "next-intl/server";
 
 export async function FeaturedProjects({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale });
   const [projects, settings] = await Promise.all([
-    prisma.project.findMany({
-      where: { isFeatured: true, isPublished: true },
-      orderBy: { order: "asc" },
-      take: 8,
-    }),
+    getFeaturedProjects(),
     getSiteSettings(),
   ]);
   if (projects.length === 0) return null;
@@ -33,14 +29,16 @@ export async function FeaturedProjects({ locale }: { locale: Locale }) {
               {t("home.viewAllProjects")}
               <DynamicIcon
                 name={settings.ctaIcon}
-                className="h-3.5 w-3.5 rtl:rotate-[-90deg]"
+                className="h-3.5 w-3.5"
               />
             </Link>
           </Button>
         </div>
 
-        <div className="mt-14">
-          <ProjectsSwiper projects={projects} locale={locale} />
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.slice(0, 3).map((p) => (
+            <ProjectCard key={p.id} project={p} locale={locale} />
+          ))}
         </div>
       </div>
     </section>

@@ -2,12 +2,7 @@ import { prisma } from "@/lib/db";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { InlineForm } from "@/components/admin/InlineForm";
 import { SubmitButton } from "@/components/admin/SubmitButton";
@@ -48,7 +43,6 @@ export default async function AdminExperiencePage() {
                 <TableRow key={e.id}>
                   <TableCell>
                     <div className="font-medium">{e.roleEn}</div>
-                    <div className="text-xs text-white/40">{e.roleAr}</div>
                   </TableCell>
                   <TableCell>{e.company}</TableCell>
                   <TableCell className="text-white/60">
@@ -90,12 +84,9 @@ function ExpForm({
   action: (fd: FormData) => Promise<void>;
   defaults?: {
     roleEn: string;
-    roleAr: string;
     company: string;
     locationEn: string;
-    locationAr: string;
     descriptionEn: string;
-    descriptionAr: string;
     startDate: string;
     endDate: string;
     isCurrent: boolean;
@@ -104,33 +95,13 @@ function ExpForm({
 }) {
   return (
     <form action={action} className="flex flex-col gap-5">
-      <BilingualField
-        label="Role"
-        nameEn="roleEn"
-        nameAr="roleAr"
-        defaultEn={defaults?.roleEn}
-        defaultAr={defaults?.roleAr}
-        required
-      />
+      <BilingualField label="Role" nameEn="roleEn" defaultEn={defaults?.roleEn} required />
       <div className="flex flex-col gap-2">
         <Label>Company</Label>
         <Input name="company" defaultValue={defaults?.company ?? ""} required />
       </div>
-      <BilingualField
-        label="Location"
-        nameEn="locationEn"
-        nameAr="locationAr"
-        defaultEn={defaults?.locationEn}
-        defaultAr={defaults?.locationAr}
-      />
-      <BilingualField
-        label="Description"
-        nameEn="descriptionEn"
-        nameAr="descriptionAr"
-        defaultEn={defaults?.descriptionEn}
-        defaultAr={defaults?.descriptionAr}
-        textarea
-      />
+      <BilingualField label="Location" nameEn="locationEn" defaultEn={defaults?.locationEn} />
+      <BilingualField label="Description" nameEn="descriptionEn" defaultEn={defaults?.descriptionEn} textarea />
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="flex flex-col gap-2">
           <Label>Start date</Label>
@@ -146,12 +117,7 @@ function ExpForm({
         </div>
       </div>
       <label className="inline-flex items-center gap-2 text-sm text-white/80">
-        <input
-          type="checkbox"
-          name="isCurrent"
-          defaultChecked={defaults?.isCurrent ?? false}
-          className="h-4 w-4"
-        />
+        <input type="checkbox" name="isCurrent" defaultChecked={defaults?.isCurrent ?? false} className="h-4 w-4" />
         Currently here
       </label>
       <div className="flex justify-end">

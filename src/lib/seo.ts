@@ -1,15 +1,21 @@
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 
-export const getSiteSettings = cache(async () => {
-  return prisma.siteSettings.upsert({
-    where: { id: "singleton" },
-    update: {},
-    create: { id: "singleton" },
-  });
-});
+export const getSiteSettings = cache(
+  unstable_cache(
+    async () =>
+      prisma.siteSettings.upsert({
+        where: { id: "singleton" },
+        update: {},
+        create: { id: "singleton" },
+      }),
+    ["site-settings"],
+    { revalidate: 60, tags: ["settings"] },
+  ),
+);
 
 export async function buildMetadata(opts: {
   locale: Locale;
@@ -19,8 +25,8 @@ export async function buildMetadata(opts: {
   image?: string;
 }): Promise<Metadata> {
   const settings = await getSiteSettings();
-  const baseTitle = pickField(settings, opts.locale, "seoTitle");
-  const baseDesc = pickField(settings, opts.locale, "seoDesc");
+  const baseTitle = settings.seoTitle;
+  const baseDesc = settings.seoDesc;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const url = `${siteUrl}${opts.path ?? `/${opts.locale}`}`;
 

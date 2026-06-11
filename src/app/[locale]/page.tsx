@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/public/Hero";
 import { AboutPreview } from "@/components/public/AboutPreview";
@@ -8,6 +9,8 @@ import { Tools } from "@/components/public/Tools";
 import { ContactCtaSection } from "@/components/public/ContactCtaSection";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/lib/i18n-helpers";
+
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -30,12 +33,24 @@ export default async function HomePage({
   return (
     <>
       <Hero locale={l} />
-      <AboutPreview locale={l} />
-      <FeaturedProjects locale={l} />
-      <ExperienceTimeline locale={l} />
-      <Testimonials locale={l} />
-      <Tools locale={l} />
-      <ContactCtaSection locale={l} />
+      <Suspense fallback={<div className="section" />}>
+        <AboutPreview locale={l} />
+      </Suspense>
+      <Suspense fallback={<div className="section" />}>
+        <FeaturedProjects locale={l} />
+      </Suspense>
+      <Suspense fallback={<div className="section" />}>
+        <ExperienceTimeline locale={l} />
+      </Suspense>
+      <Suspense fallback={<div className="section" />}>
+        <Testimonials locale={l} />
+      </Suspense>
+      <Suspense fallback={<div className="section" />}>
+        <Tools locale={l} />
+      </Suspense>
+      <Suspense fallback={<div className="section" />}>
+        <ContactCtaSection locale={l} />
+      </Suspense>
     </>
   );
 }

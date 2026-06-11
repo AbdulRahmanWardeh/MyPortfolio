@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getExperiences } from "@/lib/content";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { formatMonthYear } from "@/lib/utils";
 import { Stagger, StaggerItem } from "./Motion";
@@ -7,9 +7,7 @@ import { getTranslations } from "next-intl/server";
 
 export async function ExperienceTimeline({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale });
-  const experiences = await prisma.experience.findMany({
-    orderBy: { order: "asc" },
-  });
+  const experiences = await getExperiences();
   if (experiences.length === 0) return null;
 
   return (
@@ -17,7 +15,7 @@ export async function ExperienceTimeline({ locale }: { locale: Locale }) {
       <div className="mx-auto max-w-4xl px-6">
         <SectionHeader
           kicker={t("home.experience")}
-          title={locale === "ar" ? "محطّات مختارة" : "Selected experience"}
+          title="Selected experience"
         />
         <Stagger className="mt-14">
           <ol className="relative ms-3 border-s border-white/[0.08]">

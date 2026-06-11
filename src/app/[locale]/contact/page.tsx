@@ -1,5 +1,5 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/db";
+import { getActiveMeetingTypes } from "@/lib/content";
 import type { Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { BookingFlow } from "@/components/public/BookingFlow";
@@ -35,10 +35,7 @@ export default async function ContactPage({
   inOneYear.setFullYear(now.getFullYear() + 1);
 
   const [meetingTypes, availableDays, blocked] = await Promise.all([
-    prisma.meetingType.findMany({
-      where: { isActive: true },
-      orderBy: { order: "asc" },
-    }),
+    getActiveMeetingTypes(),
     getAvailableDaysOfWeek(),
     getBlockedDates(now, inOneYear),
   ]);

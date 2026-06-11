@@ -6,37 +6,32 @@ import type { CaseStudySection } from "@prisma/client";
 
 interface MetricBlock {
   kind: "metrics";
-  data: { items: Array<{ labelEn: string; labelAr: string; value: string }> };
+  data: { items: Array<{ labelEn: string; value: string }> };
 }
 interface GalleryBlock {
   kind: "gallery";
-  data: { images: Array<{ url: string; altEn?: string; altAr?: string }> };
+  data: { images: Array<{ url: string; altEn?: string }> };
 }
 interface ImageBlock {
   kind: "image";
-  data: { url: string; captionEn?: string; captionAr?: string };
+  data: { url: string; captionEn?: string };
 }
 interface BeforeAfterBlock {
   kind: "beforeAfter";
-  data: { beforeUrl: string; afterUrl: string; captionEn?: string; captionAr?: string };
+  data: { beforeUrl: string; afterUrl: string };
 }
 interface BulletsBlock {
   kind: "bullets";
-  data: { items: Array<{ en: string; ar: string }> };
+  data: { items: Array<{ en: string }> };
 }
 interface QuoteBlock {
   kind: "quote";
-  data: { textEn: string; textAr: string; authorEn?: string; authorAr?: string };
+  data: { textEn: string; authorEn?: string };
 }
 interface CardsBlock {
   kind: "cards";
   data: {
-    items: Array<{
-      titleEn: string;
-      titleAr: string;
-      descEn: string;
-      descAr: string;
-    }>;
+    items: Array<{ titleEn: string; descEn: string }>;
   };
 }
 
@@ -80,7 +75,7 @@ export function CaseStudyRenderer({
 
             <div className="mt-8 flex flex-col gap-6">
               {parseJson<Block[]>(section.blocks, []).map((block, i) => (
-                <BlockRenderer key={i} block={block} locale={locale} />
+                <BlockRenderer key={i} block={block} />
               ))}
             </div>
           </section>
@@ -90,7 +85,7 @@ export function CaseStudyRenderer({
   );
 }
 
-function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
+function BlockRenderer({ block }: { block: Block }) {
   if (!block || typeof block !== "object" || !("kind" in block)) return null;
 
   switch (block.kind) {
@@ -100,9 +95,7 @@ function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
           {block.data.items?.map((m, i) => (
             <div key={i} className="surface p-6">
               <div className="text-3xl font-semibold tracking-tight">{m.value}</div>
-              <div className="mt-1 text-sm text-white/55">
-                {locale === "ar" ? m.labelAr : m.labelEn}
-              </div>
+              <div className="mt-1 text-sm text-white/55">{m.labelEn}</div>
             </div>
           ))}
         </div>
@@ -118,7 +111,7 @@ function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
             >
               <Image
                 src={img.url}
-                alt={(locale === "ar" ? img.altAr : img.altEn) ?? ""}
+                alt={img.altEn ?? ""}
                 fill
                 sizes="(min-width:768px) 33vw, 100vw"
                 className="object-cover"
@@ -140,9 +133,9 @@ function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
               className="object-cover"
             />
           </div>
-          {block.data.captionEn || block.data.captionAr ? (
+          {block.data.captionEn ? (
             <figcaption className="px-4 py-3 text-xs text-white/50">
-              {locale === "ar" ? block.data.captionAr : block.data.captionEn}
+              {block.data.captionEn}
             </figcaption>
           ) : null}
         </figure>
@@ -152,8 +145,8 @@ function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
       return (
         <div className="grid gap-4 md:grid-cols-2">
           {[
-            { url: block.data.beforeUrl, label: locale === "ar" ? "قبل" : "Before" },
-            { url: block.data.afterUrl, label: locale === "ar" ? "بعد" : "After" },
+            { url: block.data.beforeUrl, label: "Before" },
+            { url: block.data.afterUrl, label: "After" },
           ].map((b, i) => (
             <figure
               key={i}
@@ -174,7 +167,7 @@ function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
       return (
         <ul className="ms-4 list-disc space-y-2 text-base text-white/75">
           {block.data.items?.map((it, i) => (
-            <li key={i}>{locale === "ar" ? it.ar : it.en}</li>
+            <li key={i}>{it.en}</li>
           ))}
         </ul>
       );
@@ -182,10 +175,10 @@ function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
     case "quote":
       return (
         <blockquote className="surface p-8 text-lg italic text-white/85">
-          <p>&ldquo;{locale === "ar" ? block.data.textAr : block.data.textEn}&rdquo;</p>
-          {block.data.authorEn || block.data.authorAr ? (
+          <p>&ldquo;{block.data.textEn}&rdquo;</p>
+          {block.data.authorEn ? (
             <footer className="mt-4 text-sm not-italic text-white/50">
-              — {locale === "ar" ? block.data.authorAr : block.data.authorEn}
+              — {block.data.authorEn}
             </footer>
           ) : null}
         </blockquote>
@@ -196,12 +189,8 @@ function BlockRenderer({ block, locale }: { block: Block; locale: Locale }) {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {block.data.items?.map((c, i) => (
             <div key={i} className="surface p-6">
-              <h4 className="text-sm font-medium">
-                {locale === "ar" ? c.titleAr : c.titleEn}
-              </h4>
-              <p className="mt-2 text-sm text-white/55">
-                {locale === "ar" ? c.descAr : c.descEn}
-              </p>
+              <h4 className="text-sm font-medium">{c.titleEn}</h4>
+              <p className="mt-2 text-sm text-white/55">{c.descEn}</p>
             </div>
           ))}
         </div>

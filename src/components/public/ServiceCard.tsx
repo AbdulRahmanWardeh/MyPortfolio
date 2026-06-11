@@ -10,14 +10,10 @@ interface ServiceCardProps {
   service: {
     icon: string;
     titleEn: string;
-    titleAr: string;
     descriptionEn: string;
-    descriptionAr: string;
     deliverables: unknown;
     timelineEn: string;
-    timelineAr: string;
     ctaLabelEn: string;
-    ctaLabelAr: string;
   };
   locale: Locale;
   labels: {
@@ -31,7 +27,7 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
   const Icon =
     (Icons[service.icon as keyof typeof Icons] as LucideIcon) ?? Icons.Sparkles;
 
-  const deliverables = parseJson<Array<{ en: string; ar: string }>>(
+  const deliverables = parseJson<Array<{ en: string }>>(
     service.deliverables,
     [],
   );
@@ -59,7 +55,7 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
             {deliverables.map((d, i) => (
               <li key={i} className="flex items-start gap-2">
                 <span className="mt-1 inline-block h-1 w-1 rounded-full bg-white/40" />
-                <span>{locale === "ar" ? d.ar : d.en}</span>
+                <span>{d.en}</span>
               </li>
             ))}
           </ul>
@@ -76,7 +72,7 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
         <Button asChild variant="accent" size="sm">
           <Link href="/contact">
             {pickField(service, locale, "ctaLabel")}
-            <DynamicIcon name={ctaIcon} className="h-3.5 w-3.5 rtl:rotate-[-90deg]" />
+            <DynamicIcon name={ctaIcon} className="h-3.5 w-3.5" />
           </Link>
         </Button>
       </div>
