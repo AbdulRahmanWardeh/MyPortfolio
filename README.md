@@ -1,128 +1,133 @@
 # MyPortfolio — Dynamic UX/UI Designer Portfolio
 
-A production-ready, fully dynamic personal portfolio with an Apple-inspired premium design, soft Framer Motion animations, bilingual English/Arabic (RTL) support, and a Calendly-like booking flow. All content — projects, case studies, services, experience, bookings, theme, SEO — is managed through a custom admin dashboard. No code edits required to update the site.
+A production-ready personal portfolio with an Apple-inspired premium design, soft Framer Motion animations, and a Calendly-like booking flow. All content — projects, case studies, services, experience, bookings, theme, SEO — is managed through a custom admin dashboard. No code edits required to update the site.
 
 ## Stack
 
-- **Next.js 15** (App Router) + **React 18** + **TypeScript**
+- **Next.js 15** (App Router, Turbopack) + **React 18** + **TypeScript**
 - **Tailwind CSS** + shadcn-style primitives + **Framer Motion**
-- **Prisma** + **Neon Postgres**
+- **Prisma** + **SQLite** (swappable to Postgres / MySQL by changing `provider` in `schema.prisma`)
 - **Auth.js v5** (credentials, single admin)
-- **next-intl** (EN / AR, RTL)
+- **next-intl** for i18n
 - **UploadThing** for image uploads
 - **Resend** for booking confirmation emails
 
 ## Quick start
 
-### 1. Install dependencies
-
 ```bash
 npm install
-```
-
-### 2. Create a Neon Postgres database
-
-1. Sign up at <https://neon.tech> (free tier is plenty)
-2. Create a new project
-3. Copy the **pooled** connection string into `DATABASE_URL` and the **direct** one into `DIRECT_URL`
-
-### 3. Set up environment variables
-
-```bash
 cp .env.example .env
+# fill in AUTH_SECRET (openssl rand -base64 32) and DATABASE_URL="file:./dev.db"
+npx prisma db push
+npm run db:seed
+npm run dev
 ```
 
-Then fill in:
+Open <http://localhost:3000>. Admin sign-in is at <http://localhost:3000/login> with the seeded `ADMIN_EMAIL` / `ADMIN_PASSWORD` (defaults in `.env.example` — change before publishing).
+
+## Environment variables
 
 | Var | What it is |
 |---|---|
-| `DATABASE_URL` / `DIRECT_URL` | Neon Postgres URLs |
-| `AUTH_SECRET` | Run `openssl rand -base64 32` |
+| `DATABASE_URL` | `file:./dev.db` for local SQLite, or a Postgres URL for prod |
+| `AUTH_SECRET` | `openssl rand -base64 32` |
 | `AUTH_URL` | `http://localhost:3000` locally, your domain in prod |
-| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Used to seed the single admin |
-| `UPLOADTHING_TOKEN` / `UPLOADTHING_SECRET` | From <https://uploadthing.com> |
-| `RESEND_API_KEY` | From <https://resend.com> (optional — emails just skip if missing) |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Seeded into the User table on first `db:seed` |
+| `UPLOADTHING_TOKEN` / `UPLOADTHING_SECRET` | From <https://uploadthing.com> (image uploads in admin) |
+| `RESEND_API_KEY` | From <https://resend.com> (optional — emails skip silently if missing) |
 | `RESEND_FROM` | Verified sender like `"Portfolio <noreply@yourdomain.com>"` |
 | `ADMIN_NOTIFY_EMAIL` | Where new-booking notifications go |
 | `NEXT_PUBLIC_SITE_URL` | Public URL of the site |
 
-### 4. Run migrations & seed
+## Architecture
 
-```bash
-npx prisma migrate dev --name init
-npx prisma db seed
-```
-
-The seed creates the admin user (from `ADMIN_EMAIL` / `ADMIN_PASSWORD`) plus rich EN/AR placeholder content for every section.
-
-### 5. Run it
-
-```bash
-npm run dev
-```
-
-Open <http://localhost:3000>. The site redirects to `/en`. Sign into the admin at <http://localhost:3000/en/login>.
-
-## Project structure
+The locale layer splits into two route groups so the public chrome (Navbar/Footer/particles) never renders on `/admin` or `/login`:
 
 ```
-A:\MyPortfolio\
-├─ prisma/
-│  ├─ schema.prisma             # all entities (singletons + collections + booking)
-│  └─ seed.ts
-├─ messages/{en,ar}.json        # UI strings
-├─ src/
-│  ├─ middleware.ts             # locale + auth gate
-│  ├─ i18n/{routing,request}.ts # next-intl
-│  ├─ lib/
-│  │  ├─ db.ts                  # Prisma singleton
-│  │  ├─ auth.ts                # Auth.js config
-│  │  ├─ booking.ts             # slot computation
-│  │  ├─ resend.ts              # booking emails
-│  │  ├─ uploadthing.ts         # server router
-│  │  ├─ uploadthing-client.ts  # client helpers
-│  │  ├─ seo.ts                 # generateMetadata helper
-│  │  ├─ i18n-helpers.ts        # pickField(record, locale, key)
-│  │  └─ utils.ts
-│  ├─ actions/admin.ts          # all admin server actions
-│  ├─ components/
-│  │  ├─ ui/                    # shared primitives
-│  │  ├─ public/                # site components (Hero, FeaturedProjects, BookingFlow, ...)
-│  │  └─ admin/                 # dashboard components
-│  └─ app/
-│     ├─ [locale]/              # public pages + admin under /admin
-│     ├─ api/
-│     │  ├─ auth/[...nextauth]
-│     │  ├─ uploadthing
-│     │  ├─ bookings            # POST creates booking, sends emails
-│     │  └─ availability        # GET slots for a date
-│     ├─ sitemap.ts             # dynamic, both locales + all published items
-│     └─ robots.ts
-└─ public/
+src/app/[locale]/
+├── layout.tsx                  # providers only (next-intl, theme CSS, Toaster)
+├── (site)/                     # public route group
+│   ├── layout.tsx              # Navbar + Footer + FallingParticles + ScrollToTop
+│   ├── page.tsx                # home
+│   ├── about/  contact/  projects/  services/  case-studies/
+├── admin/                      # dashboard — own AdminShell, no public chrome
+└── login/                      # bare layout — no public chrome
 ```
+
+The admin shell is server-rendered with three small client islands:
+
+| Component | Role |
+|---|---|
+| `AdminShell` (server) | Sidebar markup + topbar |
+| `AdminNavLink` (client) | Active-state per link via `usePathname()` |
+| `AdminMobileNav` (client) | Mobile drawer + Escape-to-close |
+| `SignOutButton` (client) | Triggers NextAuth `signOut()` |
+| `Breadcrumb` (client) | Pathname-driven breadcrumb in the topbar |
+
+All admin nav structure lives in [`src/components/admin/admin-nav.ts`](src/components/admin/admin-nav.ts) — a single source of truth.
+
+### Project structure
+
+```
+prisma/
+├── schema.prisma               # singletons + collections + booking models
+└── seed.ts
+messages/{en}.json              # UI strings
+src/
+├── middleware.ts               # locale + admin auth gate
+├── i18n/{routing,request}.ts   # next-intl
+├── lib/
+│  ├── db.ts                    # Prisma singleton
+│  ├── auth.ts                  # Auth.js config
+│  ├── booking.ts               # slot computation (parallelized + cached)
+│  ├── content.ts               # cached content fetchers
+│  ├── admin.ts                 # cached admin metrics (counts, recent bookings)
+│  ├── resend.ts                # booking emails
+│  ├── uploadthing.ts           # server router
+│  ├── uploadthing-client.ts    # client helpers
+│  ├── seo.ts                   # generateMetadata + getSiteSettings
+│  ├── i18n-helpers.ts          # pickField(record, locale, key)
+│  └── utils.ts
+├── actions/admin.ts            # all admin server actions
+├── components/
+│  ├── ui/                      # shared primitives
+│  ├── public/                  # site components (Hero, FeaturedProjects, BookingFlow, ...)
+│  └── admin/                   # dashboard chrome + form helpers
+└── app/[locale]/                # see Architecture section
+```
+
+## Performance
+
+The app ships a deliberately small client bundle and aggressive server-side caching:
+
+- `experimental.optimizePackageImports` in [`next.config.ts`](next.config.ts) tree-shakes `framer-motion`, `hugeicons-react`, `lucide-react`, and `date-fns` — these were the largest deps and shrink dramatically when only the imports actually used are bundled.
+- Images: AVIF/WebP formats with a 30-day cache TTL, all sized via `next/image`.
+- Data fetching: every singleton + collection getter in [`src/lib/content.ts`](src/lib/content.ts) is wrapped in `react.cache` + `unstable_cache` so a single render reuses one query and repeat renders inside the TTL skip the DB entirely.
+- Booking: [`getAvailableSlots`](src/lib/booking.ts) parallelizes 4 reads via `Promise.all` (was sequential).
+- Project pages: `generateStaticParams` on `/projects/[slug]` pre-renders every published slug at build time.
+- Admin: [`getAdminCounts`](src/lib/admin.ts) batches 7 `prisma.count` calls into one cached helper (30 s TTL).
+- Dev: `npm run dev` uses Turbopack for ~5× faster compilation; classic webpack is still available via `npm run dev:webpack`.
 
 ## Content model
 
 Every editable surface lives in Prisma:
 
 - **Singletons** (one row, edited in place): `HeroContent`, `AboutContent`, `ContactCta`, `FooterContent`, `SiteSettings`.
-- **Collections** with bilingual fields: `Skill`, `Tool`, `Project` (+ images, tools), `CaseStudy` (+ sections), `Service`, `Experience`, `Testimonial`, `SocialLink`.
+- **Collections**: `Tool`, `Project` (+ images, tools), `CaseStudy` (+ sections), `Service`, `Experience`, `Testimonial`, `SocialLink`.
 - **Booking**: `MeetingType`, `AvailabilityRule` (recurring weekly), `BlockedDate` (one-off), `Booking`.
-
-Bilingual content uses suffixed columns (`titleEn`, `titleAr`, …). The helper `pickField(record, locale, "title")` chooses the right field at render time. RTL is handled by `dir="rtl"` on the locale layout plus Tailwind logical properties (`ps-`, `pe-`, `text-start`).
 
 ### Case study sections
 
-Each `CaseStudy` has a list of `CaseStudySection` rows. Each section has a typed kind (Overview, Problem, Research, Wireframes, Final UI, Results, etc., plus `CUSTOM`) and a free-form `blocks` JSON array of typed blocks: `metrics`, `gallery`, `image`, `beforeAfter`, `bullets`, `quote`, `cards`. Sections can be reordered and edited inline in the admin.
+Each `CaseStudy` has an ordered list of `CaseStudySection` rows. Each section has a typed kind (Overview, Problem, Research, Wireframes, Final UI, Results, etc., plus `CUSTOM`) and a free-form `blocks` JSON array of typed blocks: `metrics`, `gallery`, `image`, `beforeAfter`, `bullets`, `quote`, `cards`. Sections can be reordered and edited inline.
 
 ## Admin
 
-Sign in at `/en/login` with the seeded credentials. The dashboard at `/en/admin` covers everything in the spec:
+Sign in at `/login`, then `/admin` covers:
 
 | Area | Path |
 |---|---|
 | Hero / About / Contact CTA / Footer | `/admin/hero`, `/admin/about`, `/admin/contact-cta`, `/admin/footer` |
-| Skills / Tools / Social Links | `/admin/skills`, `/admin/tools`, `/admin/social-links` |
+| Tools / Social Links | `/admin/tools`, `/admin/social-links` |
 | Projects | `/admin/projects` (list, new, edit) |
 | Case Studies | `/admin/case-studies` (list, new, edit + section editor) |
 | Services | `/admin/services` |
@@ -131,9 +136,9 @@ Sign in at `/en/login` with the seeded credentials. The dashboard at `/en/admin`
 | Meeting Types | `/admin/meeting-types` |
 | Availability | `/admin/availability` — weekly rules + blocked dates |
 | SEO | `/admin/seo` |
-| Settings | `/admin/settings` — site name, theme colors, default locale |
+| Settings | `/admin/settings` — site name, theme colors |
 
-Image uploads use UploadThing dropzones. Plain URL fields are accepted as a fallback. Every form is bilingual (EN/AR tabs).
+Image uploads use UploadThing dropzones. Plain URL fields are accepted as a fallback.
 
 ## Booking flow
 
@@ -148,18 +153,17 @@ If `RESEND_API_KEY` is empty, emails are skipped silently — the booking still 
 
 ## Deploy to Vercel
 
-1. Push the repo to GitHub (already linked to `AbdulRahmanWardeh/MyPortfolio`).
-2. Import the repo at <https://vercel.com/new>.
-3. Add the same env vars from `.env` in the Vercel project settings.
-4. Vercel auto-detects Next.js. Build command: `next build` (Prisma generate runs in `postinstall`).
-5. On first deploy, run migrations against your Neon DB locally with `DATABASE_URL` pointing at Neon, or use Vercel CLI.
-6. Seed once: `npx prisma db seed` (with `DATABASE_URL` set to Neon).
+1. Import the repo at <https://vercel.com/new>.
+2. Add every variable from `.env.example` to the Vercel project (use a real `DATABASE_URL` — Vercel doesn't support SQLite in production; point at Neon / Supabase / Turso).
+3. Vercel auto-detects Next.js. Build command: `next build` (Prisma generate runs in `postinstall`).
+4. After the first deploy, point your local `DATABASE_URL` at the prod DB and run `npx prisma db push && npm run db:seed` once.
 
-## Useful scripts
+## Scripts
 
 | Script | What it does |
 |---|---|
-| `npm run dev` | Dev server |
+| `npm run dev` | Dev server (Turbopack) |
+| `npm run dev:webpack` | Dev server (classic webpack — fallback) |
 | `npm run build` | Production build (runs `prisma generate` first) |
 | `npm run start` | Start production server |
 | `npm run typecheck` | TypeScript check |
@@ -168,9 +172,3 @@ If `RESEND_API_KEY` is empty, emails are skipped silently — the booking still 
 | `npm run db:migrate` | Create and apply a migration |
 | `npm run db:seed` | Seed admin + placeholder content |
 | `npm run db:studio` | Open Prisma Studio |
-
-## Notes
-
-- All public pages are server-rendered on demand (`force-dynamic`) so admin edits show up instantly without a rebuild. For higher traffic, swap to ISR by removing `dynamic = "force-dynamic"` from `src/app/[locale]/layout.tsx` and relying on `revalidatePath`, which is already called from every admin server action.
-- The theme (primary + accent colors) is driven by `SiteSettings` — edit in `/admin/settings`. Hex values are converted to HSL CSS variables at render time.
-- To change the admin password later, sign in, open Prisma Studio (`npm run db:studio`), find the `User` row, and replace `hashedPassword` with a fresh bcrypt hash — or re-run `npm run db:seed` after updating `ADMIN_PASSWORD`.
