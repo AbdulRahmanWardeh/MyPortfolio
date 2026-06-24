@@ -1,0 +1,282 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = []
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  hashedPassword String
+  role           String   @default("ADMIN")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// ============================================================
+// SINGLETONS (one row each, upserted by id = "singleton")
+// ============================================================
+
+model SiteSettings {
+  id           String   @id @default("singleton")
+  siteName     String   @default("Portfolio")
+  primaryColor String   @default("#0a0a0a")
+  accentColor  String   @default("#8b5cf6")
+  seoTitle     String   @default("UX/UI Designer Portfolio")
+  seoDesc      String   @default("Premium UX/UI design portfolio")
+  ogImage      String?
+  ctaIcon      String   @default("")
+  updatedAt    DateTime @updatedAt
+}
+
+model HeroContent {
+  id                  String   @id @default("singleton")
+  nameEn              String
+  titleEn             String
+  introEn             String
+  primaryCtaLabel     String   @default("View Projects")
+  primaryCtaHref      String   @default("/projects")
+  secondaryCtaLabel   String   @default("Book a Meeting")
+  secondaryCtaHref    String   @default("/contact")
+  profileImage        String?
+  yearsExperience     Int      @default(0)
+  projectsBuilt       Int      @default(0)
+  clientsServed       Int      @default(0)
+  updatedAt           DateTime @updatedAt
+}
+
+model AboutContent {
+  id                  String   @id @default("singleton")
+  headlineEn          String
+  biographyEn         String
+  philosophyEn        String
+  experienceSummaryEn String
+  profileImage        String?
+  highlights          String   @default("[]") // JSON: [{ title, desc }]
+  updatedAt           DateTime @updatedAt
+}
+
+model ContactCta {
+  id         String   @id @default("singleton")
+  headlineEn String   @default("Let's build something exceptional")
+  subtitleEn String   @default("Available for select projects.")
+  ctaLabelEn String   @default("Book a meeting")
+  ctaHref    String   @default("/contact")
+  updatedAt  DateTime @updatedAt
+}
+
+model FooterContent {
+  id         String   @id @default("singleton")
+  bioEn      String   @default("UX/UI Designer crafting calm, premium digital products.")
+  email      String   @default("hello@example.com")
+  copyrightEn String  @default("© All rights reserved.")
+  updatedAt  DateTime @updatedAt
+}
+
+// ============================================================
+// COLLECTIONS
+// ============================================================
+
+model Tool {
+  id        String        @id @default(cuid())
+  name      String
+  iconUrl   String?
+  category  String        @default("Design")
+  order     Int           @default(0)
+  projects  ProjectTool[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model Project {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  titleEn     String
+  shortDescEn String
+  fullDescEn  String
+  coverImage  String?
+  category    String         @default("UX/UI")
+  roleEn      String         @default("Lead Designer")
+  timelineEn  String         @default("4 weeks")
+  client      String?
+  projectType String         @default("Case Study")
+  liveLink    String?
+  behanceLink String?
+  dribbbleLink String?
+  figmaLink   String?
+  tags        String         @default("")
+  isFeatured  Boolean        @default(false)
+  isPublished Boolean        @default(true)
+  order       Int            @default(0)
+  images      ProjectImage[]
+  tools       ProjectTool[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([category])
+  @@index([isFeatured])
+  @@index([isPublished])
+}
+
+model ProjectImage {
+  id        String   @id @default(cuid())
+  projectId String
+  url       String
+  altEn     String   @default("")
+  order     Int      @default(0)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model ProjectTool {
+  projectId String
+  toolId    String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tool      Tool    @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, toolId])
+}
+
+model CaseStudy {
+  id          String             @id @default(cuid())
+  slug        String             @unique
+  titleEn     String
+  summaryEn   String
+  coverImage  String?
+  client      String?
+  roleEn      String             @default("Lead UX Designer")
+  timelineEn  String             @default("8 weeks")
+  isPublished Boolean            @default(true)
+  isFeatured  Boolean            @default(false)
+  order       Int                @default(0)
+  sections    CaseStudySection[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model CaseStudySection {
+  id          String    @id @default(cuid())
+  caseStudyId String
+  type        String    @default("CUSTOM")
+  order       Int       @default(0)
+  titleEn     String
+  bodyEn      String    @default("")
+  blocks      String    @default("[]")
+  caseStudy   CaseStudy @relation(fields: [caseStudyId], references: [id], onDelete: Cascade)
+
+  @@index([caseStudyId])
+}
+
+model Service {
+  id            String   @id @default(cuid())
+  icon          String   @default("Sparkles")
+  titleEn       String
+  descriptionEn String
+  deliverables  String   @default("[]") // JSON: string[]
+  timelineEn    String   @default("2-4 weeks")
+  ctaLabelEn    String   @default("Book a meeting")
+  isActive      Boolean  @default(true)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Experience {
+  id              String    @id @default(cuid())
+  roleEn          String
+  company         String
+  locationEn      String    @default("")
+  descriptionEn   String    @default("")
+  startDate       DateTime
+  endDate         DateTime?
+  isCurrent       Boolean   @default(false)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  author     String
+  roleEn     String
+  company    String
+  avatarUrl  String?
+  quoteEn    String
+  rating     Int      @default(5)
+  isFeatured Boolean  @default(false)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model SocialLink {
+  id       String  @id @default(cuid())
+  platform String
+  url      String
+  isActive Boolean @default(true)
+  order    Int     @default(0)
+}
+
+// ============================================================
+// BOOKING
+// ============================================================
+
+model MeetingType {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  nameEn          String
+  descriptionEn   String
+  durationMinutes Int       @default(30)
+  isActive        Boolean   @default(true)
+  order           Int       @default(0)
+  bookings        Booking[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model AvailabilityRule {
+  id        String  @id @default(cuid())
+  dayOfWeek Int     // 0 = Sunday ... 6 = Saturday
+  startTime String  // "HH:mm" 24h
+  endTime   String  // "HH:mm" 24h
+  isActive  Boolean @default(true)
+
+  @@index([dayOfWeek])
+}
+
+model BlockedDate {
+  id        String   @id @default(cuid())
+  date      DateTime @unique
+  reason    String?
+  createdAt DateTime @default(now())
+}
+
+model Booking {
+  id              String      @id @default(cuid())
+  meetingTypeId   String
+  date            DateTime
+  startTime       String      // "HH:mm"
+  durationMinutes Int
+  name            String
+  email           String
+  phone           String?
+  company         String?
+  message         String?
+  status          String      @default("PENDING")
+  meetingType     MeetingType @relation(fields: [meetingTypeId], references: [id])
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([date])
+  @@index([status])
+}
