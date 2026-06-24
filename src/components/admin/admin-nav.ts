@@ -14,6 +14,7 @@ import {
   ArrowLeftRight,
   Palette,
   MessageSquare,
+  HelpCircle,
   type LucideIcon,
 } from "lucide-react";
 
@@ -43,7 +44,7 @@ export const ADMIN_NAV: AdminNavGroup[] = [
       { href: "/admin/services", label: "Services", icon: Wrench },
       { href: "/admin/experience", label: "Experience", icon: Users },
       { href: "/admin/testimonials", label: "Testimonials", icon: Star },
-      { href: "/admin/tools", label: "Tools", icon: Wrench },
+      { href: "/admin/faq", label: "FAQ", icon: HelpCircle },
       { href: "/admin/social-links", label: "Social Links", icon: LinkIcon },
       { href: "/admin/contact-cta", label: "Contact CTA", icon: MessageSquare },
       { href: "/admin/footer", label: "Footer", icon: ArrowLeftRight },

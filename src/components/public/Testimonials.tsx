@@ -16,7 +16,7 @@ export async function Testimonials({ locale }: { locale: Locale }) {
           kicker={t("home.testimonials")}
           title="What people I've worked with say"
         />
-        <div className="mt-14">
+        <div className="mt-10 md:mt-12">
           <TestimonialsCarousel items={list} locale={locale} />
         </div>
       </div>

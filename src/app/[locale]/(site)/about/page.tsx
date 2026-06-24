@@ -6,6 +6,9 @@ import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { ExperienceTimeline } from "@/components/public/ExperienceTimeline";
 import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
+import { Eyebrow } from "@/components/public/Eyebrow";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export const revalidate = 60;
 
@@ -50,15 +53,29 @@ export default async function AboutPage({
       <section className="pt-24 md:pt-32">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
-            <span className="text-xs uppercase tracking-[0.18em] text-white/40">
-              {t("about.title")}
-            </span>
+            <Eyebrow>{t("about.title")}</Eyebrow>
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="h-display mt-4 max-w-3xl text-balance text-4xl font-semibold md:text-6xl">
               {pickField(about, l, "headline")}
             </h1>
           </Reveal>
+
+          {about.resumeUrl ? (
+            <Reveal delay={0.1}>
+              <Button asChild variant="accent" size="lg" className="mt-8">
+                <a
+                  href={about.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                >
+                  {t("about.downloadResume")}
+                  <Download className="h-4 w-4" />
+                </a>
+              </Button>
+            </Reveal>
+          ) : null}
 
           <div className="mt-12 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal className="relative">
@@ -80,7 +97,7 @@ export default async function AboutPage({
 
             <div className="flex flex-col gap-10">
               <div>
-                <h2 className="text-xs uppercase tracking-wide text-white/40">
+                <h2 className="text-xs uppercase tracking-[0.18em] text-white/40">
                   {t("about.biography")}
                 </h2>
                 <Reveal delay={0.05}>
@@ -91,7 +108,7 @@ export default async function AboutPage({
               </div>
 
               <div>
-                <h2 className="text-xs uppercase tracking-wide text-white/40">
+                <h2 className="text-xs uppercase tracking-[0.18em] text-white/40">
                   {t("about.philosophy")}
                 </h2>
                 <Reveal delay={0.05}>
@@ -102,7 +119,7 @@ export default async function AboutPage({
               </div>
 
               <div>
-                <h2 className="text-xs uppercase tracking-wide text-white/40">
+                <h2 className="text-xs uppercase tracking-[0.18em] text-white/40">
                   {t("about.experience")}
                 </h2>
                 <Reveal delay={0.05}>

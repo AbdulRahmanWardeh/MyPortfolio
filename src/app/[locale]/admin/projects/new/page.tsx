@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { ProjectForm } from "@/components/admin/ProjectForm";
 import { createProject } from "@/actions/admin";
@@ -10,7 +9,6 @@ export default async function NewProjectPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const tools = await prisma.tool.findMany({ orderBy: { name: "asc" } });
 
   async function action(fd: FormData) {
     "use server";
@@ -21,7 +19,7 @@ export default async function NewProjectPage({
   return (
     <div>
       <PageHeader title="New project" />
-      <ProjectForm action={action} allTools={tools} />
+      <ProjectForm action={action} />
     </div>
   );
 }

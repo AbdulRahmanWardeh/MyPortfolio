@@ -43,6 +43,9 @@
     "experience": "Experience",
     "testimonials": "What people say",
     "tools": "Tools",
+    "faq": "FAQ",
+    "faqKicker": "Questions",
+    "faqTitle": "Frequently asked questions",
     "viewAllProjects": "View all projects",
     "yearsExperience": "Years of experience",
     "projectsBuilt": "Projects built",
@@ -78,7 +81,8 @@
     "title": "About",
     "biography": "Biography",
     "philosophy": "Design Philosophy",
-    "experience": "Experience"
+    "experience": "Experience",
+    "downloadResume": "Download résumé"
   },
   "contact": {
     "title": "Book a meeting",

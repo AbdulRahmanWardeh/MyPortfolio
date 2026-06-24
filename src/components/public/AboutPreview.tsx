@@ -6,6 +6,7 @@ import { getAboutContent } from "@/lib/content";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { parseJson } from "@/lib/utils";
 import { Reveal, Stagger, StaggerItem } from "./Motion";
+import { Eyebrow } from "./Eyebrow";
 import { Button } from "@/components/ui/button";
 
 export async function AboutPreview({ locale }: { locale: Locale }) {
@@ -20,9 +21,9 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
-        <Reveal className="relative">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-stretch">
+        <Reveal className="relative lg:h-full">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10] lg:aspect-auto lg:h-full lg:min-h-[420px]">
             {about.profileImage ? (
               <Image
                 src={about.profileImage}
@@ -40,9 +41,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
 
         <div className="flex flex-col gap-6">
           <Reveal>
-            <span className="text-xs uppercase tracking-[0.18em] text-white/40">
-              About me
-            </span>
+            <Eyebrow>About me</Eyebrow>
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="h-display text-balance text-3xl font-semibold md:text-5xl">

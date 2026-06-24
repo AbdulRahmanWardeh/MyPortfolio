@@ -23,9 +23,9 @@ export function ProjectCard({ project, locale }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block focus-visible:outline-none"
+      className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.04]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.04] transition-colors group-hover:border-white/20">
         {project.coverImage ? (
           <Image
             src={project.coverImage}
@@ -40,7 +40,7 @@ export function ProjectCard({ project, locale }: ProjectCardProps) {
       </div>
 
       <div className="mt-4 flex flex-nowrap items-center justify-between gap-3 px-1">
-        <h3 className="h-display shrink-0 text-lg font-semibold leading-tight">
+        <h3 className="h-display shrink-0 text-lg font-semibold leading-tight transition-colors group-hover:text-white">
           {pickField(project, locale, "title")}
         </h3>
         {tags.length > 0 ? (

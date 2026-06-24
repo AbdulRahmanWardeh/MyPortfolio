@@ -72,14 +72,6 @@ export default async function ProjectDetailPage({
     ...(project.client
       ? [{ label: t("projects.client"), value: project.client }]
       : []),
-    ...(project.tools.length > 0
-      ? [
-          {
-            label: t("projects.tools"),
-            value: project.tools.map((pt) => pt.tool.name).join(" · "),
-          },
-        ]
-      : []),
   ].filter((s) => s.value && s.value.trim().length > 0);
 
   const externalLinks = [

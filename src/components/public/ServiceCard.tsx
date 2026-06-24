@@ -38,7 +38,7 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
         <Icon className="h-5 w-5" />
       </div>
       <div>
-        <h3 className="text-lg font-medium leading-tight">
+        <h3 className="h-display text-lg font-semibold leading-tight">
           {pickField(service, locale, "title")}
         </h3>
         <p className="mt-2 text-sm text-white/55">

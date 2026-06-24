@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Motion";
+import { Eyebrow } from "./Eyebrow";
 
 interface SectionHeaderProps {
   kicker?: string;
@@ -26,10 +27,7 @@ export function SectionHeader({
     >
       {kicker ? (
         <Reveal>
-          <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/40">
-            <span className="h-px w-8 bg-white/20" />
-            {kicker}
-          </span>
+          <Eyebrow>{kicker}</Eyebrow>
         </Reveal>
       ) : null}
       <Reveal delay={0.05}>

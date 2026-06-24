@@ -10,16 +10,12 @@ export default async function EditProjectPage({
   params: Promise<{ id: string; locale: string }>;
 }) {
   const { id, locale } = await params;
-  const [project, tools] = await Promise.all([
-    prisma.project.findUnique({
-      where: { id },
-      include: {
-        images: { orderBy: { order: "asc" } },
-        tools: true,
-      },
-    }),
-    prisma.tool.findMany({ orderBy: { name: "asc" } }),
-  ]);
+  const project = await prisma.project.findUnique({
+    where: { id },
+    include: {
+      images: { orderBy: { order: "asc" } },
+    },
+  });
   if (!project) notFound();
 
   async function action(fd: FormData) {
@@ -31,7 +27,7 @@ export default async function EditProjectPage({
   return (
     <div>
       <PageHeader title="Edit project" description={project.titleEn} />
-      <ProjectForm action={action} defaults={project} allTools={tools} />
+      <ProjectForm action={action} defaults={project} />
     </div>
   );
 }

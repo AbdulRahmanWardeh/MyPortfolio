@@ -2,13 +2,10 @@
 
 import * as React from "react";
 import Image from "next/image";
-import {
-  QuoteUpIcon as Quote,
-  ArrowLeft01Icon as ChevronLeft,
-  ArrowRight01Icon as ChevronRight,
-} from "hugeicons-react";
+import { QuoteUpIcon as Quote } from "hugeicons-react";
 import { cn } from "@/lib/utils";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
+import { CarouselControls } from "./CarouselControls";
 
 interface Testimonial {
   id: string;
@@ -18,6 +15,12 @@ interface Testimonial {
   avatarUrl: string | null;
   quoteEn: string;
 }
+
+// Horizontal drag distance (px) required to advance a slide.
+const SWIPE_THRESHOLD = 60;
+// Distance between adjacent cards — card width + a small gap. Tight so the
+// cards sit beside each other rather than spread apart.
+const STEP = "calc(clamp(280px, 38vw, 440px) + 0.75rem)";
 
 export function TestimonialsCarousel({
   items,
@@ -29,6 +32,11 @@ export function TestimonialsCarousel({
   const [index, setIndex] = React.useState(0);
   const cardRefs = React.useRef<(HTMLElement | null)[]>([]);
   const [stageH, setStageH] = React.useState(0);
+
+  const goTo = React.useCallback(
+    (i: number) => setIndex(Math.max(0, Math.min(items.length - 1, i))),
+    [items.length],
+  );
 
   // Track active card height for the stage container
   React.useLayoutEffect(() => {
@@ -44,15 +52,51 @@ export function TestimonialsCarousel({
     return () => ro.disconnect();
   }, [index]);
 
-  const goTo = (i: number) => setIndex(Math.max(0, Math.min(items.length - 1, i)));
+  // ---- Drag / swipe ------------------------------------------------------
+  const drag = React.useRef({ active: false, startX: 0, dx: 0 });
+  const [dragging, setDragging] = React.useState(false);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    drag.current = { active: true, startX: e.clientX, dx: 0 };
+    setDragging(true);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!drag.current.active) return;
+    drag.current.dx = e.clientX - drag.current.startX;
+  };
+  const endDrag = () => {
+    if (!drag.current.active) return;
+    const { dx } = drag.current;
+    drag.current.active = false;
+    setDragging(false);
+    if (Math.abs(dx) > SWIPE_THRESHOLD) {
+      goTo(index + (dx < 0 ? 1 : -1));
+    }
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") goTo(index - 1);
+    else if (e.key === "ArrowRight") goTo(index + 1);
+  };
 
   return (
-    // overflow-x-hidden here (not on the stage) so the cards can bleed
-    // into the section padding before being clipped at the component edge
     <div className="overflow-x-hidden">
-      {/* Stage — no overflow-hidden so cards aren't clipped inside the content box */}
+      {/* Stage — the active card is centered with its neighbours close
+          beside it on each side. */}
       <div
-        className="relative min-h-[220px] transition-[height] duration-500"
+        role="group"
+        aria-roledescription="carousel"
+        tabIndex={0}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onKeyDown={onKeyDown}
+        className={cn(
+          "relative min-h-[220px] touch-pan-y select-none transition-[height] duration-500 focus-visible:outline-none",
+          dragging ? "cursor-grabbing" : "cursor-grab",
+        )}
         style={{ height: stageH > 0 ? stageH : undefined }}
       >
         {items.map((tm, i) => {
@@ -70,14 +114,13 @@ export function TestimonialsCarousel({
                 "surface absolute top-0 left-1/2",
                 "w-[clamp(280px,38vw,440px)] flex-col gap-5 p-8",
                 "transition-all duration-500 ease-in-out",
-                // Only show side cards on sm+ — mobile shows just the active card
+                // Only show the active card on mobile; reveal neighbours on sm+
                 offset === 0 ? "flex" : "hidden sm:flex",
                 offset !== 0 && "cursor-pointer",
               )}
               style={{
-                // 32vw shift ≈ 26 px gap at desktop, side cards 84 % visible
-                transform: `translateX(calc(-50% + ${offset * 32}vw)) scale(${offset === 0 ? 1 : 0.82})`,
-                opacity: visible ? (offset === 0 ? 1 : 0.70) : 0,
+                transform: `translateX(calc(-50% + ${offset} * ${STEP})) scale(${offset === 0 ? 1 : 0.92})`,
+                opacity: visible ? (offset === 0 ? 1 : 0.55) : 0,
                 zIndex: offset === 0 ? 10 : visible ? 5 : 0,
                 pointerEvents: visible ? "auto" : "none",
               }}
@@ -110,43 +153,13 @@ export function TestimonialsCarousel({
         })}
       </div>
 
-      {/* Controls */}
-      <div className="mt-6 flex items-center justify-between gap-4 px-1">
-        <div className="flex items-center gap-1.5">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => goTo(i)}
-              aria-label={`Go to ${i + 1}`}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-200",
-                index === i ? "w-6 bg-white" : "w-1.5 bg-white/30",
-              )}
-            />
-          ))}
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            aria-label="Previous"
-            disabled={index === 0}
-            onClick={() => goTo(index - 1)}
-            className="grid h-10 w-10 place-items-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/70 transition hover:border-white/30 hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white/[0.03] disabled:hover:text-white/70"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next"
-            disabled={index === items.length - 1}
-            onClick={() => goTo(index + 1)}
-            className="grid h-10 w-10 place-items-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/70 transition hover:border-white/30 hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white/[0.03] disabled:hover:text-white/70"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+      <CarouselControls
+        count={items.length}
+        index={index}
+        onSelect={goTo}
+        dotLabel="Go to testimonial"
+        className="mt-6"
+      />
     </div>
   );
 }

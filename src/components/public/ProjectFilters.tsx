@@ -67,10 +67,10 @@ export function ProjectFilters({ projects, locale }: Props) {
               key={c}
               onClick={() => setCategory(c)}
               className={cn(
-                "rounded-full border px-3.5 py-1.5 text-xs transition",
+                "rounded-full border px-3.5 py-1.5 text-xs transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 category === c
                   ? "border-white bg-white text-black"
-                  : "border-white/[0.08] bg-white/[0.02] text-white/70 hover:bg-white/[0.06]",
+                  : "border-white/[0.08] bg-white/[0.02] text-white/70 hover:border-white/20 hover:bg-white/[0.06] hover:text-white",
               )}
             >
               {c === "all" ? tCommon("all") : c}

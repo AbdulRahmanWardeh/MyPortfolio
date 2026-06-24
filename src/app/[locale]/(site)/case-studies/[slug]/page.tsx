@@ -7,6 +7,7 @@ import { prisma } from "@/lib/db";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/public/Motion";
+import { Eyebrow } from "@/components/public/Eyebrow";
 import { CaseStudyRenderer } from "@/components/public/CaseStudyRenderer";
 
 export async function generateMetadata({
@@ -54,9 +55,7 @@ export default async function CaseStudyPage({
         </Link>
 
         <Reveal>
-          <span className="mt-6 inline-block text-xs uppercase tracking-[0.18em] text-white/40">
-            {t("home.caseStudies")}
-          </span>
+          <Eyebrow className="mt-6">{t("home.caseStudies")}</Eyebrow>
         </Reveal>
         <Reveal delay={0.05}>
           <h1 className="h-display mt-3 text-balance text-4xl font-semibold md:text-6xl">

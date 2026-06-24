@@ -1,12 +1,9 @@
 "use client";
 
 import * as React from "react";
-import {
-  ArrowLeft01Icon as ChevronLeft,
-  ArrowRight01Icon as ChevronRight,
-} from "hugeicons-react";
 import { cn } from "@/lib/utils";
 import { ProjectCard } from "./ProjectCard";
+import { CarouselControls } from "./CarouselControls";
 import type { Locale } from "@/lib/i18n-helpers";
 
 // Must match the px-6 padding on the track
@@ -195,42 +192,13 @@ export function ProjectsSwiper({
         ))}
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-4 px-1">
-        <div className="flex items-center gap-1.5">
-          {projects.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => goTo(i)}
-              aria-label={`Go to ${i + 1}`}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-200",
-                index === i ? "w-6 bg-white" : "w-1.5 bg-white/30",
-              )}
-            />
-          ))}
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            aria-label="Previous"
-            disabled={index === 0}
-            onClick={() => goTo(index - 1)}
-            className="grid h-10 w-10 place-items-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/70 transition hover:border-white/30 hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white/[0.03] disabled:hover:text-white/70"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next"
-            disabled={index === projects.length - 1}
-            onClick={() => goTo(index + 1)}
-            className="grid h-10 w-10 place-items-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/70 transition hover:border-white/30 hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white/[0.03] disabled:hover:text-white/70"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+      <CarouselControls
+        count={projects.length}
+        index={index}
+        onSelect={goTo}
+        dotLabel="Go to project"
+        className="mt-2"
+      />
     </div>
   );
 }

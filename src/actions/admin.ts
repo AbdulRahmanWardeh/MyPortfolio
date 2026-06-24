@@ -71,6 +71,7 @@ export async function updateAbout(fd: FormData) {
       philosophyEn: str(fd.get("philosophyEn")),
       experienceSummaryEn: str(fd.get("experienceSummaryEn")),
       profileImage: strOrNull(fd.get("profileImage")),
+      resumeUrl: str(fd.get("resumeUrl")),
       highlights: JSON.stringify(highlights),
     },
     create: {
@@ -143,41 +144,6 @@ export async function updateSeo(fd: FormData) {
   revalidateAll();
 }
 
-// ---------- Tools ----------
-
-export async function createTool(fd: FormData) {
-  await requireAdmin();
-  await prisma.tool.create({
-    data: {
-      name: str(fd.get("name")),
-      category: str(fd.get("category")) || "Design",
-      iconUrl: strOrNull(fd.get("iconUrl")),
-      order: int(fd.get("order")),
-    },
-  });
-  revalidateAll();
-}
-
-export async function updateTool(id: string, fd: FormData) {
-  await requireAdmin();
-  await prisma.tool.update({
-    where: { id },
-    data: {
-      name: str(fd.get("name")),
-      category: str(fd.get("category")) || "Design",
-      iconUrl: strOrNull(fd.get("iconUrl")),
-      order: int(fd.get("order")),
-    },
-  });
-  revalidateAll();
-}
-
-export async function deleteTool(id: string) {
-  await requireAdmin();
-  await prisma.tool.delete({ where: { id } });
-  revalidateAll();
-}
-
 // ---------- Social Links ----------
 
 export async function createSocial(fd: FormData) {
@@ -208,6 +174,39 @@ export async function updateSocial(id: string, fd: FormData) {
 export async function deleteSocial(id: string) {
   await requireAdmin();
   await prisma.socialLink.delete({ where: { id } });
+  revalidateAll();
+}
+
+// ---------- FAQ ----------
+
+export async function createFaq(fd: FormData) {
+  await requireAdmin();
+  await prisma.faq.create({
+    data: {
+      questionEn: str(fd.get("questionEn")),
+      answerEn: str(fd.get("answerEn")),
+      isActive: bool(fd.get("isActive")),
+      order: int(fd.get("order")),
+    },
+  });
+  revalidateAll();
+}
+export async function updateFaq(id: string, fd: FormData) {
+  await requireAdmin();
+  await prisma.faq.update({
+    where: { id },
+    data: {
+      questionEn: str(fd.get("questionEn")),
+      answerEn: str(fd.get("answerEn")),
+      isActive: bool(fd.get("isActive")),
+      order: int(fd.get("order")),
+    },
+  });
+  revalidateAll();
+}
+export async function deleteFaq(id: string) {
+  await requireAdmin();
+  await prisma.faq.delete({ where: { id } });
   revalidateAll();
 }
 
@@ -363,7 +362,6 @@ export async function createProject(fd: FormData) {
   } catch {
     gallery = [];
   }
-  const toolIds = fd.getAll("toolIds").map(String);
   const slug = slugify(str(fd.get("slug")) || str(fd.get("titleEn")));
 
   await prisma.project.create({
@@ -393,9 +391,6 @@ export async function createProject(fd: FormData) {
           order: i,
         })),
       },
-      tools: {
-        create: toolIds.map((tid) => ({ tool: { connect: { id: tid } } })),
-      },
     },
   });
   revalidateAll();
@@ -410,12 +405,10 @@ export async function updateProject(id: string, fd: FormData) {
   } catch {
     gallery = [];
   }
-  const toolIds = fd.getAll("toolIds").map(String);
   const slug = slugify(str(fd.get("slug")));
 
   await prisma.$transaction([
     prisma.projectImage.deleteMany({ where: { projectId: id } }),
-    prisma.projectTool.deleteMany({ where: { projectId: id } }),
     prisma.project.update({
       where: { id },
       data: {
@@ -443,9 +436,6 @@ export async function updateProject(id: string, fd: FormData) {
             altEn: g.altEn ?? "",
             order: i,
           })),
-        },
-        tools: {
-          create: toolIds.map((tid) => ({ tool: { connect: { id: tid } } })),
         },
       },
     }),

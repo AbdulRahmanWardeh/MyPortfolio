@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { BilingualField } from "@/components/admin/BilingualField";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { SubmitButton } from "@/components/admin/SubmitButton";
@@ -41,6 +42,19 @@ export default async function AdminAboutPage() {
           <Card>
             <CardContent className="flex flex-col gap-5 p-6">
               <ImageUploadField label="Profile image" name="profileImage" defaultValue={about.profileImage} />
+              <div className="flex flex-col gap-2">
+                <Label>Résumé URL</Label>
+                <Input
+                  name="resumeUrl"
+                  type="url"
+                  defaultValue={about.resumeUrl}
+                  placeholder="/resume.pdf or https://..."
+                />
+                <p className="text-xs text-white/40">
+                  Shown as a “Download résumé” button on the About page. Leave
+                  empty to hide it.
+                </p>
+              </div>
               <div className="flex flex-col gap-2">
                 <Label>Highlights (JSON array)</Label>
                 <Textarea name="highlights" defaultValue={highlights} className="min-h-[220px] font-mono text-xs" />

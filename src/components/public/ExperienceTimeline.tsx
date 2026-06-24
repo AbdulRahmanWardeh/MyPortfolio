@@ -30,9 +30,9 @@ export async function ExperienceTimeline({ locale }: { locale: Locale }) {
                         ? t("common.present")
                         : formatMonthYear(e.endDate, locale)}
                     </div>
-                    <h3 className="mt-2 text-lg font-medium">
+                    <h3 className="h-display mt-2 text-lg font-semibold">
                       {pickField(e, locale, "role")}{" "}
-                      <span className="text-white/50">· {e.company}</span>
+                      <span className="font-normal text-white/50">· {e.company}</span>
                     </h3>
                     {pickField(e, locale, "location") ? (
                       <div className="mt-1 text-sm text-white/40">

@@ -87,14 +87,6 @@ export const getTestimonials = cache(
   ),
 );
 
-export const getTools = cache(
-  unstable_cache(
-    async () => prisma.tool.findMany({ orderBy: { order: "asc" } }),
-    ["tools"],
-    { revalidate: REVALIDATE, tags: ["content", "tools"] },
-  ),
-);
-
 export const getPublishedProjects = cache(
   unstable_cache(
     async () =>
@@ -136,7 +128,6 @@ export const getProjectBySlug = cache((slug: string) =>
         where: { slug },
         include: {
           images: { orderBy: { order: "asc" } },
-          tools: { include: { tool: true } },
         },
       }),
     ["project-by-slug", slug],
@@ -159,6 +150,18 @@ export const getMoreProjects = cache((excludeId: string, take = 3) =>
     ["more-projects", excludeId, String(take)],
     { revalidate: REVALIDATE, tags: ["content", "projects"] },
   )(),
+);
+
+export const getActiveFaqs = cache(
+  unstable_cache(
+    async () =>
+      prisma.faq.findMany({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      }),
+    ["active-faqs"],
+    { revalidate: REVALIDATE, tags: ["content", "faqs"] },
+  ),
 );
 
 export const getActiveServices = cache(

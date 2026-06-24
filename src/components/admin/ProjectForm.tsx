@@ -13,11 +13,6 @@ import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { UploadDropzone } from "@/lib/uploadthing-client";
 import { toast } from "sonner";
 
-interface Tool {
-  id: string;
-  name: string;
-}
-
 interface ProjectDefaults {
   slug: string;
   titleEn: string;
@@ -38,13 +33,11 @@ interface ProjectDefaults {
   isPublished: boolean;
   order: number;
   images?: Array<{ url: string; altEn: string }>;
-  tools?: Array<{ toolId: string }>;
 }
 
 interface Props {
   action: (fd: FormData) => Promise<void>;
   defaults?: ProjectDefaults;
-  allTools: Tool[];
 }
 
 interface GalleryItem {
@@ -52,27 +45,15 @@ interface GalleryItem {
   altEn: string;
 }
 
-export function ProjectForm({ action, defaults, allTools }: Props) {
+export function ProjectForm({ action, defaults }: Props) {
   const [gallery, setGallery] = React.useState<GalleryItem[]>(
     defaults?.images?.map((g) => ({ url: g.url, altEn: g.altEn })) ?? [],
   );
-  const [selectedTools, setSelectedTools] = React.useState<string[]>(
-    defaults?.tools?.map((t) => t.toolId) ?? [],
-  );
   const [uploading, setUploading] = React.useState(false);
-
-  const toggleTool = (id: string) => {
-    setSelectedTools((prev) =>
-      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id],
-    );
-  };
 
   return (
     <form action={action} className="flex flex-col gap-6">
       <input type="hidden" name="gallery" value={JSON.stringify(gallery)} />
-      {selectedTools.map((id) => (
-        <input key={id} type="hidden" name="toolIds" value={id} />
-      ))}
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Card>
@@ -147,29 +128,6 @@ export function ProjectForm({ action, defaults, allTools }: Props) {
               <div className="flex flex-col gap-2">
                 <Label>Figma</Label>
                 <Input name="figmaLink" defaultValue={defaults?.figmaLink ?? ""} />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label>Tools</Label>
-              <div className="flex flex-wrap gap-2">
-                {allTools.map((t) => {
-                  const active = selectedTools.includes(t.id);
-                  return (
-                    <button
-                      type="button"
-                      key={t.id}
-                      onClick={() => toggleTool(t.id)}
-                      className={`rounded-full border px-3 py-1.5 text-xs transition ${
-                        active
-                          ? "border-white bg-white text-black"
-                          : "border-white/[0.08] bg-white/[0.02] text-white/70 hover:bg-white/[0.06]"
-                      }`}
-                    >
-                      {t.name}
-                    </button>
-                  );
-                })}
               </div>
             </div>
 

@@ -84,31 +84,6 @@ async function main() {
     create: { id: "singleton" },
   });
 
-  // -------- Tools --------
-  await prisma.tool.deleteMany();
-  const tools: Array<{ name: string; iconUrl: string }> = [
-    { name: "Figma", iconUrl: "https://cdn.simpleicons.org/figma/ffffff" },
-    { name: "Sketch", iconUrl: "https://cdn.simpleicons.org/sketch/ffffff" },
-    { name: "Framer", iconUrl: "https://cdn.simpleicons.org/framer/ffffff" },
-    { name: "Adobe XD", iconUrl: "https://cdn.simpleicons.org/adobexd/ffffff" },
-    { name: "Photoshop", iconUrl: "https://cdn.simpleicons.org/adobephotoshop/ffffff" },
-    { name: "Illustrator", iconUrl: "https://cdn.simpleicons.org/adobeillustrator/ffffff" },
-    { name: "After Effects", iconUrl: "https://cdn.simpleicons.org/adobeaftereffects/ffffff" },
-    { name: "Notion", iconUrl: "https://cdn.simpleicons.org/notion/ffffff" },
-    { name: "Miro", iconUrl: "https://cdn.simpleicons.org/miro/ffffff" },
-    { name: "Maze", iconUrl: "https://cdn.simpleicons.org/maze/ffffff" },
-  ];
-  await Promise.all(
-    tools.map((t, i) =>
-      prisma.tool.create({
-        data: { name: t.name, iconUrl: t.iconUrl, category: "Design", order: i },
-      }),
-    ),
-  );
-
-  const allTools = await prisma.tool.findMany();
-  const toolByName = (n: string) => allTools.find((t) => t.name === n)!;
-
   // -------- Social links --------
   await prisma.socialLink.deleteMany();
   await prisma.socialLink.createMany({
@@ -290,7 +265,6 @@ async function main() {
       client: "Northwind",
       tags: "Fintech,Product Design",
       isFeatured: true,
-      toolNames: ["Figma", "Framer", "Notion"],
     },
     {
       slug: "bluebird-banking",
@@ -302,7 +276,6 @@ async function main() {
       client: "Bluebird",
       tags: "Mobile,Fintech",
       isFeatured: true,
-      toolNames: ["Figma", "After Effects"],
     },
     {
       slug: "saffron-commerce",
@@ -314,7 +287,6 @@ async function main() {
       client: "Saffron Home",
       tags: "E-commerce,Branding",
       isFeatured: true,
-      toolNames: ["Figma", "Photoshop"],
     },
     {
       slug: "atlas-travel",
@@ -325,7 +297,6 @@ async function main() {
       client: "Atlas",
       tags: "Travel,Editorial",
       isFeatured: false,
-      toolNames: ["Figma", "Illustrator"],
     },
     {
       slug: "lumen-design-system",
@@ -337,7 +308,6 @@ async function main() {
       client: "Lumen Co.",
       tags: "Design System,SaaS",
       isFeatured: false,
-      toolNames: ["Figma", "Notion"],
     },
     {
       slug: "harbor-health",
@@ -349,7 +319,6 @@ async function main() {
       client: "Harbor",
       tags: "Healthcare,Mobile",
       isFeatured: false,
-      toolNames: ["Figma", "Maze"],
     },
   ];
 
@@ -371,11 +340,6 @@ async function main() {
             url: `https://picsum.photos/seed/${p.slug}-${n}/1600/1000`,
             order: n,
             altEn: `${p.titleEn} screen ${n}`,
-          })),
-        },
-        tools: {
-          create: p.toolNames.map((name) => ({
-            tool: { connect: { id: toolByName(name).id } },
           })),
         },
       },
@@ -535,6 +499,43 @@ async function main() {
       data: { dayOfWeek: day, startTime: "10:00", endTime: "17:00" },
     });
   }
+
+  // -------- FAQ --------
+  await prisma.faq.deleteMany();
+  await prisma.faq.createMany({
+    data: [
+      {
+        questionEn: "What kind of projects do you take on?",
+        answerEn:
+          "End-to-end product design — UX research, interaction design, and polished UI for web and mobile. I work best with teams shipping something ambitious and care about the details.",
+        order: 0,
+      },
+      {
+        questionEn: "How does a typical engagement work?",
+        answerEn:
+          "We start with a short discovery call to align on goals and scope. From there I move through research, wireframes, and high-fidelity design, sharing progress along the way so there are no surprises at handoff.",
+        order: 1,
+      },
+      {
+        questionEn: "What's your typical timeline?",
+        answerEn:
+          "Most focused projects run 2–6 weeks depending on scope. I'll give you a clear estimate after our first call once I understand the problem.",
+        order: 2,
+      },
+      {
+        questionEn: "Do you work with developers on handoff?",
+        answerEn:
+          "Yes. I deliver clean, token-based design systems and annotated specs, and I stay available through implementation and QA so the build matches the design.",
+        order: 3,
+      },
+      {
+        questionEn: "How do I get started?",
+        answerEn:
+          "Book a meeting from the contact page and tell me a bit about your project. I'll follow up within a day or two to set up our first call.",
+        order: 4,
+      },
+    ],
+  });
 
   console.log("Seed complete.");
 }

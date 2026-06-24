@@ -3,9 +3,8 @@ import { setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/public/Hero";
 import { AboutPreview } from "@/components/public/AboutPreview";
 import { FeaturedProjects } from "@/components/public/FeaturedProjects";
-import { ExperienceTimeline } from "@/components/public/ExperienceTimeline";
 import { Testimonials } from "@/components/public/Testimonials";
-import { Tools } from "@/components/public/Tools";
+import { Faq } from "@/components/public/Faq";
 import { ContactCtaSection } from "@/components/public/ContactCtaSection";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/lib/i18n-helpers";
@@ -40,13 +39,10 @@ export default async function HomePage({
         <FeaturedProjects locale={l} />
       </Suspense>
       <Suspense fallback={<div className="section" />}>
-        <ExperienceTimeline locale={l} />
-      </Suspense>
-      <Suspense fallback={<div className="section" />}>
         <Testimonials locale={l} />
       </Suspense>
       <Suspense fallback={<div className="section" />}>
-        <Tools locale={l} />
+        <Faq locale={l} />
       </Suspense>
       <Suspense fallback={<div className="section" />}>
         <ContactCtaSection locale={l} />
