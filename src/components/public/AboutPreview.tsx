@@ -5,6 +5,7 @@ import { getSiteSettings } from "@/lib/seo";
 import { getAboutContent } from "@/lib/content";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { parseJson } from "@/lib/utils";
+import { Download } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "./Motion";
 import { Eyebrow } from "./Eyebrow";
 import { Button } from "@/components/ui/button";
@@ -68,12 +69,27 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
           ) : null}
 
           <Reveal delay={0.25}>
-            <Button asChild variant="outline" size="sm" className="mt-2 w-fit">
-              <Link href="/about">
-                Read more
-                <DynamicIcon name={settings.ctaIcon} className="h-3.5 w-3.5" />
-              </Link>
-            </Button>
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <Button asChild variant="outline" size="sm" className="w-fit">
+                <Link href="/about">
+                  Read more
+                  <DynamicIcon name={settings.ctaIcon} className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+              {about.resumeUrl ? (
+                <Button asChild variant="accent" size="sm" className="w-fit">
+                  <a
+                    href={about.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                  >
+                    Download résumé
+                    <Download className="h-3.5 w-3.5" />
+                  </a>
+                </Button>
+              ) : null}
+            </div>
           </Reveal>
         </div>
       </div>
