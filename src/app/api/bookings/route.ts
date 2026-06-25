@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { getAvailableSlots } from "@/lib/booking";
 import { sendBookingEmails } from "@/lib/resend";
+import { createMeetingEvent } from "@/lib/google-calendar";
 
 const bodySchema = z.object({
   meetingTypeId: z.string().min(1),
@@ -58,6 +59,25 @@ export async function POST(req: Request) {
     },
   });
 
+  // Generate a Google Meet link via a Calendar event (no-op if unconfigured).
+  const { meetingLink, eventId } = await createMeetingEvent({
+    bookingId: booking.id,
+    meetingTypeName: meetingType.nameEn,
+    date: data.date,
+    startTime: data.startTime,
+    durationMinutes: meetingType.durationMinutes,
+    name: booking.name,
+    email: booking.email,
+    message: booking.message,
+  });
+
+  if (meetingLink || eventId) {
+    await prisma.booking.update({
+      where: { id: booking.id },
+      data: { meetingLink, calendarEventId: eventId },
+    });
+  }
+
   // Fire-and-await emails (failures are logged but don't fail the response)
   await sendBookingEmails({
     name: booking.name,
@@ -69,7 +89,8 @@ export async function POST(req: Request) {
     company: booking.company,
     phone: booking.phone,
     message: booking.message,
+    meetingLink,
   });
 
-  return NextResponse.json({ ok: true, id: booking.id });
+  return NextResponse.json({ ok: true, id: booking.id, meetingLink });
 }

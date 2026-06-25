@@ -31,7 +31,7 @@ model SiteSettings {
   siteName     String   @default("Portfolio")
   primaryColor String   @default("#0a0a0a")
   accentColor  String   @default("#8b5cf6")
-  seoTitle     String   @default("UX/UI Designer Portfolio")
+  seoTitle     String   @default("Abdulrahman Wardeh")
   seoDesc      String   @default("Premium UX/UI design portfolio")
   ogImage      String?
   ctaIcon      String   @default("")
@@ -266,6 +266,8 @@ model Booking {
   company         String?
   message         String?
   status          String      @default("PENDING")
+  meetingLink     String?
+  calendarEventId String?
   meetingType     MeetingType @relation(fields: [meetingTypeId], references: [id])
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt

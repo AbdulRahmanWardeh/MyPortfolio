@@ -58,6 +58,16 @@ export default async function AdminBookingsPage() {
                     <TableCell>
                       <div>{b.meetingType?.nameEn}</div>
                       <div className="text-xs text-white/40">{b.durationMinutes} min</div>
+                      {b.meetingLink ? (
+                        <a
+                          href={b.meetingLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-violet-400 underline underline-offset-2"
+                        >
+                          Google Meet
+                        </a>
+                      ) : null}
                     </TableCell>
                     <TableCell>
                       <div>{format(b.date, "EEE, MMM d")}</div>
