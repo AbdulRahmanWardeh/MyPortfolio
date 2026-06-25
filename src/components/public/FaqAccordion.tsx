@@ -29,8 +29,10 @@ export function FaqAccordion({
           <div
             key={item.id}
             className={cn(
-              "surface overflow-hidden rounded-2xl transition-colors",
-              isOpen ? "bg-white/[0.05]" : "hover:bg-white/[0.04]",
+              "surface overflow-hidden rounded-2xl transition-all duration-300",
+              isOpen
+                ? "bg-accent/[0.05] shadow-[inset_0_18px_26px_-18px_hsl(var(--accent)/0.5)]"
+                : "hover:bg-white/[0.04]",
             )}
           >
             <button

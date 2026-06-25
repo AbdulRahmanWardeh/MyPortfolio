@@ -61,22 +61,6 @@ export default async function AboutPage({
             </h1>
           </Reveal>
 
-          {about.resumeUrl ? (
-            <Reveal delay={0.1}>
-              <Button asChild variant="accent" size="lg" className="mt-8">
-                <a
-                  href={about.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                >
-                  {t("about.downloadResume")}
-                  <Download className="h-4 w-4" />
-                </a>
-              </Button>
-            </Reveal>
-          ) : null}
-
           <div className="mt-12 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal className="relative">
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
@@ -128,21 +112,37 @@ export default async function AboutPage({
                   </p>
                 </Reveal>
               </div>
+
+              {highlights.length > 0 ? (
+                <Stagger className="grid gap-4 sm:grid-cols-3">
+                  {highlights.map((h, i) => (
+                    <StaggerItem key={i}>
+                      <div className="surface h-full rounded-xl p-6">
+                        <div className="text-sm font-medium">{h.titleEn}</div>
+                        <p className="mt-2 text-sm text-white/55">{h.descEn}</p>
+                      </div>
+                    </StaggerItem>
+                  ))}
+                </Stagger>
+              ) : null}
+
+              {about.resumeUrl ? (
+                <Reveal delay={0.1}>
+                  <Button asChild variant="accent" size="lg" className="w-fit">
+                    <a
+                      href={about.resumeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download
+                    >
+                      {t("about.downloadResume")}
+                      <Download className="h-4 w-4" />
+                    </a>
+                  </Button>
+                </Reveal>
+              ) : null}
             </div>
           </div>
-
-          {highlights.length > 0 ? (
-            <Stagger className="mt-20 grid gap-4 sm:grid-cols-3">
-              {highlights.map((h, i) => (
-                <StaggerItem key={i}>
-                  <div className="surface h-full rounded-xl p-6">
-                    <div className="text-sm font-medium">{h.titleEn}</div>
-                    <p className="mt-2 text-sm text-white/55">{h.descEn}</p>
-                  </div>
-                </StaggerItem>
-              ))}
-            </Stagger>
-          ) : null}
         </div>
       </section>
 

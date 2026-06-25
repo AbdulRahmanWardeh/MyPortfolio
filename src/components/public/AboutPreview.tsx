@@ -24,7 +24,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
     <section className="section">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-stretch">
         <Reveal className="relative lg:h-full">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10] lg:aspect-auto lg:h-full lg:min-h-[420px]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10] lg:aspect-auto lg:h-full lg:min-h-[500px]">
             {about.profileImage ? (
               <Image
                 src={about.profileImage}
@@ -70,25 +70,25 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
 
           <Reveal delay={0.25}>
             <div className="mt-2 flex flex-wrap items-center gap-3">
-              <Button asChild variant="outline" size="sm" className="w-fit">
-                <Link href="/about">
-                  Read more
-                  <DynamicIcon name={settings.ctaIcon} className="h-3.5 w-3.5" />
-                </Link>
-              </Button>
               {about.resumeUrl ? (
-                <Button asChild variant="accent" size="sm" className="w-fit">
+                <Button asChild variant="accent" size="default" className="w-fit h-12">
                   <a
                     href={about.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     download
                   >
-                    Download résumé
-                    <Download className="h-3.5 w-3.5" />
+                    Download Resume
+                    <Download className="h-4 w-4" />
                   </a>
                 </Button>
               ) : null}
+              <Button asChild variant="outline" size="default" className="w-fit h-12">
+                <Link href="/about">
+                  Read more
+                  <DynamicIcon name={settings.ctaIcon} className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
           </Reveal>
         </div>
