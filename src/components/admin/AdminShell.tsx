@@ -19,7 +19,7 @@ export function AdminShell({
   user: { email: string; name?: string | null };
 }) {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-foreground">
+    <div className="theme-fixed-dark min-h-screen bg-[#0a0a0a] text-foreground">
       <div className="lg:grid lg:grid-cols-[260px_1fr]">
         {/* Sidebar — desktop only; mobile uses AdminMobileNav drawer */}
         <aside className="sticky top-0 hidden h-screen flex-col border-e border-white/[0.06] bg-[#0a0a0a] lg:flex">

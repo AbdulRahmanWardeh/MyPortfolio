@@ -11,7 +11,7 @@ export async function Testimonials({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-12 md:px-24">
         <SectionHeader
           kicker={t("home.testimonials")}
           title="What people I've worked with say"

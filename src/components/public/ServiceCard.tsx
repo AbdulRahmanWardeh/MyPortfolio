@@ -33,28 +33,28 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
   );
 
   return (
-    <div className="surface flex h-full flex-col gap-5 p-7 transition hover:bg-white/[0.04]">
-      <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-accent">
+    <div className="surface flex h-full flex-col gap-5 p-7 transition hover:bg-tint/[0.04]">
+      <div className="grid h-10 w-10 place-items-center rounded-xl border border-tint/[0.08] bg-tint/[0.03] text-accent">
         <Icon className="h-5 w-5" />
       </div>
       <div>
         <h3 className="h-display text-lg font-semibold leading-tight">
           {pickField(service, locale, "title")}
         </h3>
-        <p className="mt-2 text-sm text-white/55">
+        <p className="mt-2 text-sm text-tint/55">
           {pickField(service, locale, "description")}
         </p>
       </div>
 
       {deliverables.length > 0 ? (
-        <div className="border-t border-white/[0.06] pt-5">
-          <div className="text-xs uppercase tracking-wide text-white/40">
+        <div className="border-t border-tint/[0.06] pt-5">
+          <div className="text-xs uppercase tracking-wide text-tint/40">
             {labels.deliverables}
           </div>
-          <ul className="mt-3 flex flex-col gap-1.5 text-sm text-white/70">
+          <ul className="mt-3 flex flex-col gap-1.5 text-sm text-tint/70">
             {deliverables.map((d, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className="mt-1 inline-block h-1 w-1 rounded-full bg-white/40" />
+                <span className="mt-1 inline-block h-1 w-1 rounded-full bg-tint/40" />
                 <span>{d.en}</span>
               </li>
             ))}
@@ -62,10 +62,10 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
         </div>
       ) : null}
 
-      <div className="mt-auto flex items-center justify-between border-t border-white/[0.06] pt-5">
-        <div className="text-xs text-white/50">
-          <div className="uppercase tracking-wide text-white/40">{labels.timeline}</div>
-          <div className="mt-1 text-sm text-white/80">
+      <div className="mt-auto flex items-center justify-between border-t border-tint/[0.06] pt-5">
+        <div className="text-xs text-tint/50">
+          <div className="uppercase tracking-wide text-tint/40">{labels.timeline}</div>
+          <div className="mt-1 text-sm text-tint/80">
             {pickField(service, locale, "timeline")}
           </div>
         </div>

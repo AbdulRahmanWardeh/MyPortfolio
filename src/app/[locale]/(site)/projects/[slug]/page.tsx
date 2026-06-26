@@ -86,7 +86,7 @@ export default async function ProjectDetailPage({
       <div className="mx-auto max-w-6xl px-6">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs text-tint/60 hover:text-tint"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           {t("projects.backToProjects")}
@@ -98,7 +98,7 @@ export default async function ProjectDetailPage({
           </h1>
         </Reveal>
         <Reveal delay={0.05}>
-          <p className="mt-4 max-w-3xl text-pretty text-base text-white/65 md:text-lg">
+          <p className="mt-4 max-w-3xl text-pretty text-base text-tint/65 md:text-lg">
             {pickField(project, l, "shortDesc")}
           </p>
         </Reveal>
@@ -106,17 +106,17 @@ export default async function ProjectDetailPage({
         {/* Horizontal stats card — dynamic, dividers between cells */}
         {stats.length > 0 ? (
           <Reveal delay={0.1}>
-            <div className="mt-10 overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.04]">
-              <div className="flex flex-wrap items-stretch divide-x divide-white/[0.08] sm:flex-nowrap">
+            <div className="mt-10 overflow-hidden rounded-2xl border border-tint/[0.10] bg-tint/[0.04]">
+              <div className="flex flex-wrap items-stretch divide-x divide-tint/[0.08] sm:flex-nowrap">
                 {stats.map((s) => (
                   <div
                     key={s.label}
                     className="flex min-w-[160px] flex-1 flex-col justify-center gap-1.5 px-6 py-5 text-start"
                   >
-                    <div className="text-[0.65rem] uppercase tracking-[0.15em] text-white/40">
+                    <div className="text-[0.65rem] uppercase tracking-[0.15em] text-tint/40">
                       {s.label}
                     </div>
-                    <div className="text-base font-semibold text-white">
+                    <div className="text-base font-semibold text-tint">
                       {s.value}
                     </div>
                   </div>
@@ -128,7 +128,7 @@ export default async function ProjectDetailPage({
 
         {project.coverImage ? (
           <Reveal delay={0.15}>
-            <div className="relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
+            <div className="relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-tint/[0.10]">
               <Image
                 src={project.coverImage}
                 alt={pickField(project, l, "title")}
@@ -143,12 +143,12 @@ export default async function ProjectDetailPage({
 
         <Reveal delay={0.2}>
           <div className="surface mt-12 p-8">
-            <div className="whitespace-pre-line text-base text-white/70 md:text-lg">
+            <div className="whitespace-pre-line text-base text-tint/70 md:text-lg">
               {pickField(project, l, "fullDesc")}
             </div>
             {externalLinks.length > 0 ? (
-              <div className="mt-8 border-t border-white/[0.06] pt-6">
-                <div className="text-xs uppercase tracking-wide text-white/40">
+              <div className="mt-8 border-t border-tint/[0.06] pt-6">
+                <div className="text-xs uppercase tracking-wide text-tint/40">
                   {t("common.viewProject")}
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -158,7 +158,7 @@ export default async function ProjectDetailPage({
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.10] bg-white/[0.03] px-3.5 py-1.5 text-sm text-white/85 transition hover:border-white/30 hover:bg-white hover:text-black"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-tint/[0.10] bg-tint/[0.03] px-3.5 py-1.5 text-sm text-tint/85 transition hover:border-tint/30 hover:bg-tint hover:text-background"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
                       {link.label}
@@ -178,7 +178,7 @@ export default async function ProjectDetailPage({
             <Stagger className="mt-8 grid gap-6 sm:grid-cols-2">
               {project.images.map((img) => (
                 <StaggerItem key={img.id}>
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/[0.06]">
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-tint/[0.06]">
                     <Image
                       src={img.url}
                       alt={pickField(img, l, "alt")}

@@ -3,7 +3,6 @@
  * pure CSS (no Framer Motion runtime). Sits at -z-10 below content.
  *
  *  - Soft dotted grid with top→bottom opacity fade (mask).
- *  - Three drifting glow orbs animated with @keyframes.
  *  - Vignette to blend the bottom edge into the page bg.
  */
 export function HeroBackdrop() {
@@ -26,9 +25,6 @@ export function HeroBackdrop() {
             "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 35%, rgba(0,0,0,0.15) 65%, transparent 100%)",
         }}
       />
-
-      {/* Drifting purple glow — top */}
-      <div className="hero-orb hero-orb--purple" />
 
       {/* Vignette so the pattern fades cleanly into the page bg */}
       <div

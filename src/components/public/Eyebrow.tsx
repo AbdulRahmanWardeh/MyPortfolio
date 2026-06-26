@@ -17,11 +17,11 @@ export function Eyebrow({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/40",
+        "inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-tint/40",
         className,
       )}
     >
-      <span className="h-px w-8 bg-white/20" aria-hidden />
+      <span className="h-px w-8 bg-tint/20" aria-hidden />
       {children}
     </span>
   );

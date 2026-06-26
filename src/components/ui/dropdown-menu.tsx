@@ -18,7 +18,7 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 min-w-[10rem] overflow-hidden rounded-xl border border-white/[0.08] bg-[#0f0f10] p-1 text-white shadow-2xl",
+        "z-50 min-w-[10rem] overflow-hidden rounded-xl border border-tint/[0.08] bg-[#0f0f10] p-1 text-tint shadow-2xl",
         className,
       )}
       {...props}
@@ -36,7 +36,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none transition-colors focus:bg-white/[0.06] data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none transition-colors focus:bg-tint/[0.06] data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       inset && "ps-8",
       className,
     )}
@@ -53,7 +53,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     ref={ref}
     checked={checked}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-lg py-1.5 ps-8 pe-2 text-sm outline-none transition-colors focus:bg-white/[0.06]",
+      "relative flex cursor-default select-none items-center rounded-lg py-1.5 ps-8 pe-2 text-sm outline-none transition-colors focus:bg-tint/[0.06]",
       className,
     )}
     {...props}
@@ -75,7 +75,7 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("my-1 h-px bg-white/[0.06]", className)}
+    className={cn("my-1 h-px bg-tint/[0.06]", className)}
     {...props}
   />
 ));
@@ -87,7 +87,7 @@ const DropdownMenuLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
-    className={cn("px-3 py-1.5 text-xs uppercase tracking-wide text-white/40", className)}
+    className={cn("px-3 py-1.5 text-xs uppercase tracking-wide text-tint/40", className)}
     {...props}
   />
 ));

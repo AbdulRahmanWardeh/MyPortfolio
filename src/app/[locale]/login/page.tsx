@@ -18,7 +18,7 @@ export default async function LoginPage({
   }
 
   return (
-    <section className="grid min-h-[calc(100vh-4rem)] place-items-center px-6 py-16">
+    <section className="theme-fixed-dark grid min-h-[calc(100vh-4rem)] place-items-center bg-background px-6 py-16">
       <div className="surface w-full max-w-md p-8">
         <h1 className="h-display text-2xl font-semibold">{t("login.title")}</h1>
         <p className="mt-2 text-sm text-white/60">

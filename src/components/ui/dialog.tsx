@@ -34,14 +34,14 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed start-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-2xl border border-white/[0.08] bg-[#0f0f10] p-6 shadow-2xl",
+        "fixed start-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-2xl border border-tint/[0.08] bg-[#0f0f10] p-6 shadow-2xl",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
         className,
       )}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute end-4 top-4 rounded-full p-1.5 text-white/60 transition hover:bg-white/[0.06] hover:text-white">
+      <DialogPrimitive.Close className="absolute end-4 top-4 rounded-full p-1.5 text-tint/60 transition hover:bg-tint/[0.06] hover:text-tint">
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
@@ -79,7 +79,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-white/60", className)}
+    className={cn("text-sm text-tint/60", className)}
     {...props}
   />
 ));

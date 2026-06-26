@@ -24,7 +24,7 @@ export function ScrollToTop() {
       aria-label="Scroll to top"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className={cn(
-        "fixed bottom-6 end-6 z-30 grid h-14 w-14 place-items-center rounded-full border-2 border-white/30 bg-background text-accent shadow-[0_18px_40px_-12px_rgba(0,0,0,0.7),0_0_0_4px_hsl(var(--accent)/0.12)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-accent hover:bg-accent hover:text-white",
+        "fixed bottom-6 end-6 z-30 grid h-14 w-14 place-items-center rounded-full border-2 border-tint/30 bg-background text-accent shadow-[0_18px_40px_-12px_rgba(0,0,0,0.7),0_0_0_4px_hsl(var(--accent)/0.12)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-accent hover:bg-accent hover:text-accent-foreground",
         visible
           ? "opacity-100 translate-y-0"
           : "pointer-events-none translate-y-4 opacity-0",

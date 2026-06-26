@@ -8,6 +8,7 @@ import { Menu02Icon } from "hugeicons-react";
 import { DynamicIcon } from "@/lib/hugeicon";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "./ThemeToggle";
 import {
   Sheet,
   SheetContent,
@@ -52,10 +53,10 @@ export function Navbar({
     >
       <div
         className={cn(
-          "flex h-16 w-full max-w-[1200px] items-center justify-between gap-4 rounded-[999px] border px-3 transition-all md:grid md:h-20 md:grid-cols-[1fr_auto_1fr] md:px-5",
+          "flex h-14 w-full max-w-[1060px] items-center justify-between gap-4 rounded-[999px] border px-3 transition-all md:grid md:h-16 md:grid-cols-[1fr_auto_1fr] md:px-5",
           scrolled
-            ? "border-white/[0.10] bg-background/70 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]"
-            : "border-white/[0.08] bg-white/[0.03] backdrop-blur-md",
+            ? "border-tint/[0.10] bg-background/70 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]"
+            : "border-tint/[0.08] bg-tint/[0.03] backdrop-blur-md",
         )}
       >
         <Link
@@ -68,7 +69,9 @@ export function Navbar({
             alt="Logo"
             width={24}
             height={24}
-            className="h-6 w-6"
+            // logo.svg is pure white (for dark mode); invert it to black in
+            // light mode, and turn the filter off again in dark mode.
+            className="h-6 w-6 invert dark:invert-0"
             priority
           />
         </Link>
@@ -81,8 +84,8 @@ export function Navbar({
               className={cn(
                 "rounded-full px-3.5 py-1.5 text-sm transition-colors",
                 isActive(l.href)
-                  ? "bg-white/[0.06] text-white"
-                  : "text-white/65 hover:text-white",
+                  ? "bg-tint/[0.06] text-tint"
+                  : "text-tint/65 hover:text-tint",
               )}
             >
               {t(l.key)}
@@ -92,6 +95,7 @@ export function Navbar({
 
         <div className="flex items-center justify-self-end gap-2">
           {/* LocaleSwitcher kept for future use — see ./LocaleSwitcher.tsx */}
+          <ThemeToggle />
           <Button asChild variant="accent" size="sm" className="hidden md:inline-flex">
             <Link href="/contact">
               {t("bookMeeting")}
@@ -119,7 +123,7 @@ export function Navbar({
               side="right"
               className="flex flex-col gap-6"
             >
-              <SheetTitle className="text-sm uppercase tracking-wide text-white/50">
+              <SheetTitle className="text-sm uppercase tracking-wide text-tint/50">
                 {t("menu")}
               </SheetTitle>
               <nav className="flex flex-col gap-1">
@@ -130,8 +134,8 @@ export function Navbar({
                       className={cn(
                         "rounded-2xl px-3 py-3 text-lg",
                         isActive(l.href)
-                          ? "bg-white/[0.06] text-white"
-                          : "text-white/70 hover:bg-white/[0.04]",
+                          ? "bg-tint/[0.06] text-tint"
+                          : "text-tint/70 hover:bg-tint/[0.04]",
                       )}
                     >
                       {t(l.key)}

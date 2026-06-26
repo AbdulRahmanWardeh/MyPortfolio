@@ -25,7 +25,7 @@ export function ProjectCard({ project, locale }: ProjectCardProps) {
       href={`/projects/${project.slug}`}
       className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.04] transition-colors group-hover:border-white/20">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-tint/[0.10] bg-tint/[0.04] transition-colors group-hover:border-tint/20">
         {project.coverImage ? (
           <Image
             src={project.coverImage}
@@ -35,12 +35,12 @@ export function ProjectCard({ project, locale }: ProjectCardProps) {
             className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-tint/[0.08] to-transparent" />
         )}
       </div>
 
       <div className="mt-4 flex flex-nowrap items-center justify-between gap-3 px-1">
-        <h3 className="h-display shrink-0 text-lg font-semibold leading-tight transition-colors group-hover:text-white">
+        <h3 className="h-display shrink-0 text-lg font-semibold leading-tight transition-colors group-hover:text-tint">
           {pickField(project, locale, "title")}
         </h3>
         {tags.length > 0 ? (

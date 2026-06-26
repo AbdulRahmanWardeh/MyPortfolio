@@ -51,7 +51,7 @@ export default async function AboutPage({
   return (
     <>
       <section className="pt-24 md:pt-32">
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl px-12 md:px-24">
           <Reveal>
             <Eyebrow>{t("about.title")}</Eyebrow>
           </Reveal>
@@ -63,7 +63,7 @@ export default async function AboutPage({
 
           <div className="mt-12 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal className="relative">
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-tint/[0.10]">
                 {about.profileImage ? (
                   <Image
                     src={about.profileImage}
@@ -74,40 +74,40 @@ export default async function AboutPage({
                     priority
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-tint/[0.05] to-transparent" />
                 )}
               </div>
             </Reveal>
 
             <div className="flex flex-col gap-10">
               <div>
-                <h2 className="text-xs uppercase tracking-[0.18em] text-white/40">
+                <h2 className="text-xs uppercase tracking-[0.18em] text-tint/40">
                   {t("about.biography")}
                 </h2>
                 <Reveal delay={0.05}>
-                  <p className="mt-3 text-pretty text-base text-white/70 md:text-lg whitespace-pre-line">
+                  <p className="mt-3 text-pretty text-base text-tint/70 md:text-lg whitespace-pre-line">
                     {pickField(about, l, "biography")}
                   </p>
                 </Reveal>
               </div>
 
               <div>
-                <h2 className="text-xs uppercase tracking-[0.18em] text-white/40">
+                <h2 className="text-xs uppercase tracking-[0.18em] text-tint/40">
                   {t("about.philosophy")}
                 </h2>
                 <Reveal delay={0.05}>
-                  <p className="mt-3 text-pretty text-base text-white/70 md:text-lg whitespace-pre-line">
+                  <p className="mt-3 text-pretty text-base text-tint/70 md:text-lg whitespace-pre-line">
                     {pickField(about, l, "philosophy")}
                   </p>
                 </Reveal>
               </div>
 
               <div>
-                <h2 className="text-xs uppercase tracking-[0.18em] text-white/40">
+                <h2 className="text-xs uppercase tracking-[0.18em] text-tint/40">
                   {t("about.experience")}
                 </h2>
                 <Reveal delay={0.05}>
-                  <p className="mt-3 text-pretty text-base text-white/70 md:text-lg whitespace-pre-line">
+                  <p className="mt-3 text-pretty text-base text-tint/70 md:text-lg whitespace-pre-line">
                     {pickField(about, l, "experienceSummary")}
                   </p>
                 </Reveal>
@@ -119,28 +119,26 @@ export default async function AboutPage({
                     <StaggerItem key={i}>
                       <div className="surface h-full rounded-xl p-6">
                         <div className="text-sm font-medium">{h.titleEn}</div>
-                        <p className="mt-2 text-sm text-white/55">{h.descEn}</p>
+                        <p className="mt-2 text-sm text-tint/55">{h.descEn}</p>
                       </div>
                     </StaggerItem>
                   ))}
                 </Stagger>
               ) : null}
 
-              {about.resumeUrl ? (
-                <Reveal delay={0.1}>
-                  <Button asChild variant="accent" size="lg" className="w-fit">
-                    <a
-                      href={about.resumeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      download
-                    >
-                      {t("about.downloadResume")}
-                      <Download className="h-4 w-4" />
-                    </a>
-                  </Button>
-                </Reveal>
-              ) : null}
+              <Reveal delay={0.1}>
+                <Button asChild variant="accent" size="lg" className="w-fit">
+                  <a
+                    href={about.resumeUrl ?? "/resume.pdf"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                  >
+                    {t("about.downloadResume")}
+                    <Download className="h-4 w-4" />
+                  </a>
+                </Button>
+              </Reveal>
             </div>
           </div>
         </div>

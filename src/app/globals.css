@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  /* Dark theme (default). `--tint` is the white-replacement used by all the
+     surface/text utilities; it flips to near-black in `.light`. */
+  :root,
+  .theme-fixed-dark {
     --background: 0 0% 7%;
     --foreground: 0 0% 98%;
     --card: 0 0% 9%;
@@ -24,9 +27,56 @@
     --input: 0 0% 18%;
     --ring: 262 83% 68%;
     --radius: 1rem;
+    --tint: 255 255 255;
+    --surface-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
     --pattern-dot: rgba(255, 255, 255, 0.10);
     --particle-color: rgba(255, 255, 255, 0.85);
     --particle-glow: rgba(255, 255, 255, 0.7);
+  }
+
+  .theme-fixed-dark {
+    color-scheme: dark;
+  }
+
+  /* Light theme — applied on <html class="light"> by next-themes. */
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 93%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 93%;
+    --muted-foreground: 0 0% 38%;
+    --accent: 262 72% 56%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 87%;
+    --input: 0 0% 87%;
+    --ring: 262 72% 56%;
+    --tint: 17 17 19;
+    --surface-shadow: 0 24px 50px -32px rgba(17, 17, 19, 0.30);
+    --pattern-dot: rgba(17, 17, 19, 0.08);
+    --particle-color: rgba(80, 80, 95, 0.55);
+    --particle-glow: rgba(120, 120, 140, 0.35);
+    color-scheme: light;
+  }
+
+  /* The footer is an inverse block: cream surface on the dark site, and a
+     near-black surface on the light site. Inside it, `--tint` is the ink. */
+  .footer-theme {
+    --tint: 17 17 19;
+    --footer-surface: 245 245 243;
+    background-color: rgb(var(--footer-surface));
+  }
+  .light .footer-theme {
+    --tint: 245 245 243;
+    --footer-surface: 17 17 19;
   }
 
   * {
@@ -52,7 +102,7 @@
     pointer-events: none;
     background-image:
       radial-gradient(60% 50% at 50% 0%, hsl(var(--accent) / 0.06) 0%, transparent 60%),
-      radial-gradient(40% 30% at 100% 100%, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+      radial-gradient(40% 30% at 100% 100%, rgb(var(--tint) / 0.02) 0%, transparent 70%);
   }
 
   ::selection {
@@ -78,15 +128,25 @@
 
 @layer components {
   .glass {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06];
+    @apply backdrop-blur-xl border;
+    background-color: rgb(var(--tint) / 0.03);
+    border-color: rgb(var(--tint) / 0.06);
   }
 
   .glass-strong {
-    @apply bg-white/[0.05] backdrop-blur-2xl border border-white/[0.08];
+    @apply backdrop-blur-2xl border;
+    background-color: rgb(var(--tint) / 0.05);
+    border-color: rgb(var(--tint) / 0.08);
   }
 
   .gradient-text {
-    @apply bg-gradient-to-br from-white via-white to-white/60 bg-clip-text text-transparent;
+    @apply bg-gradient-to-br bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      to bottom right,
+      hsl(var(--foreground)),
+      hsl(var(--foreground)),
+      hsl(var(--foreground) / 0.6)
+    );
   }
 
   .accent-text {
@@ -94,10 +154,12 @@
   }
 
   .surface {
-    @apply rounded-2xl border border-white/[0.10] bg-white/[0.04];
+    @apply rounded-2xl border;
+    border-color: rgb(var(--tint) / 0.10);
+    background-color: rgb(var(--tint) / 0.04);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 30px 60px -30px rgba(0, 0, 0, 0.6);
+      inset 0 1px 0 rgb(var(--tint) / 0.04),
+      var(--surface-shadow);
   }
 
   .focus-ring {
@@ -114,33 +176,6 @@
 
   .container-tight {
     @apply mx-auto w-full max-w-6xl px-6;
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Hero backdrop glow orbs — CSS-only (no JS animation runtime)        */
-  /* ------------------------------------------------------------------ */
-  .hero-orb {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(80px);
-    will-change: transform;
-  }
-
-  .hero-orb--purple {
-    top: -8rem;
-    left: 50%;
-    height: 42rem;
-    width: 42rem;
-    transform: translateX(-50%);
-    background: radial-gradient(closest-side, hsl(var(--accent) / 0.30), transparent 70%);
-    animation: hero-orb-purple 16s ease-in-out infinite;
-  }
-
-  @keyframes hero-orb-purple {
-    0%, 100% { transform: translate(-50%, 0); }
-    25% { transform: translate(-46%, 2%); }
-    50% { transform: translate(-54%, -2%); }
-    75% { transform: translate(-50%, 1%); }
   }
 
   /* ------------------------------------------------------------------ */

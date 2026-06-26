@@ -18,7 +18,7 @@ export async function FeaturedProjects({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-12 md:px-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeader
             kicker={t("home.featuredProjectsKicker")}
@@ -35,8 +35,8 @@ export async function FeaturedProjects({ locale }: { locale: Locale }) {
           </Button>
         </div>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.slice(0, 3).map((p) => (
+        <div className="mt-14 grid gap-10 sm:grid-cols-2">
+          {projects.slice(0, 4).map((p) => (
             <ProjectCard key={p.id} project={p} locale={locale} />
           ))}
         </div>

@@ -33,7 +33,11 @@ export default async function LocaleLayout({
     getSiteSettings(),
   ]);
 
-  const themeCss = `:root{--background:${hexToHsl(settings.primaryColor)};--accent:${hexToHsl(settings.accentColor)};--ring:${hexToHsl(settings.accentColor)};}`;
+  // `--background` is the admin-customizable dark surface, so it must NOT leak
+  // into light mode — scope it to `:not(.light)` so the `.light` theme token in
+  // globals.css wins when the light theme is active. Accent/ring are brand
+  // colors shared by both themes, so they stay on plain `:root`.
+  const themeCss = `:root:not(.light){--background:${hexToHsl(settings.primaryColor)};}:root{--accent:${hexToHsl(settings.accentColor)};--ring:${hexToHsl(settings.accentColor)};}`;
 
   return (
     <div lang="en" dir="ltr" className="min-h-screen">

@@ -32,7 +32,7 @@ export function FaqAccordion({
               "surface overflow-hidden rounded-2xl transition-all duration-300",
               isOpen
                 ? "bg-accent/[0.05] shadow-[inset_0_18px_26px_-18px_hsl(var(--accent)/0.5)]"
-                : "hover:bg-white/[0.04]",
+                : "hover:bg-tint/[0.04]",
             )}
           >
             <button
@@ -41,12 +41,12 @@ export function FaqAccordion({
               aria-expanded={isOpen}
               className="flex w-full items-center justify-between gap-4 px-6 py-5 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
             >
-              <span className="text-base font-medium text-white md:text-lg">
+              <span className="text-base font-medium text-tint md:text-lg">
                 {pickField(item, locale, "question")}
               </span>
               <Plus
                 className={cn(
-                  "h-5 w-5 shrink-0 text-white/50 transition-transform duration-300",
+                  "h-5 w-5 shrink-0 text-tint/50 transition-transform duration-300",
                   isOpen && "rotate-45 text-accent",
                 )}
               />
@@ -60,7 +60,7 @@ export function FaqAccordion({
               )}
             >
               <div className="overflow-hidden">
-                <p className="text-pretty px-6 pb-6 text-sm text-white/60 md:text-base">
+                <p className="text-pretty px-6 pb-6 text-sm text-tint/60 md:text-base">
                   {pickField(item, locale, "answer")}
                 </p>
               </div>

@@ -19,7 +19,7 @@ const Calendar = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="grid h-[320px] w-[280px] place-items-center text-sm text-white/40">
+      <div className="grid h-[320px] w-[280px] place-items-center text-sm text-tint/40">
         Loading calendar…
       </div>
     ),
@@ -138,7 +138,7 @@ export function BookingFlow({
 
   return (
     <div className="surface mx-auto w-full max-w-3xl p-6 md:p-10">
-      <div className="mb-8 flex items-center justify-between gap-4 text-xs uppercase tracking-wide text-white/40">
+      <div className="mb-8 flex items-center justify-between gap-4 text-xs uppercase tracking-wide text-tint/40">
         {steps.slice(0, 4).map((s, i) => (
           <div key={s} className="flex flex-1 items-center gap-2">
             <div
@@ -147,17 +147,17 @@ export function BookingFlow({
                 i < stepIndex
                   ? "border-accent bg-accent text-accent-foreground"
                   : i === stepIndex
-                  ? "border-white bg-white text-black"
-                  : "border-white/[0.08] bg-white/[0.02] text-white/50",
+                  ? "border-tint bg-tint text-background"
+                  : "border-tint/[0.08] bg-tint/[0.02] text-tint/50",
               )}
             >
               {i < stepIndex ? <Check className="h-3.5 w-3.5" /> : i + 1}
             </div>
-            <span className={cn("hidden sm:inline", i === stepIndex && "text-white")}>
+            <span className={cn("hidden sm:inline", i === stepIndex && "text-tint")}>
               {t(`steps.${s}`)}
             </span>
             {i < 3 ? (
-              <div className="ms-2 hidden h-px flex-1 bg-white/10 md:block" />
+              <div className="ms-2 hidden h-px flex-1 bg-tint/10 md:block" />
             ) : null}
           </div>
         ))}
@@ -182,10 +182,10 @@ export function BookingFlow({
                     setStep("date");
                   }}
                   className={cn(
-                    "group flex items-start gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-start transition hover:bg-white/[0.05]",
+                    "group flex items-start gap-4 rounded-2xl border border-tint/[0.08] bg-tint/[0.02] p-5 text-start transition hover:bg-tint/[0.05]",
                   )}
                 >
-                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.06] text-accent">
+                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-tint/[0.06] text-accent">
                     <Clock className="h-5 w-5" />
                   </div>
                   <div className="flex-1">
@@ -193,15 +193,15 @@ export function BookingFlow({
                       <div className="text-base font-medium">
                         {pickField(m, locale, "name")}
                       </div>
-                      <div className="text-xs text-white/50">
+                      <div className="text-xs text-tint/50">
                         {m.durationMinutes}m
                       </div>
                     </div>
-                    <p className="mt-1 text-sm text-white/55">
+                    <p className="mt-1 text-sm text-tint/55">
                       {pickField(m, locale, "description")}
                     </p>
                   </div>
-                  <ArrowRight className="mt-1 h-4 w-4 text-white/30 transition group-hover:text-white" />
+                  <ArrowRight className="mt-1 h-4 w-4 text-tint/30 transition group-hover:text-tint" />
                 </button>
               ))}
             </div>
@@ -228,7 +228,7 @@ export function BookingFlow({
           {step === "time" && meetingType && date && (
             <div className="flex flex-col gap-4">
               <BackButton onClick={() => setStep("date")} label={tCommon("back")} />
-              <div className="flex items-center gap-2 text-sm text-white/70">
+              <div className="flex items-center gap-2 text-sm text-tint/70">
                 <CalendarIcon className="h-4 w-4" />
                 {format(date, "EEEE, MMMM d")}
               </div>
@@ -237,12 +237,12 @@ export function BookingFlow({
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div
                       key={i}
-                      className="h-12 animate-pulse rounded-xl bg-white/[0.03]"
+                      className="h-12 animate-pulse rounded-xl bg-tint/[0.03]"
                     />
                   ))}
                 </div>
               ) : slots.length === 0 ? (
-                <div className="surface p-6 text-center text-sm text-white/60">
+                <div className="surface p-6 text-center text-sm text-tint/60">
                   {t("noSlots")}
                 </div>
               ) : (
@@ -255,8 +255,8 @@ export function BookingFlow({
                         setStep("details");
                       }}
                       className={cn(
-                        "rounded-xl border border-white/[0.08] bg-white/[0.02] py-3 text-sm transition hover:border-white/30 hover:bg-white/[0.05]",
-                        time === s.time && "border-white bg-white text-black",
+                        "rounded-xl border border-tint/[0.08] bg-tint/[0.02] py-3 text-sm transition hover:border-tint/30 hover:bg-tint/[0.05]",
+                        time === s.time && "border-tint bg-tint text-background",
                       )}
                     >
                       {s.time}
@@ -278,11 +278,11 @@ export function BookingFlow({
             >
               <BackButton onClick={() => setStep("time")} label={tCommon("back")} />
 
-              <div className="surface p-4 text-sm text-white/70">
-                <div className="font-medium text-white">
+              <div className="surface p-4 text-sm text-tint/70">
+                <div className="font-medium text-tint">
                   {pickField(meetingType, locale, "name")} · {meetingType.durationMinutes}m
                 </div>
-                <div className="text-white/60">
+                <div className="text-tint/60">
                   {format(date, "EEEE, MMMM d")} · {time}
                 </div>
               </div>
@@ -345,7 +345,7 @@ export function BookingFlow({
               <h3 className="h-display text-2xl font-semibold">
                 {t("confirmedTitle")}
               </h3>
-              <p className="max-w-md text-sm text-white/60">{t("confirmedSubtitle")}</p>
+              <p className="max-w-md text-sm text-tint/60">{t("confirmedSubtitle")}</p>
               <Button variant="outline" onClick={reset}>
                 {t("anotherBooking")}
               </Button>
@@ -382,7 +382,7 @@ function BackButton({ onClick, label }: { onClick: () => void; label: string }) 
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex w-fit items-center gap-1.5 text-xs text-white/60 hover:text-white"
+      className="inline-flex w-fit items-center gap-1.5 text-xs text-tint/60 hover:text-tint"
     >
       <ArrowLeft className="h-3.5 w-3.5" />
       {label}

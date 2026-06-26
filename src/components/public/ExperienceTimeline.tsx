@@ -18,13 +18,13 @@ export async function ExperienceTimeline({ locale }: { locale: Locale }) {
           title="Selected experience"
         />
         <Stagger className="mt-14">
-          <ol className="relative ms-3 border-s border-white/[0.08]">
+          <ol className="relative ms-3 border-s border-tint/[0.08]">
             {experiences.map((e) => (
               <li key={e.id} className="ps-8 pb-12 last:pb-0">
-                <span className="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white/20 bg-accent" />
+                <span className="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-tint/20 bg-accent" />
                 <StaggerItem>
                   <div className="surface p-6">
-                    <div className="text-xs uppercase tracking-wide text-white/40">
+                    <div className="text-xs uppercase tracking-wide text-tint/40">
                       {formatMonthYear(e.startDate, locale)} —{" "}
                       {e.isCurrent
                         ? t("common.present")
@@ -32,15 +32,15 @@ export async function ExperienceTimeline({ locale }: { locale: Locale }) {
                     </div>
                     <h3 className="h-display mt-2 text-lg font-semibold">
                       {pickField(e, locale, "role")}{" "}
-                      <span className="font-normal text-white/50">· {e.company}</span>
+                      <span className="font-normal text-tint/50">· {e.company}</span>
                     </h3>
                     {pickField(e, locale, "location") ? (
-                      <div className="mt-1 text-sm text-white/40">
+                      <div className="mt-1 text-sm text-tint/40">
                         {pickField(e, locale, "location")}
                       </div>
                     ) : null}
                     {pickField(e, locale, "description") ? (
-                      <p className="mt-3 text-sm text-white/65">
+                      <p className="mt-3 text-sm text-tint/65">
                         {pickField(e, locale, "description")}
                       </p>
                     ) : null}

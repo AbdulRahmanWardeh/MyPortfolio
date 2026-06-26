@@ -27,7 +27,7 @@ export function FooterEmail({ email }: { email: string }) {
       type="button"
       onClick={copy}
       aria-label={`Copy ${email}`}
-      className="group inline-flex items-center gap-3 rounded-full border border-white/[0.10] bg-white/[0.03] px-5 py-3 text-sm font-medium text-white/90 transition hover:border-white/30 hover:bg-white hover:text-black"
+      className="group inline-flex items-center gap-3 rounded-full border border-tint/[0.12] bg-tint/[0.04] px-5 py-3 text-sm font-medium text-tint/80 transition hover:border-tint/40 hover:bg-tint hover:text-[rgb(var(--footer-surface))]"
     >
       <span>{email}</span>
       {copied ? (

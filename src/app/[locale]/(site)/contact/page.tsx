@@ -42,7 +42,7 @@ export default async function ContactPage({
 
   return (
     <section className="pb-32 pt-24 md:pt-32">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-12 md:px-24">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <h1 className="h-display text-balance text-4xl font-semibold md:text-6xl">
@@ -50,7 +50,7 @@ export default async function ContactPage({
             </h1>
           </Reveal>
           <Reveal delay={0.05}>
-            <p className="mt-4 text-pretty text-base text-white/60 md:text-lg">
+            <p className="mt-4 text-pretty text-base text-tint/60 md:text-lg">
               {t("contact.subtitle")}
             </p>
           </Reveal>

@@ -14,9 +14,9 @@ export async function ContactCtaSection({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-12 md:px-24">
         <Reveal>
-          <div className="relative isolate overflow-hidden rounded-3xl border border-white/[0.10] bg-[#08070c] px-8 py-14 md:px-16 md:py-20">
+          <div className="relative isolate overflow-hidden rounded-3xl border border-tint/[0.10] bg-white px-8 py-14 md:px-16 md:py-20 dark:bg-[#08070c]">
             {/* Brand outline mark, bleeding off the side opposite the text */}
             <svg
               aria-hidden
@@ -56,7 +56,7 @@ export async function ContactCtaSection({ locale }: { locale: Locale }) {
               <h2 className="h-display text-balance text-3xl font-semibold md:text-5xl">
                 {pickField(cta, locale, "headline")}
               </h2>
-              <p className="mt-4 text-pretty text-base text-white/70 md:text-lg">
+              <p className="mt-4 text-pretty text-base text-tint/70 md:text-lg">
                 {pickField(cta, locale, "subtitle")}
               </p>
               <div className="mt-8">

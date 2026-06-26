@@ -22,9 +22,9 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-stretch">
+      <div className="mx-auto grid max-w-7xl gap-12 px-12 md:px-24 lg:grid-cols-[1fr_1.2fr] lg:items-stretch">
         <Reveal className="relative lg:h-full">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.10] lg:aspect-auto lg:h-full lg:min-h-[500px]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-tint/[0.10] lg:aspect-auto lg:h-full lg:min-h-[500px]">
             {about.profileImage ? (
               <Image
                 src={about.profileImage}
@@ -35,7 +35,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
                 className="object-cover"
               />
             ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-tint/[0.05] to-transparent" />
             )}
           </div>
         </Reveal>
@@ -50,7 +50,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="max-w-2xl text-pretty text-base text-white/60 md:text-lg">
+            <p className="max-w-2xl text-pretty text-base text-tint/60 md:text-lg">
               {pickField(about, locale, "biography")}
             </p>
           </Reveal>
@@ -61,7 +61,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
                 <StaggerItem key={i}>
                   <div className="surface h-full rounded-xl p-5">
                     <div className="text-sm font-medium">{h.titleEn}</div>
-                    <p className="mt-2 text-xs text-white/50">{h.descEn}</p>
+                    <p className="mt-2 text-xs text-tint/50">{h.descEn}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -70,19 +70,17 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
 
           <Reveal delay={0.25}>
             <div className="mt-2 flex flex-wrap items-center gap-3">
-              {about.resumeUrl ? (
-                <Button asChild variant="accent" size="default" className="w-fit h-12">
-                  <a
-                    href={about.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download
-                  >
-                    Download Resume
-                    <Download className="h-4 w-4" />
-                  </a>
-                </Button>
-              ) : null}
+              <Button asChild variant="accent" size="default" className="w-fit h-12">
+                <a
+                  href={about.resumeUrl ?? "/resume.pdf"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                >
+                  Download Resume
+                  <Download className="h-4 w-4" />
+                </a>
+              </Button>
               <Button asChild variant="outline" size="default" className="w-fit h-12">
                 <Link href="/about">
                   Read more

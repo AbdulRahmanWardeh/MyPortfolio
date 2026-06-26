@@ -44,8 +44,8 @@ export function CarouselControls({
             className={cn(
               "h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               index === i
-                ? "w-6 bg-white"
-                : "w-1.5 bg-white/30 hover:bg-white/50",
+                ? "w-6 bg-tint"
+                : "w-1.5 bg-tint/30 hover:bg-tint/50",
             )}
           />
         ))}
@@ -82,7 +82,7 @@ function CarouselArrow({
       aria-label={direction === "prev" ? "Previous" : "Next"}
       disabled={disabled}
       onClick={onClick}
-      className="grid h-10 w-10 place-items-center rounded-full border border-white/[0.10] bg-white/[0.03] text-white/70 transition-all hover:border-white/30 hover:bg-white hover:text-black active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 disabled:hover:border-white/[0.10] disabled:hover:bg-white/[0.03] disabled:hover:text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="grid h-10 w-10 place-items-center rounded-full border border-tint/[0.10] bg-tint/[0.03] text-tint/70 transition-all hover:border-tint/30 hover:bg-tint hover:text-background active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 disabled:hover:border-tint/[0.10] disabled:hover:bg-tint/[0.03] disabled:hover:text-tint/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <Icon className="h-4 w-4" />
     </button>

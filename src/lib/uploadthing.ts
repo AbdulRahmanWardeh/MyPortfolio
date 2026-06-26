@@ -24,6 +24,16 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ file }) => {
       return { url: file.ufsUrl ?? file.url };
     }),
+
+  adminResume: f({ pdf: { maxFileSize: "8MB", maxFileCount: 1 } })
+    .middleware(async () => {
+      const session = await auth();
+      if (!session?.user?.id) throw new UploadThingError("UNAUTHORIZED");
+      return { userId: session.user.id };
+    })
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

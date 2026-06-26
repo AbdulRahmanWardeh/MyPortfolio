@@ -11,7 +11,7 @@ export async function Faq({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-12 md:px-24">
         <SectionHeader
           align="center"
           kicker={t("home.faqKicker")}

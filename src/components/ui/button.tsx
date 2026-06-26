@@ -9,23 +9,23 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-white text-black hover:bg-white/90",
+          "bg-tint text-background hover:bg-tint/90",
         accent:
           "bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_8px_30px_-12px_hsl(var(--accent)/0.6)]",
         outline:
-          "border border-white/15 bg-white/0 text-white hover:scale-[1.03] hover:border-white/30 hover:bg-white hover:text-black",
+          "border border-tint/15 bg-tint/0 text-tint hover:scale-[1.03] hover:border-tint/30 hover:bg-tint hover:text-background",
         ghost:
-          "text-white/80 hover:text-white hover:bg-white/[0.04]",
+          "text-tint/80 hover:text-tint hover:bg-tint/[0.04]",
         secondary:
-          "bg-white/[0.06] text-white hover:bg-white/[0.10]",
+          "bg-tint/[0.06] text-tint hover:bg-tint/[0.10]",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        link: "text-white underline-offset-4 hover:underline active:scale-100",
+        link: "text-tint underline-offset-4 hover:underline active:scale-100",
       },
       size: {
         default: "h-11 px-5",
         sm: "h-9 px-4 text-xs",
-        lg: "h-12 px-7 text-base",
+        lg: "h-12 px-7 text-sm",
         icon: "h-10 w-10",
       },
     },

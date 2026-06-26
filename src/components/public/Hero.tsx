@@ -33,7 +33,7 @@ export async function Hero({ locale }: { locale: Locale }) {
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 text-center">
         <Reveal delay={0.06}>
           <h1 className="h-display text-[clamp(3.5rem,11vw,7rem)] font-semibold leading-[0.9] tracking-tight">
-            <span className="block font-light text-white">
+            <span className="block font-light text-tint">
               Hello, I&apos;m
             </span>
             <span className="block md:whitespace-nowrap">
@@ -50,17 +50,17 @@ export async function Hero({ locale }: { locale: Locale }) {
 
         {stats.length > 0 ? (
           <Reveal delay={0.18} className="mt-10 w-full md:mt-12">
-            <dl className="mx-auto grid w-full max-w-3xl grid-cols-3 divide-x divide-white/[0.08] sm:gap-4 sm:divide-x-0">
+            <dl className="mx-auto grid w-full max-w-3xl grid-cols-3 divide-x divide-tint/[0.08] sm:gap-4 sm:divide-x-0">
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="flex flex-col items-center justify-center gap-2 px-3 py-4 sm:rounded-xl sm:border sm:border-white/[0.10] sm:bg-white/[0.04] sm:px-5 sm:py-6 md:py-7"
+                  className="flex flex-col items-center justify-center gap-2 px-3 py-4 sm:rounded-xl sm:border sm:border-tint/[0.10] sm:bg-tint/[0.04] sm:px-5 sm:py-6 md:py-7"
                 >
-                  <dt className="h-display text-2xl font-bold leading-none text-white sm:text-3xl md:text-5xl">
+                  <dt className="h-display text-2xl font-bold leading-none text-tint sm:text-3xl md:text-5xl">
                     {s.value}
                     <span className="text-accent">+</span>
                   </dt>
-                  <dd className="text-center text-[0.6rem] uppercase tracking-[0.15em] text-white/55 sm:text-[0.7rem] md:text-xs">
+                  <dd className="text-center text-[0.6rem] uppercase tracking-[0.15em] text-tint/55 sm:text-[0.7rem] md:text-xs">
                     {s.label}
                   </dd>
                 </div>

@@ -59,7 +59,7 @@ export function CaseStudyRenderer({
         <Reveal key={section.id}>
           <section id={`section-${idx + 1}`} className="scroll-mt-32">
             <div className="mb-6 flex items-baseline gap-4">
-              <span className="font-mono text-xs text-white/30">
+              <span className="font-mono text-xs text-tint/30">
                 {String(idx + 1).padStart(2, "0")}
               </span>
               <h2 className="h-display text-2xl font-semibold md:text-3xl">
@@ -68,7 +68,7 @@ export function CaseStudyRenderer({
             </div>
 
             {pickField(section, locale, "body") ? (
-              <p className="max-w-3xl whitespace-pre-line text-pretty text-base text-white/70 md:text-lg">
+              <p className="max-w-3xl whitespace-pre-line text-pretty text-base text-tint/70 md:text-lg">
                 {pickField(section, locale, "body")}
               </p>
             ) : null}
@@ -95,7 +95,7 @@ function BlockRenderer({ block }: { block: Block }) {
           {block.data.items?.map((m, i) => (
             <div key={i} className="surface p-6">
               <div className="text-3xl font-semibold tracking-tight">{m.value}</div>
-              <div className="mt-1 text-sm text-white/55">{m.labelEn}</div>
+              <div className="mt-1 text-sm text-tint/55">{m.labelEn}</div>
             </div>
           ))}
         </div>
@@ -107,7 +107,7 @@ function BlockRenderer({ block }: { block: Block }) {
           {block.data.images?.map((img, i) => (
             <div
               key={i}
-              className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.06]"
+              className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-tint/[0.06]"
             >
               <Image
                 src={img.url}
@@ -123,18 +123,18 @@ function BlockRenderer({ block }: { block: Block }) {
 
     case "image":
       return (
-        <figure className="overflow-hidden rounded-2xl border border-white/[0.06]">
+        <figure className="overflow-hidden rounded-2xl border border-tint/[0.06]">
           <div className="relative aspect-[16/10]">
             <Image
               src={block.data.url}
               alt=""
               fill
-              sizes="100vw"
+              sizes="(min-width:1280px) 80vw, (min-width:768px) 90vw, 100vw"
               className="object-cover"
             />
           </div>
           {block.data.captionEn ? (
-            <figcaption className="px-4 py-3 text-xs text-white/50">
+            <figcaption className="px-4 py-3 text-xs text-tint/50">
               {block.data.captionEn}
             </figcaption>
           ) : null}
@@ -150,12 +150,12 @@ function BlockRenderer({ block }: { block: Block }) {
           ].map((b, i) => (
             <figure
               key={i}
-              className="overflow-hidden rounded-2xl border border-white/[0.06]"
+              className="overflow-hidden rounded-2xl border border-tint/[0.06]"
             >
               <div className="relative aspect-[4/3]">
-                <Image src={b.url} alt={b.label} fill className="object-cover" />
+                <Image src={b.url} alt={b.label} fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover" />
               </div>
-              <figcaption className="px-4 py-3 text-xs uppercase tracking-wide text-white/40">
+              <figcaption className="px-4 py-3 text-xs uppercase tracking-wide text-tint/40">
                 {b.label}
               </figcaption>
             </figure>
@@ -165,7 +165,7 @@ function BlockRenderer({ block }: { block: Block }) {
 
     case "bullets":
       return (
-        <ul className="ms-4 list-disc space-y-2 text-base text-white/75">
+        <ul className="ms-4 list-disc space-y-2 text-base text-tint/75">
           {block.data.items?.map((it, i) => (
             <li key={i}>{it.en}</li>
           ))}
@@ -174,10 +174,10 @@ function BlockRenderer({ block }: { block: Block }) {
 
     case "quote":
       return (
-        <blockquote className="surface p-8 text-lg italic text-white/85">
+        <blockquote className="surface p-8 text-lg italic text-tint/85">
           <p>&ldquo;{block.data.textEn}&rdquo;</p>
           {block.data.authorEn ? (
-            <footer className="mt-4 text-sm not-italic text-white/50">
+            <footer className="mt-4 text-sm not-italic text-tint/50">
               — {block.data.authorEn}
             </footer>
           ) : null}
@@ -190,7 +190,7 @@ function BlockRenderer({ block }: { block: Block }) {
           {block.data.items?.map((c, i) => (
             <div key={i} className="surface p-6">
               <h4 className="text-sm font-medium">{c.titleEn}</h4>
-              <p className="mt-2 text-sm text-white/55">{c.descEn}</p>
+              <p className="mt-2 text-sm text-tint/55">{c.descEn}</p>
             </div>
           ))}
         </div>

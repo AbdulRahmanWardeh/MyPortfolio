@@ -53,7 +53,7 @@ export function ProjectFilters({ projects, locale }: Props) {
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+          <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-tint/40" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -69,8 +69,8 @@ export function ProjectFilters({ projects, locale }: Props) {
               className={cn(
                 "rounded-full border px-3.5 py-1.5 text-xs transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 category === c
-                  ? "border-white bg-white text-black"
-                  : "border-white/[0.08] bg-white/[0.02] text-white/70 hover:border-white/20 hover:bg-white/[0.06] hover:text-white",
+                  ? "border-tint bg-tint text-background"
+                  : "border-tint/[0.08] bg-tint/[0.02] text-tint/70 hover:border-tint/20 hover:bg-tint/[0.06] hover:text-tint",
               )}
             >
               {c === "all" ? tCommon("all") : c}
@@ -80,7 +80,7 @@ export function ProjectFilters({ projects, locale }: Props) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="surface p-12 text-center text-sm text-white/60">
+        <div className="surface p-12 text-center text-sm text-tint/60">
           {tCommon("noResults")}
         </div>
       ) : (

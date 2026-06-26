@@ -10,6 +10,8 @@ import { Reveal } from "@/components/public/Motion";
 import { Eyebrow } from "@/components/public/Eyebrow";
 import { CaseStudyRenderer } from "@/components/public/CaseStudyRenderer";
 
+export const revalidate = 60;
+
 export async function generateMetadata({
   params,
 }: {
@@ -48,7 +50,7 @@ export default async function CaseStudyPage({
       <div className="mx-auto max-w-5xl px-6">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs text-tint/60 hover:text-tint"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           {t("caseStudy.backToCaseStudies")}
@@ -63,14 +65,14 @@ export default async function CaseStudyPage({
           </h1>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="mt-4 max-w-3xl text-pretty text-base text-white/65 md:text-lg">
+          <p className="mt-4 max-w-3xl text-pretty text-base text-tint/65 md:text-lg">
             {pickField(cs, l, "summary")}
           </p>
         </Reveal>
 
         {cs.coverImage ? (
           <Reveal delay={0.15}>
-            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/[0.10]">
+            <div className="relative mt-12 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-tint/[0.10]">
               <Image
                 src={cs.coverImage}
                 alt={pickField(cs, l, "title")}
@@ -109,8 +111,8 @@ export default async function CaseStudyPage({
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="text-xs uppercase tracking-wide text-white/40">{label}</div>
-      <div className="mt-1 text-sm text-white/85">{value}</div>
+      <div className="text-xs uppercase tracking-wide text-tint/40">{label}</div>
+      <div className="mt-1 text-sm text-tint/85">{value}</div>
     </div>
   );
 }
