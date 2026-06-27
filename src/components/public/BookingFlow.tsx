@@ -185,7 +185,7 @@ export function BookingFlow({
                     "group flex items-start gap-4 rounded-2xl border border-tint/[0.08] bg-tint/[0.02] p-5 text-start transition hover:bg-tint/[0.05]",
                   )}
                 >
-                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-tint/[0.06] text-accent">
+                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent/10 text-accent">
                     <Clock className="h-5 w-5" />
                   </div>
                   <div className="flex-1">

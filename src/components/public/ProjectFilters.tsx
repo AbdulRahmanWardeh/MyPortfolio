@@ -84,7 +84,7 @@ export function ProjectFilters({ projects, locale }: Props) {
           {tCommon("noResults")}
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2">
           {filtered.map((p) => (
             <ProjectCard key={p.id} project={p} locale={locale} />
           ))}

@@ -34,7 +34,7 @@ export function ServiceCard({ service, locale, labels, ctaIcon }: ServiceCardPro
 
   return (
     <div className="surface flex h-full flex-col gap-5 p-7 transition hover:bg-tint/[0.04]">
-      <div className="grid h-10 w-10 place-items-center rounded-xl border border-tint/[0.08] bg-tint/[0.03] text-accent">
+      <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent/10 text-accent">
         <Icon className="h-5 w-5" />
       </div>
       <div>

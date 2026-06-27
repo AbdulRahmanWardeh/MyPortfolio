@@ -81,7 +81,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
                   <Download className="h-4 w-4" />
                 </a>
               </Button>
-              <Button asChild variant="outline" size="default" className="w-fit h-12">
+              <Button asChild variant="default" size="default" className="w-fit h-12">
                 <Link href="/about">
                   Read more
                   <DynamicIcon name={settings.ctaIcon} className="h-4 w-4" />
