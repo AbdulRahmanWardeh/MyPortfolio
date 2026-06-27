@@ -37,14 +37,14 @@ export async function ContactCtaSection({ locale }: { locale: Locale }) {
               className="pointer-events-none absolute inset-0 -z-10"
               style={{
                 background:
-                  "radial-gradient(80% 70% at 50% 108%, hsl(var(--accent)/0.40), transparent 62%)",
+                  "radial-gradient(80% 70% at 50% 108%, hsl(var(--accent)/0.22), transparent 62%)",
               }}
             />
             <div
               className="pointer-events-none absolute bottom-0 left-1/2 -z-10 h-56 w-[80%] -translate-x-1/2 translate-y-1/2 rounded-[50%]"
               style={{
                 background: "hsl(var(--accent))",
-                opacity: 0.5,
+                opacity: 0.28,
                 filter: "blur(90px)",
               }}
             />

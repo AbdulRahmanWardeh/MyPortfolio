@@ -9,9 +9,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-tint text-background hover:bg-tint/90",
+          "btn-tint-3d",
         accent:
-          "bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_8px_30px_-12px_hsl(var(--accent)/0.6)]",
+          "btn-accent-3d text-accent-foreground",
         outline:
           "border border-tint/15 bg-tint/0 text-tint hover:scale-[1.03] hover:border-tint/30 hover:bg-tint hover:text-background",
         ghost:

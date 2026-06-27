@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FileText, X } from "lucide-react";
+import { FileText, X, Loader2 } from "lucide-react";
 import { UploadDropzone } from "@/lib/uploadthing-client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,7 @@ interface Props {
 
 export function ResumeUploadField({ defaultValue }: Props) {
   const [value, setValue] = React.useState(defaultValue ?? "");
+  const [uploading, setUploading] = React.useState(false);
 
   return (
     <div className="flex flex-col gap-3">
@@ -34,7 +35,9 @@ export function ResumeUploadField({ defaultValue }: Props) {
       ) : (
         <UploadDropzone
           endpoint="adminResume"
+          onUploadBegin={() => setUploading(true)}
           onClientUploadComplete={(res) => {
+            setUploading(false);
             const url = res?.[0]?.serverData?.url ?? res?.[0]?.ufsUrl ?? res?.[0]?.url;
             if (url) {
               setValue(url);
@@ -42,27 +45,30 @@ export function ResumeUploadField({ defaultValue }: Props) {
             }
           }}
           onUploadError={(err) => {
+            setUploading(false);
             toast.error(err.message ?? "Upload failed");
           }}
           appearance={{
             container:
-              "rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 ut-ready:bg-white/[0.02] ut-uploading:bg-white/[0.04]",
+              "select-none rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 ut-ready:bg-white/[0.02] ut-uploading:bg-white/[0.04]",
             label: "text-sm text-white/70",
-            allowedContent: "text-xs text-white/40",
+            allowedContent: "text-xs text-white/60",
             button:
-              "rounded-full bg-white text-black px-5 h-10 text-sm font-medium hover:bg-white/90",
+              "select-none rounded-full !bg-white !text-black px-5 h-10 text-sm font-medium hover:!bg-white/90 focus-within:ring-2 focus-within:!ring-white/30 focus-within:!ring-offset-0",
           }}
           content={{
+            uploadIcon: uploading ? (
+              <Loader2 className="h-6 w-6 animate-spin text-white/60" />
+            ) : (
+              <FileText className="h-6 w-6 text-white/50" />
+            ),
             label: () => (
-              <div className="flex flex-col items-center gap-2 text-center">
-                <FileText className="h-6 w-6 text-white/50" />
-                <span>Drag & drop or click to upload PDF</span>
-              </div>
+              <span>{uploading ? "Uploading…" : "Drag & drop or click to upload PDF"}</span>
             ),
           }}
         />
       )}
-      <div className="flex items-center gap-2 text-xs text-white/40">
+      <div className="flex items-center gap-2 text-xs text-white/60">
         <span>Or paste URL:</span>
         <Input
           value={value}

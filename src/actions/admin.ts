@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
@@ -22,6 +22,15 @@ function int(v: FormDataEntryValue | null, def = 0): number {
 }
 
 function revalidateAll() {
+  // The public data layer (lib/content.ts, lib/seo.ts) wraps every query in
+  // unstable_cache, whose entries are keyed by their *tags* — not by route.
+  // revalidatePath only clears the rendered-route cache, so without these tag
+  // purges an admin edit would keep serving the stale cached value until the
+  // 60s revalidate timer lapsed. Purge the data-cache tags so saves show up
+  // immediately. ("content" covers all content.ts queries; "settings" covers
+  // getSiteSettings used by SEO/branding.)
+  revalidateTag("content");
+  revalidateTag("settings");
   revalidatePath("/", "layout");
 }
 

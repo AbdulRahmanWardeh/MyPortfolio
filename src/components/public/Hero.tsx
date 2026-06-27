@@ -77,7 +77,7 @@ export async function Hero({ locale }: { locale: Locale }) {
                 <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 " />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="default" size="lg">
               <Link href={hero.secondaryCtaHref}>
                 {pickField(hero, locale, "secondaryCtaLabel")}
                 <DynamicIcon name={settings.ctaIcon} className="h-4 w-4 " />

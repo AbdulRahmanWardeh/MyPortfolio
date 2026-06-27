@@ -3,8 +3,61 @@
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DynamicIcon, COMMON_ICONS } from "@/lib/hugeicon";
 import { cn } from "@/lib/utils";
+
+type IconComp = React.FC<{ className?: string }>;
+
+/** Quick-pick icons (real Hugeicons React export names). */
+const COMMON_ICONS = [
+  "ArrowUpRight02Icon",
+  "ArrowRight02Icon",
+  "ArrowRight01Icon",
+  "ArrowDown02Icon",
+  "Mail01Icon",
+  "Calendar03Icon",
+  "Clock01Icon",
+  "SparklesIcon",
+  "Tick02Icon",
+  "PlusSignIcon",
+  "StarIcon",
+  "FavouriteIcon",
+  "Search01Icon",
+  "Globe02Icon",
+  "PaintBoardIcon",
+  "PencilEdit02Icon",
+];
+
+/**
+ * Live preview of any Hugeicons icon, loaded on demand from the per-icon
+ * subpath (`hugeicons-react/icons/<Name>`). Only previewed icons are fetched,
+ * so the admin bundle never pulls the full ~40MB set. Unknown / invalid names
+ * render nothing.
+ */
+function PreviewIcon({ name, className }: { name?: string; className?: string }) {
+  const [Icon, setIcon] = React.useState<IconComp | null>(null);
+
+  React.useEffect(() => {
+    const key = (name ?? "").trim();
+    // Hugeicons export names are PascalCase alphanumerics — guard the specifier.
+    if (!key || !/^[A-Za-z0-9]+$/.test(key)) {
+      setIcon(null);
+      return;
+    }
+    let active = true;
+    import(`hugeicons-react/icons/${key}`)
+      .then((m: Record<string, IconComp | undefined>) => {
+        if (active) setIcon(() => m[key] ?? m.default ?? null);
+      })
+      .catch(() => {
+        if (active) setIcon(null);
+      });
+    return () => {
+      active = false;
+    };
+  }, [name]);
+
+  return Icon ? <Icon className={className} /> : null;
+}
 
 export function CtaIconField({ defaultValue }: { defaultValue?: string }) {
   const [value, setValue] = React.useState(defaultValue ?? "");
@@ -21,11 +74,11 @@ export function CtaIconField({ defaultValue }: { defaultValue?: string }) {
           className="font-mono text-xs"
         />
         <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/[0.10] bg-white/[0.04]">
-          <DynamicIcon name={value} className="h-5 w-5" />
+          <PreviewIcon name={value} className="h-5 w-5" />
         </div>
       </div>
       <p className="text-xs text-white/45">
-        Leave empty to hide icons on every CTA. Set a Hugeicons React export name (e.g.
+        Leave empty to hide icons on every CTA. Set any Hugeicons React export name (e.g.
         <code className="mx-1 rounded bg-white/[0.06] px-1">ArrowUpRight02Icon</code>)
         and it will appear on Hero, About, Contact CTA, navbar Book a Meeting, View all, etc.
         Browse names at{" "}
@@ -55,7 +108,7 @@ export function CtaIconField({ defaultValue }: { defaultValue?: string }) {
                 : "border-white/[0.08] bg-white/[0.02] text-white/65 hover:bg-white/[0.06] hover:text-white",
             )}
           >
-            <DynamicIcon name={name} className="h-4 w-4" />
+            <PreviewIcon name={name} className="h-4 w-4" />
           </button>
         ))}
       </div>

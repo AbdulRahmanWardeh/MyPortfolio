@@ -58,24 +58,25 @@ export function ImageUploadField({
           }}
           appearance={{
             container:
-              "rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 ut-ready:bg-white/[0.02] ut-uploading:bg-white/[0.04]",
+              "select-none rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 ut-ready:bg-white/[0.02] ut-uploading:bg-white/[0.04]",
             label: "text-sm text-white/70",
-            allowedContent: "text-xs text-white/40",
+            allowedContent: "text-xs text-white/60",
             button:
-              "rounded-full bg-white text-black px-5 h-10 text-sm font-medium hover:bg-white/90",
+              "select-none rounded-full !bg-white !text-black px-5 h-10 text-sm font-medium hover:!bg-white/90 focus-within:ring-2 focus-within:!ring-white/30 focus-within:!ring-offset-0",
           }}
           content={{
-            label: () => (
-              <div className="flex flex-col items-center gap-2 text-center">
-                <ImagePlus className="h-6 w-6 text-white/50" />
-                <span>Drag & drop or click to choose</span>
-              </div>
+            uploadIcon: uploading ? (
+              <Loader2 className="h-6 w-6 animate-spin text-white/60" />
+            ) : (
+              <ImagePlus className="h-6 w-6 text-white/50" />
             ),
-            uploadIcon: uploading ? <Loader2 className="h-5 w-5 animate-spin" /> : undefined,
+            label: () => (
+              <span>{uploading ? "Uploading…" : "Drag & drop or click to choose"}</span>
+            ),
           }}
         />
       )}
-      <div className="flex items-center gap-2 text-xs text-white/40">
+      <div className="flex items-center gap-2 text-xs text-white/60">
         <span>Or paste URL:</span>
         <Input
           value={value}

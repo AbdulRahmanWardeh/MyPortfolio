@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Menu02Icon } from "hugeicons-react";
-import { DynamicIcon } from "@/lib/hugeicon";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
@@ -30,7 +29,8 @@ export function Navbar({
   ctaIcon,
 }: {
   siteName: string;
-  ctaIcon?: string;
+  /** Pre-rendered CTA icon node (rendered on the server, see SiteLayout). */
+  ctaIcon?: React.ReactNode;
 }) {
   const t = useTranslations("nav");
   const pathname = usePathname();
@@ -53,10 +53,10 @@ export function Navbar({
     >
       <div
         className={cn(
-          "flex h-14 w-full max-w-[1060px] items-center justify-between gap-4 rounded-[999px] border px-3 transition-all md:grid md:h-16 md:grid-cols-[1fr_auto_1fr] md:px-5",
+          "flex h-14 w-full max-w-[1060px] items-center justify-between gap-4 rounded-[999px] border px-3 backdrop-blur-xl backdrop-saturate-150 transition-all md:grid md:h-16 md:grid-cols-[1fr_auto_1fr] md:px-5",
           scrolled
-            ? "border-tint/[0.10] bg-background/70 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]"
-            : "border-tint/[0.08] bg-tint/[0.03] backdrop-blur-md",
+            ? "border-tint/[0.14] bg-background/60 shadow-[inset_0_1px_0_rgb(var(--tint)/0.12),0_8px_24px_-16px_rgba(0,0,0,0.35)]"
+            : "border-tint/[0.10] bg-background/35 shadow-[inset_0_1px_0_rgb(var(--tint)/0.08)]",
         )}
       >
         <Link
@@ -99,12 +99,7 @@ export function Navbar({
           <Button asChild variant="accent" size="sm" className="hidden md:inline-flex">
             <Link href="/contact">
               {t("bookMeeting")}
-              {ctaIcon ? (
-                <DynamicIcon
-                  name={ctaIcon}
-                  className="h-3.5 w-3.5"
-                />
-              ) : null}
+              {ctaIcon}
             </Link>
           </Button>
 

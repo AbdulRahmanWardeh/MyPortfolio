@@ -5,7 +5,6 @@ import { getSiteSettings } from "@/lib/seo";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { SocialButtonsRow } from "./SocialIcons";
 import { FooterEmail } from "./FooterEmail";
-import { ArrowUpRight02Icon } from "hugeicons-react";
 import { Button } from "@/components/ui/button";
 import { FooterCyclingWord } from "./FooterCyclingWord";
 
@@ -79,7 +78,6 @@ export async function Footer({ locale }: { locale: Locale }) {
             <Button asChild variant="accent" size="default" className="w-fit">
               <Link href="/contact">
                 Book a meeting
-                <ArrowUpRight02Icon className="h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -111,7 +109,7 @@ export async function Footer({ locale }: { locale: Locale }) {
             ))}
           </div>
           <span className="text-xs text-tint/30">
-            {pickField(footer, locale, "copyright")} {new Date().getFullYear()} Abdulrahman Wardeh
+            {pickField(footer, locale, "copyright")}
           </span>
         </div>
       </div>
