@@ -3,7 +3,6 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
-    "caseStudies": "Case Studies",
     "services": "Services",
     "contact": "Contact",
     "bookMeeting": "Book a Meeting",
@@ -12,7 +11,6 @@
   "common": {
     "viewAll": "View all",
     "viewProject": "View project",
-    "readCaseStudy": "Read case study",
     "learnMore": "Learn more",
     "loading": "Loading…",
     "back": "Back",
@@ -37,8 +35,6 @@
   "home": {
     "featuredProjects": "Featured Projects",
     "featuredProjectsKicker": "Selected Work",
-    "caseStudiesKicker": "Deep Dives",
-    "caseStudies": "UX Case Studies",
     "skills": "Skills",
     "experience": "Experience",
     "testimonials": "What people say",
@@ -66,9 +62,6 @@
     "gallery": "Gallery",
     "moreProjects": "More projects",
     "backToProjects": "Back to projects"
-  },
-  "caseStudy": {
-    "backToCaseStudies": "All case studies"
   },
   "services": {
     "title": "Services",

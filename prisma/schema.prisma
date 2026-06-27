@@ -108,6 +108,7 @@ model Project {
   isPublished Boolean        @default(true)
   order       Int            @default(0)
   images      ProjectImage[]
+  sections    ProjectSection[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
@@ -127,35 +128,17 @@ model ProjectImage {
   @@index([projectId])
 }
 
+model ProjectSection {
+  id        String   @id @default(cuid())
+  projectId String
+  type      String   @default("CUSTOM")
+  order     Int      @default(0)
+  titleEn   String
+  bodyEn    String   @default("")
+  blocks    String   @default("[]")
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-model CaseStudy {
-  id          String             @id @default(cuid())
-  slug        String             @unique
-  titleEn     String
-  summaryEn   String
-  coverImage  String?
-  client      String?
-  roleEn      String             @default("Lead UX Designer")
-  timelineEn  String             @default("8 weeks")
-  isPublished Boolean            @default(true)
-  isFeatured  Boolean            @default(false)
-  order       Int                @default(0)
-  sections    CaseStudySection[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-}
-
-model CaseStudySection {
-  id          String    @id @default(cuid())
-  caseStudyId String
-  type        String    @default("CUSTOM")
-  order       Int       @default(0)
-  titleEn     String
-  bodyEn      String    @default("")
-  blocks      String    @default("[]")
-  caseStudy   CaseStudy @relation(fields: [caseStudyId], references: [id], onDelete: Cascade)
-
-  @@index([caseStudyId])
+  @@index([projectId])
 }
 
 model Service {

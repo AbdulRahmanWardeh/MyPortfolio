@@ -17,6 +17,7 @@ import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
 import { ProjectCard } from "@/components/public/ProjectCard";
+import { SectionRenderer } from "@/components/public/SectionRenderer";
 import { Button } from "@/components/ui/button";
 
 export const revalidate = 60;
@@ -169,6 +170,12 @@ export default async function ProjectDetailPage({
             ) : null}
           </div>
         </Reveal>
+
+        {project.sections.length > 0 ? (
+          <div className="mt-20">
+            <SectionRenderer sections={project.sections} locale={l} />
+          </div>
+        ) : null}
 
         {project.images.length > 0 ? (
           <div className="mt-16">

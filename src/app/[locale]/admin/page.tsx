@@ -2,7 +2,6 @@ import Link from "next/link";
 import { format } from "date-fns";
 import {
   Briefcase,
-  FileText,
   Calendar,
   Star,
   Wrench,
@@ -31,7 +30,6 @@ interface StatDef {
 
 const STATS: StatDef[] = [
   { key: "projects", label: "Projects", icon: Briefcase, href: "/admin/projects" },
-  { key: "caseStudies", label: "Case studies", icon: FileText, href: "/admin/case-studies" },
   { key: "services", label: "Services", icon: Wrench, href: "/admin/services" },
   { key: "experience", label: "Experience", icon: Users, href: "/admin/experience" },
   { key: "testimonials", label: "Testimonials", icon: Star, href: "/admin/testimonials" },
@@ -42,7 +40,6 @@ const QUICK_LINKS: { href: string; label: string }[] = [
   { href: "/admin/hero", label: "Edit Hero" },
   { href: "/admin/about", label: "Edit About" },
   { href: "/admin/projects", label: "Manage Projects" },
-  { href: "/admin/case-studies", label: "Case Studies" },
   { href: "/admin/services", label: "Services" },
   { href: "/admin/availability", label: "Availability" },
 ];

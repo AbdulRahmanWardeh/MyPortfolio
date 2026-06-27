@@ -6,7 +6,6 @@ const TTL = 30;
 
 export interface AdminCounts {
   projects: number;
-  caseStudies: number;
   services: number;
   experience: number;
   testimonials: number;
@@ -24,7 +23,6 @@ export const getAdminCounts = cache(
     async (): Promise<AdminCounts> => {
       const [
         projects,
-        caseStudies,
         services,
         experience,
         testimonials,
@@ -32,7 +30,6 @@ export const getAdminCounts = cache(
         pendingBookings,
       ] = await Promise.all([
         prisma.project.count(),
-        prisma.caseStudy.count(),
         prisma.service.count(),
         prisma.experience.count(),
         prisma.testimonial.count(),
@@ -41,7 +38,6 @@ export const getAdminCounts = cache(
       ]);
       return {
         projects,
-        caseStudies,
         services,
         experience,
         testimonials,

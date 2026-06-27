@@ -128,6 +128,7 @@ export const getProjectBySlug = cache((slug: string) =>
         where: { slug },
         include: {
           images: { orderBy: { order: "asc" } },
+          sections: { orderBy: { order: "asc" } },
         },
       }),
     ["project-by-slug", slug],

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
-type CaseStudySectionType =
+type ProjectSectionType =
   | "OVERVIEW" | "PROBLEM" | "GOAL" | "ROLE" | "TIMELINE" | "RESEARCH"
   | "INTERVIEWS" | "AFFINITY" | "PERSONAS" | "JOURNEY" | "FLOW"
   | "WIREFRAMES" | "DESIGN_SYSTEM" | "FINAL_UI" | "USABILITY"
@@ -254,6 +254,39 @@ async function main() {
 
   // -------- Projects --------
   await prisma.project.deleteMany();
+
+  // Section scaffolding for demo projects that get a full, case-study-style
+  // breakdown. Each section can carry rich JSON blocks (metrics, gallery,
+  // bullets, etc.) rendered by SectionRenderer on the public project page.
+  const defaultSectionTypes: ProjectSectionType[] = [
+    "OVERVIEW", "PROBLEM", "GOAL", "ROLE", "TIMELINE", "RESEARCH",
+    "INTERVIEWS", "AFFINITY", "PERSONAS", "JOURNEY", "FLOW",
+    "WIREFRAMES", "DESIGN_SYSTEM", "FINAL_UI", "USABILITY",
+    "ITERATIONS", "RESULTS", "LEARNINGS",
+  ];
+
+  const sectionTitles: Record<ProjectSectionType, string> = {
+    OVERVIEW: "Overview",
+    PROBLEM: "Problem",
+    GOAL: "Goal",
+    ROLE: "My Role",
+    TIMELINE: "Timeline",
+    RESEARCH: "Research",
+    INTERVIEWS: "User Interviews",
+    AFFINITY: "Affinity Mapping",
+    PERSONAS: "User Personas",
+    JOURNEY: "User Journey",
+    FLOW: "Flow Chart",
+    WIREFRAMES: "Wireframes",
+    DESIGN_SYSTEM: "Design System",
+    FINAL_UI: "Final UI",
+    USABILITY: "Usability Testing",
+    ITERATIONS: "Iterations",
+    RESULTS: "Results",
+    LEARNINGS: "Learnings",
+    CUSTOM: "Custom Section",
+  };
+
   const projectsData = [
     {
       slug: "northwind-analytics",
@@ -344,123 +377,69 @@ async function main() {
         },
       },
     });
-    void project;
-  }
 
-  // -------- Case studies --------
-  await prisma.caseStudy.deleteMany();
-  const defaultSectionTypes: CaseStudySectionType[] = [
-    "OVERVIEW", "PROBLEM", "GOAL", "ROLE", "TIMELINE", "RESEARCH",
-    "INTERVIEWS", "AFFINITY", "PERSONAS", "JOURNEY", "FLOW",
-    "WIREFRAMES", "DESIGN_SYSTEM", "FINAL_UI", "USABILITY",
-    "ITERATIONS", "RESULTS", "LEARNINGS",
-  ];
+    // The first two demo projects get a full, case-study-style breakdown
+    // so the sections + rich blocks feature is visible out of the box.
+    if (i < 2) {
+      for (const [j, type] of defaultSectionTypes.entries()) {
+        const titleEn = sectionTitles[type];
+        const isMetrics = type === "RESULTS";
+        const isGallery = type === "WIREFRAMES" || type === "FINAL_UI";
+        const isBullets =
+          type === "LEARNINGS" || type === "ITERATIONS" || type === "GOAL";
 
-  const sectionTitles: Record<CaseStudySectionType, string> = {
-    OVERVIEW: "Overview",
-    PROBLEM: "Problem",
-    GOAL: "Goal",
-    ROLE: "My Role",
-    TIMELINE: "Timeline",
-    RESEARCH: "Research",
-    INTERVIEWS: "User Interviews",
-    AFFINITY: "Affinity Mapping",
-    PERSONAS: "User Personas",
-    JOURNEY: "User Journey",
-    FLOW: "Flow Chart",
-    WIREFRAMES: "Wireframes",
-    DESIGN_SYSTEM: "Design System",
-    FINAL_UI: "Final UI",
-    USABILITY: "Usability Testing",
-    ITERATIONS: "Iterations",
-    RESULTS: "Results",
-    LEARNINGS: "Learnings",
-    CUSTOM: "Custom Section",
-  };
-
-  const caseStudies = [
-    {
-      slug: "northwind-analytics-case",
-      titleEn: "Redesigning Northwind Analytics",
-      summaryEn: "How a deep IA rework and a fresh component system lifted Northwind's WAU by 38%.",
-      isFeatured: true,
-    },
-    {
-      slug: "bluebird-onboarding-case",
-      titleEn: "A calmer onboarding for Bluebird",
-      summaryEn: "From a leaky 6-step flow to a guided 3-step path — and a measurable win.",
-      isFeatured: true,
-    },
-  ];
-
-  for (const [i, c] of caseStudies.entries()) {
-    const cs = await prisma.caseStudy.create({
-      data: {
-        slug: c.slug,
-        titleEn: c.titleEn,
-        summaryEn: c.summaryEn,
-        coverImage: `${PLACEHOLDER_COVER}&sig=case${i + 1}`,
-        isFeatured: c.isFeatured,
-        order: i,
-      },
-    });
-
-    for (const [j, type] of defaultSectionTypes.entries()) {
-      const titleEn = sectionTitles[type];
-      const isMetrics = type === "RESULTS";
-      const isGallery = type === "WIREFRAMES" || type === "FINAL_UI";
-      const isBullets = type === "LEARNINGS" || type === "ITERATIONS" || type === "GOAL";
-
-      await prisma.caseStudySection.create({
-        data: {
-          caseStudyId: cs.id,
-          type,
-          order: j,
-          titleEn,
-          bodyEn: "Context, decisions, and outcomes for this section of the case study.",
-          blocks: JSON.stringify(
-            isMetrics
-              ? [
-                  {
-                    kind: "metrics",
-                    data: {
-                      items: [
-                        { labelEn: "WAU lift", value: "+38%" },
-                        { labelEn: "Time to insight", value: "-46%" },
-                        { labelEn: "NPS", value: "62" },
-                      ],
+        await prisma.projectSection.create({
+          data: {
+            projectId: project.id,
+            type,
+            order: j,
+            titleEn,
+            bodyEn:
+              "Context, decisions, and outcomes for this section of the project.",
+            blocks: JSON.stringify(
+              isMetrics
+                ? [
+                    {
+                      kind: "metrics",
+                      data: {
+                        items: [
+                          { labelEn: "WAU lift", value: "+38%" },
+                          { labelEn: "Time to insight", value: "-46%" },
+                          { labelEn: "NPS", value: "62" },
+                        ],
+                      },
                     },
-                  },
-                ]
-              : isGallery
-              ? [
-                  {
-                    kind: "gallery",
-                    data: {
-                      images: [1, 2, 3].map((n) => ({
-                        url: `https://picsum.photos/seed/${c.slug}-${type}-${n}/1600/1000`,
-                        altEn: `${titleEn} ${n}`,
-                      })),
+                  ]
+                : isGallery
+                ? [
+                    {
+                      kind: "gallery",
+                      data: {
+                        images: [1, 2, 3].map((n) => ({
+                          url: `https://picsum.photos/seed/${p.slug}-${type}-${n}/1600/1000`,
+                          altEn: `${titleEn} ${n}`,
+                        })),
+                      },
                     },
-                  },
-                ]
-              : isBullets
-              ? [
-                  {
-                    kind: "bullets",
-                    data: {
-                      items: [
-                        { en: "Insight one drawn from research." },
-                        { en: "Decision two that shaped the flow." },
-                        { en: "Outcome three measured post-launch." },
-                      ],
+                  ]
+                : isBullets
+                ? [
+                    {
+                      kind: "bullets",
+                      data: {
+                        items: [
+                          { en: "Insight one drawn from research." },
+                          { en: "Decision two that shaped the flow." },
+                          { en: "Outcome three measured post-launch." },
+                        ],
+                      },
                     },
-                  },
-                ]
-              : [],
-          ),
-        },
-      });
+                  ]
+                : [],
+            ),
+          },
+        });
+      }
     }
   }
 

@@ -16,14 +16,14 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import {
-  upsertCaseStudySection,
-  deleteCaseStudySection,
-  reorderCaseStudySections,
+  upsertProjectSection,
+  deleteProjectSection,
+  reorderProjectSections,
 } from "@/actions/admin";
-import type { CaseStudySectionType } from "@/lib/enums";
+import type { ProjectSectionType } from "@/lib/enums";
 import { parseJson } from "@/lib/utils";
 
-const TYPES: { value: CaseStudySectionType; label: string }[] = [
+const TYPES: { value: ProjectSectionType; label: string }[] = [
   { value: "OVERVIEW", label: "Overview" },
   { value: "PROBLEM", label: "Problem" },
   { value: "GOAL", label: "Goal" },
@@ -54,11 +54,11 @@ type Section = {
   blocks: unknown;
 }
 
-export function CaseStudySectionsEditor({
-  caseStudyId,
+export function ProjectSectionsEditor({
+  projectId,
   initial,
 }: {
-  caseStudyId: string;
+  projectId: string;
   initial: Section[];
 }) {
   const [sections, setSections] = React.useState<Section[]>(
@@ -69,8 +69,8 @@ export function CaseStudySectionsEditor({
   const addSection = async () => {
     const order = sections.length;
     try {
-      await upsertCaseStudySection({
-        caseStudyId,
+      await upsertProjectSection({
+        projectId,
         type: "CUSTOM",
         order,
         titleEn: "Untitled section",
@@ -94,7 +94,7 @@ export function CaseStudySectionsEditor({
     const reordered = next.map((s, i) => ({ ...s, order: i }));
     setSections(reordered);
     try {
-      await reorderCaseStudySections(
+      await reorderProjectSections(
         reordered.map((s) => ({ id: s.id, order: s.order })),
       );
     } catch {
@@ -105,7 +105,7 @@ export function CaseStudySectionsEditor({
   const remove = async (id: string) => {
     if (!confirm("Delete this section?")) return;
     try {
-      await deleteCaseStudySection(id);
+      await deleteProjectSection(id);
       setSections(sections.filter((s) => s.id !== id));
     } catch {
       toast.error("Could not delete");
@@ -172,7 +172,7 @@ export function CaseStudySectionsEditor({
                   setSections(sections.map((x) => (x.id === updated.id ? updated : x)));
                   setExpanded(null);
                 }}
-                caseStudyId={caseStudyId}
+                projectId={projectId}
               />
             </CardContent>
           ) : null}
@@ -193,15 +193,15 @@ export function CaseStudySectionsEditor({
 
 function SectionEditor({
   section,
-  caseStudyId,
+  projectId,
   onSaved,
 }: {
   section: Section;
-  caseStudyId: string;
+  projectId: string;
   onSaved: (s: Section) => void;
 }) {
-  const [type, setType] = React.useState<CaseStudySectionType>(
-    section.type as CaseStudySectionType,
+  const [type, setType] = React.useState<ProjectSectionType>(
+    section.type as ProjectSectionType,
   );
   const [titleEn, setTitleEn] = React.useState(section.titleEn);
   const [bodyEn, setBodyEn] = React.useState(section.bodyEn);
@@ -221,9 +221,9 @@ function SectionEditor({
       return;
     }
     try {
-      await upsertCaseStudySection({
+      await upsertProjectSection({
         id: section.id,
-        caseStudyId,
+        projectId,
         type,
         order: section.order,
         titleEn,
@@ -243,7 +243,7 @@ function SectionEditor({
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
         <Label>Section type</Label>
-        <Select value={type} onValueChange={(v) => setType(v as CaseStudySectionType)}>
+        <Select value={type} onValueChange={(v) => setType(v as ProjectSectionType)}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>

@@ -2,7 +2,19 @@ import Image from "next/image";
 import { Reveal } from "./Motion";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { parseJson } from "@/lib/utils";
-import type { CaseStudySection } from "@prisma/client";
+
+/**
+ * Minimal structural shape for a renderable section. Works for any model
+ * (Project sections, etc.) that carries a title, body, ordered position,
+ * and a JSON `blocks` string/array.
+ */
+export interface RenderableSection {
+  id: string;
+  order: number;
+  titleEn: string;
+  bodyEn: string;
+  blocks: unknown;
+}
 
 interface MetricBlock {
   kind: "metrics";
@@ -44,11 +56,11 @@ type Block =
   | QuoteBlock
   | CardsBlock;
 
-export function CaseStudyRenderer({
+export function SectionRenderer({
   sections,
   locale,
 }: {
-  sections: CaseStudySection[];
+  sections: RenderableSection[];
   locale: Locale;
 }) {
   const ordered = [...sections].sort((a, b) => a.order - b.order);

@@ -8,16 +8,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const locales = ["en", "ar"] as const;
   const staticPaths = ["", "/about", "/projects", "/services", "/contact"];
 
-  const [projects, caseStudies] = await Promise.all([
-    prisma.project.findMany({
-      where: { isPublished: true },
-      select: { slug: true, updatedAt: true },
-    }),
-    prisma.caseStudy.findMany({
-      where: { isPublished: true },
-      select: { slug: true, updatedAt: true },
-    }),
-  ]);
+  const projects = await prisma.project.findMany({
+    where: { isPublished: true },
+    select: { slug: true, updatedAt: true },
+  });
 
   const items: MetadataRoute.Sitemap = [];
 
@@ -33,14 +27,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       items.push({
         url: `${base}/${locale}/projects/${proj.slug}`,
         lastModified: proj.updatedAt,
-        changeFrequency: "monthly",
-        priority: 0.6,
-      });
-    }
-    for (const cs of caseStudies) {
-      items.push({
-        url: `${base}/${locale}/case-studies/${cs.slug}`,
-        lastModified: cs.updatedAt,
         changeFrequency: "monthly",
         priority: 0.6,
       });

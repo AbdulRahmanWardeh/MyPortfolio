@@ -4,7 +4,7 @@
  */
 export type UserRole = "ADMIN";
 
-export type CaseStudySectionType =
+export type ProjectSectionType =
   | "OVERVIEW"
   | "PROBLEM"
   | "GOAL"

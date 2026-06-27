@@ -9,6 +9,18 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
 
+  // Case Studies were merged into Projects. Permanently redirect any
+  // old case-study URLs (and the legacy locale-prefixed variants the
+  // old sitemap emitted) to the projects section.
+  async redirects() {
+    return [
+      { source: "/case-studies", destination: "/projects", permanent: true },
+      { source: "/case-studies/:path*", destination: "/projects", permanent: true },
+      { source: "/:locale/case-studies", destination: "/projects", permanent: true },
+      { source: "/:locale/case-studies/:path*", destination: "/projects", permanent: true },
+    ];
+  },
+
   // Anchor the workspace root to this project, silencing the
   // "multiple lockfiles detected" warning when a stray lockfile
   // exists higher up the filesystem (e.g. ~/package-lock.json).

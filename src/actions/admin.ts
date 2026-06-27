@@ -4,7 +4,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
-import type { CaseStudySectionType, BookingStatus } from "@/lib/enums";
+import type { ProjectSectionType, BookingStatus } from "@/lib/enums";
 
 function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v : "";
@@ -458,59 +458,12 @@ export async function deleteProject(id: string) {
   revalidateAll();
 }
 
-// ---------- Case Studies ----------
+// ---------- Project Sections ----------
 
-export async function createCaseStudy(fd: FormData) {
-  await requireAdmin();
-  const slug = slugify(str(fd.get("slug")) || str(fd.get("titleEn")));
-  await prisma.caseStudy.create({
-    data: {
-      slug,
-      titleEn: str(fd.get("titleEn")),
-      summaryEn: str(fd.get("summaryEn")),
-      coverImage: strOrNull(fd.get("coverImage")),
-      client: strOrNull(fd.get("client")),
-      roleEn: str(fd.get("roleEn")),
-      timelineEn: str(fd.get("timelineEn")),
-      isPublished: bool(fd.get("isPublished")),
-      isFeatured: bool(fd.get("isFeatured")),
-      order: int(fd.get("order")),
-    },
-  });
-  revalidateAll();
-}
-
-export async function updateCaseStudy(id: string, fd: FormData) {
-  await requireAdmin();
-  const slug = slugify(str(fd.get("slug")));
-  await prisma.caseStudy.update({
-    where: { id },
-    data: {
-      slug,
-      titleEn: str(fd.get("titleEn")),
-      summaryEn: str(fd.get("summaryEn")),
-      coverImage: strOrNull(fd.get("coverImage")),
-      client: strOrNull(fd.get("client")),
-      roleEn: str(fd.get("roleEn")),
-      timelineEn: str(fd.get("timelineEn")),
-      isPublished: bool(fd.get("isPublished")),
-      isFeatured: bool(fd.get("isFeatured")),
-      order: int(fd.get("order")),
-    },
-  });
-  revalidateAll();
-}
-
-export async function deleteCaseStudy(id: string) {
-  await requireAdmin();
-  await prisma.caseStudy.delete({ where: { id } });
-  revalidateAll();
-}
-
-export async function upsertCaseStudySection(input: {
+export async function upsertProjectSection(input: {
   id?: string;
-  caseStudyId: string;
-  type: CaseStudySectionType;
+  projectId: string;
+  type: ProjectSectionType;
   order: number;
   titleEn: string;
   bodyEn: string;
@@ -518,7 +471,7 @@ export async function upsertCaseStudySection(input: {
 }) {
   await requireAdmin();
   if (input.id) {
-    await prisma.caseStudySection.update({
+    await prisma.projectSection.update({
       where: { id: input.id },
       data: {
         type: input.type,
@@ -529,9 +482,9 @@ export async function upsertCaseStudySection(input: {
       },
     });
   } else {
-    await prisma.caseStudySection.create({
+    await prisma.projectSection.create({
       data: {
-        caseStudyId: input.caseStudyId,
+        projectId: input.projectId,
         type: input.type,
         order: input.order,
         titleEn: input.titleEn,
@@ -543,17 +496,17 @@ export async function upsertCaseStudySection(input: {
   revalidateAll();
 }
 
-export async function deleteCaseStudySection(id: string) {
+export async function deleteProjectSection(id: string) {
   await requireAdmin();
-  await prisma.caseStudySection.delete({ where: { id } });
+  await prisma.projectSection.delete({ where: { id } });
   revalidateAll();
 }
 
-export async function reorderCaseStudySections(orders: Array<{ id: string; order: number }>) {
+export async function reorderProjectSections(orders: Array<{ id: string; order: number }>) {
   await requireAdmin();
   await prisma.$transaction(
     orders.map((o) =>
-      prisma.caseStudySection.update({
+      prisma.projectSection.update({
         where: { id: o.id },
         data: { order: o.order },
       }),
