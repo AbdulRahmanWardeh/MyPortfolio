@@ -28,12 +28,7 @@ export function FaqAccordion({
         return (
           <div
             key={item.id}
-            className={cn(
-              "surface overflow-hidden rounded-2xl transition-all duration-300",
-              isOpen
-                ? "bg-accent/[0.05] shadow-[inset_0_18px_26px_-18px_hsl(var(--accent)/0.5)]"
-                : "hover:bg-tint/[0.04]",
-            )}
+            className="surface overflow-hidden rounded-2xl bg-card transition-all duration-300"
           >
             <button
               type="button"
@@ -60,7 +55,8 @@ export function FaqAccordion({
               )}
             >
               <div className="overflow-hidden">
-                <p className="text-pretty px-6 pb-6 text-sm text-tint/60 md:text-base">
+                <hr className="border-tint/10" />
+                <p className="text-pretty px-6 pb-6 pt-5 text-sm text-tint/60 md:text-base">
                   {pickField(item, locale, "answer")}
                 </p>
               </div>

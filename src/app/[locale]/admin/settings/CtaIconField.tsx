@@ -1,11 +1,14 @@
 "use client";
 
 import * as React from "react";
+import * as HugeIcons from "hugeicons-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 type IconComp = React.FC<{ className?: string }>;
+
+const ICON_MAP = HugeIcons as unknown as Record<string, IconComp | undefined>;
 
 /** Quick-pick icons (real Hugeicons React export names). */
 const COMMON_ICONS = [
@@ -28,34 +31,14 @@ const COMMON_ICONS = [
 ];
 
 /**
- * Live preview of any Hugeicons icon, loaded on demand from the per-icon
- * subpath (`hugeicons-react/icons/<Name>`). Only previewed icons are fetched,
- * so the admin bundle never pulls the full ~40MB set. Unknown / invalid names
- * render nothing.
+ * Live preview of any Hugeicons icon, resolved by export name from the
+ * library namespace. Unknown / invalid names render nothing.
  */
 function PreviewIcon({ name, className }: { name?: string; className?: string }) {
-  const [Icon, setIcon] = React.useState<IconComp | null>(null);
-
-  React.useEffect(() => {
-    const key = (name ?? "").trim();
-    // Hugeicons export names are PascalCase alphanumerics — guard the specifier.
-    if (!key || !/^[A-Za-z0-9]+$/.test(key)) {
-      setIcon(null);
-      return;
-    }
-    let active = true;
-    import(`hugeicons-react/icons/${key}`)
-      .then((m: Record<string, IconComp | undefined>) => {
-        if (active) setIcon(() => m[key] ?? m.default ?? null);
-      })
-      .catch(() => {
-        if (active) setIcon(null);
-      });
-    return () => {
-      active = false;
-    };
-  }, [name]);
-
+  const key = (name ?? "").trim();
+  // Hugeicons export names are PascalCase alphanumerics — guard the lookup.
+  if (!key || !/^[A-Za-z0-9]+$/.test(key)) return null;
+  const Icon = ICON_MAP[key];
   return Icon ? <Icon className={className} /> : null;
 }
 

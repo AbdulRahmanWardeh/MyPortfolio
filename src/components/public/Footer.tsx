@@ -1,7 +1,6 @@
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { getFooterContent, getActiveSocialLinks } from "@/lib/content";
-import { getSiteSettings } from "@/lib/seo";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { SocialButtonsRow } from "./SocialIcons";
 import { FooterEmail } from "./FooterEmail";
@@ -22,10 +21,9 @@ const legalLinks = [
 
 export async function Footer({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale });
-  const [footer, social, settings] = await Promise.all([
+  const [footer, social] = await Promise.all([
     getFooterContent(),
     getActiveSocialLinks(),
-    getSiteSettings(),
   ]);
   void t;
 

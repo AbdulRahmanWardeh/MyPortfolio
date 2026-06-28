@@ -10,6 +10,7 @@ import {
   Calendar03Icon as CalendarIcon,
   Tick02Icon as Check,
   Clock01Icon as Clock,
+  PencilEdit02Icon as EditIcon,
 } from "hugeicons-react";
 import dynamic from "next/dynamic";
 
@@ -19,7 +20,7 @@ const Calendar = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="grid h-[320px] w-[280px] place-items-center text-sm text-tint/40">
+      <div className="grid h-[440px] w-[440px] max-w-full place-items-center text-sm text-tint/40">
         Loading calendar…
       </div>
     ),
@@ -210,6 +211,12 @@ export function BookingFlow({
           {step === "date" && meetingType && (
             <div className="flex flex-col gap-4">
               <BackButton onClick={() => setStep("type")} label={tCommon("back")} />
+              <SelectionTags
+                meetingType={meetingType}
+                date={undefined}
+                locale={locale}
+                onEditType={() => setStep("type")}
+              />
               <div className="flex justify-center">
                 <Calendar
                   mode="single"
@@ -228,10 +235,13 @@ export function BookingFlow({
           {step === "time" && meetingType && date && (
             <div className="flex flex-col gap-4">
               <BackButton onClick={() => setStep("date")} label={tCommon("back")} />
-              <div className="flex items-center gap-2 text-sm text-tint/70">
-                <CalendarIcon className="h-4 w-4" />
-                {format(date, "EEEE, MMMM d")}
-              </div>
+              <SelectionTags
+                meetingType={meetingType}
+                date={date}
+                locale={locale}
+                onEditType={() => setStep("type")}
+                onEditDate={() => setStep("date")}
+              />
               {loadingSlots ? (
                 <div className="grid gap-2 sm:grid-cols-3">
                   {Array.from({ length: 6 }).map((_, i) => (
@@ -278,14 +288,15 @@ export function BookingFlow({
             >
               <BackButton onClick={() => setStep("time")} label={tCommon("back")} />
 
-              <div className="surface p-4 text-sm text-tint/70">
-                <div className="font-medium text-tint">
-                  {pickField(meetingType, locale, "name")} · {meetingType.durationMinutes}m
-                </div>
-                <div className="text-tint/60">
-                  {format(date, "EEEE, MMMM d")} · {time}
-                </div>
-              </div>
+              <SelectionTags
+                meetingType={meetingType}
+                date={date}
+                time={time}
+                locale={locale}
+                onEditType={() => setStep("type")}
+                onEditDate={() => setStep("date")}
+                onEditTime={() => setStep("time")}
+              />
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label={t("fields.name")} required>
@@ -353,6 +364,56 @@ export function BookingFlow({
           )}
         </motion.div>
       </AnimatePresence>
+    </div>
+  );
+}
+
+function SelectionTags({
+  meetingType,
+  date,
+  time,
+  locale,
+  onEditType,
+  onEditDate,
+  onEditTime,
+}: {
+  meetingType: MeetingType | null;
+  date: Date | undefined;
+  time?: string | null;
+  locale: Locale;
+  onEditType?: () => void;
+  onEditDate?: () => void;
+  onEditTime?: () => void;
+}) {
+  if (!meetingType && !date && !time) return null;
+  const tagClass =
+    "group inline-flex items-center gap-1.5 rounded-full border border-tint/10 bg-tint/[0.04] px-3 py-2 text-xs text-tint/70 transition hover:border-tint/20 hover:bg-tint/[0.08] hover:text-tint";
+  const edit = (
+    <EditIcon className="h-3 w-3 text-tint/30 transition group-hover:text-tint/60" />
+  );
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {meetingType ? (
+        <button type="button" onClick={onEditType} className={tagClass}>
+          <Clock className="h-3.5 w-3.5 text-accent" />
+          {pickField(meetingType, locale, "name")} · {meetingType.durationMinutes}m
+          {edit}
+        </button>
+      ) : null}
+      {date ? (
+        <button type="button" onClick={onEditDate} className={tagClass}>
+          <CalendarIcon className="h-3.5 w-3.5 text-accent" />
+          {format(date, "EEE, MMM d")}
+          {edit}
+        </button>
+      ) : null}
+      {time ? (
+        <button type="button" onClick={onEditTime} className={tagClass}>
+          <Clock className="h-3.5 w-3.5 text-accent" />
+          {time}
+          {edit}
+        </button>
+      ) : null}
     </div>
   );
 }

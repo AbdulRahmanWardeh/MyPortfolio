@@ -2,7 +2,7 @@ import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
-import { pickField, type Locale } from "@/lib/i18n-helpers";
+import { type Locale } from "@/lib/i18n-helpers";
 
 export const getSiteSettings = cache(
   unstable_cache(

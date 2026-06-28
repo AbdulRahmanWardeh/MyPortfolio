@@ -58,15 +58,15 @@ export function TestimonialsCarousel({
     <div className="relative">
       <div
         ref={emblaRef}
-        className="-mx-6 overflow-hidden select-none"
+        className="-mx-6 px-6 overflow-hidden select-none"
         style={{
           maskImage:
-            "linear-gradient(to right, transparent 0px, black 24px, black 94%, transparent 100%)",
+            "linear-gradient(to right, black 94%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0px, black 24px, black 94%, transparent 100%)",
+            "linear-gradient(to right, black 94%, transparent 100%)",
         }}
       >
-        <div className="flex items-stretch gap-6 px-6 pb-6">
+        <div className="flex items-stretch gap-6 px-6 pb-12">
           {items.map((tm, i) => (
             <figure
               key={tm.id}

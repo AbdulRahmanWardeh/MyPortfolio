@@ -113,19 +113,6 @@ export default async function AboutPage({
                 </Reveal>
               </div>
 
-              {highlights.length > 0 ? (
-                <Stagger className="grid gap-4 sm:grid-cols-3">
-                  {highlights.map((h, i) => (
-                    <StaggerItem key={i}>
-                      <div className="surface h-full rounded-xl p-6">
-                        <div className="text-sm font-medium">{h.titleEn}</div>
-                        <p className="mt-2 text-sm text-tint/55">{h.descEn}</p>
-                      </div>
-                    </StaggerItem>
-                  ))}
-                </Stagger>
-              ) : null}
-
               <Reveal delay={0.1}>
                 <Button asChild variant="accent" size="lg" className="w-fit">
                   <a
@@ -141,6 +128,19 @@ export default async function AboutPage({
               </Reveal>
             </div>
           </div>
+
+          {highlights.length > 0 ? (
+            <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
+              {highlights.map((h, i) => (
+                <StaggerItem key={i}>
+                  <div className="surface h-full rounded-xl p-6">
+                    <div className="text-sm font-medium">{h.titleEn}</div>
+                    <p className="mt-2 text-sm text-tint/55">{h.descEn}</p>
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          ) : null}
         </div>
       </section>
 
