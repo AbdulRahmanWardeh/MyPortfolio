@@ -139,6 +139,9 @@
   .btn-accent-3d {
     position: relative;
     isolation: isolate;
+    /* clip the ::before/::after sheen layers to the pill; the element's own
+       drop shadow and focus ring are unaffected by its own overflow */
+    overflow: hidden;
     color: hsl(var(--accent-foreground));
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
     background-color: hsl(var(--accent)); /* fallback if color-mix unsupported */
@@ -196,6 +199,9 @@
   .btn-tint-3d {
     position: relative;
     isolation: isolate;
+    /* clip the ::before/::after sheen layers to the pill; the element's own
+       drop shadow and focus ring are unaffected by its own overflow */
+    overflow: hidden;
     color: #1b1b1f;
     background-color: #ffffff; /* fallback */
     background-image: linear-gradient(

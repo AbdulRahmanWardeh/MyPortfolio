@@ -58,7 +58,7 @@ export function TestimonialsCarousel({
     <div className="relative">
       <div
         ref={emblaRef}
-        className="-mx-6 px-6 overflow-hidden select-none"
+        className="-mx-5 px-5 overflow-hidden select-none"
         style={{
           maskImage:
             "linear-gradient(to right, black 94%, transparent 100%)",

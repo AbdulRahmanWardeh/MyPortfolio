@@ -2,6 +2,7 @@ import * as React from "react";
 import { Navbar } from "@/components/public/Navbar";
 import { Footer } from "@/components/public/Footer";
 import { FallingParticles } from "@/components/public/FallingParticles";
+import { PageTransition } from "@/components/public/PageTransition";
 import { ScrollToTop } from "@/components/public/ScrollToTop";
 import { DynamicIcon } from "@/lib/hugeicon";
 import { getSiteSettings } from "@/lib/seo";
@@ -32,7 +33,7 @@ export default async function SiteLayout({
           <DynamicIcon name={settings.ctaIcon} className="h-3.5 w-3.5" />
         }
       />
-      <main className="relative z-[1] pt-24 md:pt-28">{children}</main>
+      <PageTransition>{children}</PageTransition>
       <Footer locale={locale as Locale} />
       <ScrollToTop />
     </>

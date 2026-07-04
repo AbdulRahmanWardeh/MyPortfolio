@@ -41,8 +41,8 @@ export default async function ServicesPage({
 
   return (
     <>
-      <section className="pt-24 md:pt-32">
-        <div className="mx-auto max-w-7xl px-12 md:px-24">
+      <section className="pt-6 md:pt-12">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-24">
           <Reveal>
             <h1 className="h-display max-w-3xl text-balance text-4xl font-semibold md:text-6xl">
               {t("services.title")}

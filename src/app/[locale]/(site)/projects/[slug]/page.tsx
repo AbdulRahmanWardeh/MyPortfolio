@@ -83,7 +83,7 @@ export default async function ProjectDetailPage({
   ].filter((l): l is { url: string; label: string } => Boolean(l.url));
 
   return (
-    <article className="pb-32 pt-24 md:pt-32">
+    <article className="pb-32 pt-6 md:pt-12">
       <div className="mx-auto max-w-6xl px-6">
         <Link
           href="/projects"

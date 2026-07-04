@@ -138,7 +138,7 @@ export function BookingFlow({
   const stepIndex = steps.indexOf(step);
 
   return (
-    <div className="surface mx-auto w-full max-w-3xl p-6 md:p-10">
+    <div className="surface mx-auto w-full max-w-3xl p-4 sm:p-6 md:p-10">
       <div className="mb-8 flex items-center justify-between gap-4 text-xs uppercase tracking-wide text-tint/40">
         {steps.slice(0, 4).map((s, i) => (
           <div key={s} className="flex flex-1 items-center gap-2">

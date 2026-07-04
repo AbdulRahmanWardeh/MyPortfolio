@@ -6,7 +6,9 @@
     "services": "Services",
     "contact": "Contact",
     "bookMeeting": "Book a Meeting",
-    "menu": "Menu"
+    "viewProjects": "View Projects",
+    "menu": "Menu",
+    "close": "Close"
   },
   "common": {
     "viewAll": "View all",

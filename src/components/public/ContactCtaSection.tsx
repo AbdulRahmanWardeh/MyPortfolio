@@ -14,7 +14,7 @@ export async function ContactCtaSection({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto max-w-7xl px-12 md:px-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-24">
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-3xl border border-tint/[0.10] bg-white px-8 py-14 md:px-16 md:py-20 dark:bg-[#08070c]">
             {/* Brand outline mark, bleeding off the side opposite the text */}

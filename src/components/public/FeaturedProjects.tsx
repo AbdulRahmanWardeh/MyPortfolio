@@ -18,13 +18,13 @@ export async function FeaturedProjects({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto max-w-7xl px-12 md:px-24">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-24">
+        <div className="flex items-end justify-between gap-4 md:gap-6">
           <SectionHeader
             kicker={t("home.featuredProjectsKicker")}
             title={t("home.featuredProjects")}
           />
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline" size="sm" className="shrink-0">
             <Link href="/projects">
               {t("home.viewAllProjects")}
               <DynamicIcon

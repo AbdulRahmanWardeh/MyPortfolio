@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Menu02Icon } from "hugeicons-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
@@ -35,6 +36,8 @@ export function Navbar({
   const t = useTranslations("nav");
   const pathname = usePathname();
   const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -48,12 +51,12 @@ export function Navbar({
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-40 flex justify-center px-4 pt-4 md:px-6 md:pt-6"
+      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-6 md:pt-6"
       dir="ltr"
     >
       <div
         className={cn(
-          "flex h-14 w-full max-w-[1060px] items-center justify-between gap-4 rounded-[999px] border px-3 backdrop-blur-xl backdrop-saturate-150 transition-all md:grid md:h-16 md:grid-cols-[1fr_auto_1fr] md:px-5",
+          "flex h-16 w-full max-w-[1060px] items-center justify-between gap-4 rounded-[999px] border px-3 backdrop-blur-xl backdrop-saturate-150 transition-all md:grid md:h-16 md:grid-cols-[1fr_auto_1fr] md:px-5",
           scrolled
             ? "border-tint/[0.14] bg-background/60 shadow-[inset_0_1px_0_rgb(var(--tint)/0.12),0_8px_24px_-16px_rgba(0,0,0,0.35)]"
             : "border-tint/[0.10] bg-background/35 shadow-[inset_0_1px_0_rgb(var(--tint)/0.08)]",
@@ -103,46 +106,94 @@ export function Navbar({
             </Link>
           </Button>
 
-          <Sheet>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen} modal={false}>
             <SheetTrigger asChild>
               <Button
+                ref={triggerRef}
                 variant="outline"
                 size="icon"
                 className="md:hidden"
-                aria-label={t("menu")}
+                aria-label={menuOpen ? t("close") : t("menu")}
               >
-                <Menu02Icon className="h-4 w-4" />
+                {menuOpen ? (
+                  <X className="h-4 w-4" />
+                ) : (
+                  <Menu02Icon className="h-4 w-4" />
+                )}
               </Button>
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="flex flex-col gap-6"
+              className="flex flex-col"
+              onInteractOutside={(e) => {
+                if (triggerRef.current?.contains(e.target as Node))
+                  e.preventDefault();
+              }}
             >
-              <SheetTitle className="text-sm uppercase tracking-wide text-tint/50">
-                {t("menu")}
-              </SheetTitle>
-              <nav className="flex flex-col gap-1">
-                {links.map((l) => (
-                  <SheetClose asChild key={l.href}>
-                    <Link
-                      href={l.href}
-                      className={cn(
-                        "rounded-2xl px-3 py-3 text-lg",
-                        isActive(l.href)
-                          ? "bg-tint/[0.06] text-tint"
-                          : "text-tint/70 hover:bg-tint/[0.04]",
-                      )}
+              <SheetTitle className="sr-only">{t("menu")}</SheetTitle>
+              <div className="flex flex-1 flex-col gap-8 pt-20">
+                <nav className="flex flex-col gap-1">
+                  {links.map((l, i) => (
+                    <div
+                      key={l.href}
+                      className="animate-fade-up"
+                      style={{ animationDelay: `${i * 60}ms` }}
                     >
-                      {t(l.key)}
-                    </Link>
-                  </SheetClose>
-                ))}
-              </nav>
-              <SheetClose asChild>
-                <Button asChild variant="accent" className="w-full">
-                  <Link href="/contact">{t("bookMeeting")}</Link>
-                </Button>
-              </SheetClose>
+                      <SheetClose asChild>
+                        <Link
+                          href={l.href}
+                          className={cn(
+                            "block rounded-2xl px-3 py-3 text-lg transition-colors",
+                            isActive(l.href)
+                              ? "bg-tint/[0.06] text-tint"
+                              : "text-tint/70 hover:bg-tint/[0.04]",
+                          )}
+                        >
+                          {t(l.key)}
+                        </Link>
+                      </SheetClose>
+                    </div>
+                  ))}
+                </nav>
+                <div className="mt-auto flex flex-col items-center gap-4 pb-6">
+                  <div
+                    className="w-full max-w-xs animate-fade-up"
+                    style={{ animationDelay: "280ms" }}
+                  >
+                    <SheetClose asChild>
+                      <Button
+                        asChild
+                        variant="accent"
+                        size="lg"
+                        className="w-full text-base"
+                      >
+                        <Link href="/projects">
+                          {t("viewProjects")}
+                          {ctaIcon}
+                        </Link>
+                      </Button>
+                    </SheetClose>
+                  </div>
+                  <div
+                    className="w-full max-w-xs animate-fade-up"
+                    style={{ animationDelay: "320ms" }}
+                  >
+                    <SheetClose asChild>
+                      <Button
+                        asChild
+                        variant="default"
+                        size="lg"
+                        className="w-full text-base"
+                      >
+                        <Link href="/contact">
+                          {t("bookMeeting")}
+                          {ctaIcon}
+                        </Link>
+                      </Button>
+                    </SheetClose>
+                  </div>
+                </div>
+              </div>
             </SheetContent>
           </Sheet>
         </div>

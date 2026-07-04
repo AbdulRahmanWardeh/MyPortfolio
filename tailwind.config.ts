@@ -67,7 +67,7 @@ const config: Config = {
           to: { opacity: "1" },
         },
         "fade-up": {
-          from: { opacity: "0", transform: "translateY(16px)" },
+          from: { opacity: "0", transform: "translateY(28px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
         marquee: {
@@ -80,8 +80,8 @@ const config: Config = {
         },
       },
       animation: {
-        "fade-in": "fade-in 0.6s ease-out forwards",
-        "fade-up": "fade-up 0.7s ease-out forwards",
+        "fade-in": "fade-in 0.9s ease-out both",
+        "fade-up": "fade-up 0.9s cubic-bezier(0.22,1,0.36,1) both",
         marquee: "marquee 40s linear infinite",
         shimmer: "shimmer 2.5s linear infinite",
       },

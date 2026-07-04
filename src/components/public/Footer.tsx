@@ -39,7 +39,7 @@ export async function Footer({ locale }: { locale: Locale }) {
         }}
       />
 
-      <div className="mx-auto max-w-7xl px-12 md:px-24 pt-20 md:pt-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-24 pt-20 md:pt-28">
         {/* Headline */}
         <h2 className="text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-tight">
           <span className="text-tint">Let&apos;s <FooterCyclingWord /></span>
@@ -55,7 +55,7 @@ export async function Footer({ locale }: { locale: Locale }) {
             <Link
               key={l.href}
               href={l.href as "/"}
-              className="rounded-full border border-tint/[0.12] px-5 py-2 text-sm text-tint/55 transition hover:border-accent hover:bg-accent/10 hover:text-accent"
+              className="rounded-full border border-tint/[0.12] px-5 py-2 text-sm text-tint/55 transition-all hover:scale-[1.05] hover:border-tint/30 hover:bg-tint hover:text-[rgb(var(--footer-surface))]"
             >
               {l.label}
             </Link>
@@ -94,7 +94,7 @@ export async function Footer({ locale }: { locale: Locale }) {
 
       {/* Bottom bar */}
       <div className="mt-12 border-t border-tint/[0.08]">
-        <div className="mx-auto max-w-7xl px-12 md:px-24 py-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-24 py-6 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-5">
             {legalLinks.map((l) => (
               <Link

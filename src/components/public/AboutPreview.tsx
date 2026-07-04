@@ -22,7 +22,7 @@ export async function AboutPreview({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto grid max-w-7xl gap-12 px-12 md:px-24 lg:grid-cols-[1fr_1.2fr] lg:items-stretch">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 md:px-24 lg:grid-cols-[1fr_1.2fr] lg:items-stretch">
         <Reveal className="relative lg:h-full">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-tint/[0.10] lg:aspect-auto lg:h-full lg:min-h-[500px]">
             {about.profileImage ? (

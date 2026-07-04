@@ -27,10 +27,10 @@ export async function Hero({ locale }: { locale: Locale }) {
   ].filter((s) => s.value > 0);
 
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-6rem)] flex-col justify-start pb-12 pt-16 md:pb-16 md:pt-24">
+    <section className="relative isolate flex min-h-[calc(100svh-6rem)] flex-col justify-start pb-12 pt-6 md:pb-16 md:pt-12">
       <HeroBackdrop />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-5 text-center sm:px-8">
         <Reveal delay={0.06}>
           <h1 className="h-display text-[clamp(3.5rem,11vw,7rem)] font-semibold leading-[0.9] tracking-tight">
             <span className="block font-light text-tint">
@@ -88,7 +88,7 @@ export async function Hero({ locale }: { locale: Locale }) {
 
         {social.length > 0 ? (
           <Reveal delay={0.32}>
-            <SocialButtonsRow links={social} className="mt-10 justify-center md:mt-12" />
+            <SocialButtonsRow links={social} className="mt-16 justify-center md:mt-12" />
           </Reveal>
         ) : null}
       </div>
