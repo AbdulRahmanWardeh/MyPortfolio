@@ -30,7 +30,7 @@ export default async function HomePage({
   const l = locale as Locale;
 
   return (
-    <>
+    <div className="home-sections">
       <Hero locale={l} />
       <Suspense fallback={<div className="section" />}>
         <AboutPreview locale={l} />
@@ -47,6 +47,6 @@ export default async function HomePage({
       <Suspense fallback={<div className="section" />}>
         <ContactCtaSection locale={l} />
       </Suspense>
-    </>
+    </div>
   );
 }

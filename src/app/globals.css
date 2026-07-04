@@ -321,6 +321,11 @@
     @apply py-24 md:py-32;
   }
 
+  /* Home page: tighter vertical rhythm between stacked sections */
+  .home-sections .section {
+    @apply py-16 md:py-24;
+  }
+
   .container-tight {
     @apply mx-auto w-full max-w-6xl px-6;
   }
