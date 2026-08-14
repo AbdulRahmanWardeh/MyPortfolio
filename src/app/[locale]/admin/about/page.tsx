@@ -3,9 +3,8 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { BilingualField } from "@/components/admin/BilingualField";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { ResumeUploadField } from "@/components/admin/ResumeUploadField";
+import { HighlightsField } from "@/components/admin/HighlightsField";
 import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { SubmitButton } from "@/components/admin/SubmitButton";
 import { updateAbout } from "@/actions/admin";
 
@@ -21,10 +20,6 @@ export default async function AdminAboutPage() {
       experienceSummaryEn: "",
     },
   });
-
-  const { parseJson } = await import("@/lib/utils");
-  const highlightsParsed = parseJson<unknown[]>(about.highlights, []);
-  const highlights = JSON.stringify(highlightsParsed, null, 2);
 
   return (
     <div>
@@ -43,13 +38,7 @@ export default async function AdminAboutPage() {
             <CardContent className="flex flex-col gap-5 p-6">
               <ImageUploadField label="Profile image" name="profileImage" defaultValue={about.profileImage} />
               <ResumeUploadField defaultValue={about.resumeUrl} />
-              <div className="flex flex-col gap-2">
-                <Label>Highlights (JSON array)</Label>
-                <Textarea name="highlights" defaultValue={highlights} className="min-h-[220px] font-mono text-xs" />
-                <p className="text-xs text-white/40">
-                  Array of {`{ title, desc }`}
-                </p>
-              </div>
+              <HighlightsField defaultValue={about.highlights} />
             </CardContent>
           </Card>
         </div>

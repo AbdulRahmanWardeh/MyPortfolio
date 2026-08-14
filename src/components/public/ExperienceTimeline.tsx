@@ -12,7 +12,7 @@ export async function ExperienceTimeline({ locale }: { locale: Locale }) {
 
   return (
     <section className="section">
-      <div className="mx-auto max-w-4xl px-6">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-24">
         <SectionHeader
           kicker={t("home.experience")}
           title="Selected experience"

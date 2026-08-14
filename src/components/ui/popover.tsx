@@ -17,7 +17,10 @@ const PopoverContent = React.forwardRef<
       align={align}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 w-72 rounded-2xl border border-tint/[0.08] bg-[#0f0f10] p-4 text-tint shadow-2xl outline-none",
+        // `theme-fixed-dark` because the panel is hardcoded dark: it portals to
+        // <body>, so without it `--tint` would follow the page theme and render
+        // near-black text on the near-black panel in light mode.
+        "theme-fixed-dark z-50 w-72 rounded-2xl border border-tint/[0.08] bg-[#0f0f10] p-4 text-tint shadow-2xl outline-none",
         className,
       )}
       {...props}

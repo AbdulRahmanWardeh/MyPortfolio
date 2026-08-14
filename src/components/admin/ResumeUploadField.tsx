@@ -5,6 +5,7 @@ import { FileText, X, Loader2 } from "lucide-react";
 import { UploadDropzone } from "@/lib/uploadthing-client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface Props {
@@ -35,6 +36,9 @@ export function ResumeUploadField({ defaultValue }: Props) {
       ) : (
         <UploadDropzone
           endpoint="adminResume"
+          // See ImageUploadField — twMerge-based merger so our `appearance`
+          // classes actually replace UploadThing's defaults.
+          config={{ cn }}
           onUploadBegin={() => setUploading(true)}
           onClientUploadComplete={(res) => {
             setUploading(false);
@@ -54,7 +58,7 @@ export function ResumeUploadField({ defaultValue }: Props) {
             label: "text-sm text-white/70",
             allowedContent: "text-xs text-white/60",
             button:
-              "select-none rounded-full !bg-white !text-black px-5 h-10 text-sm font-medium hover:!bg-white/90 focus-within:ring-2 focus-within:!ring-white/30 focus-within:!ring-offset-0",
+              "select-none rounded-full bg-white text-black px-5 h-10 text-sm font-medium hover:bg-white/90 focus-within:ring-2 focus-within:ring-white/30 focus-within:ring-offset-0",
           }}
           content={{
             uploadIcon: uploading ? (

@@ -1,10 +1,9 @@
 import { BilingualField } from "@/components/admin/BilingualField";
+import { DeliverablesField } from "@/components/admin/DeliverablesField";
 import { SubmitButton } from "@/components/admin/SubmitButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { parseJson } from "@/lib/utils";
 
 interface Props {
   action: (fd: FormData) => Promise<void>;
@@ -21,12 +20,6 @@ interface Props {
 }
 
 export function ServiceForm({ action, defaults }: Props) {
-  const deliverables = JSON.stringify(
-    parseJson<unknown[]>(defaults?.deliverables, [{ en: "" }]),
-    null,
-    2,
-  );
-
   return (
     <form action={action} className="flex flex-col gap-6">
       <Card>
@@ -47,17 +40,7 @@ export function ServiceForm({ action, defaults }: Props) {
 
       <Card>
         <CardContent className="flex flex-col gap-5 p-6">
-          <div className="flex flex-col gap-2">
-            <Label>Deliverables (JSON)</Label>
-            <Textarea
-              name="deliverables"
-              defaultValue={deliverables}
-              className="min-h-[180px] font-mono text-xs"
-            />
-            <p className="text-xs text-white/40">
-              Array of {`{ en }`} strings.
-            </p>
-          </div>
+          <DeliverablesField defaultValue={defaults?.deliverables} />
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
               <Label>Order</Label>

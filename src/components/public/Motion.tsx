@@ -15,6 +15,20 @@ export const fade: Variants = {
   visible: { opacity: 1, transition: { duration: 0.7, ease } },
 };
 
+/**
+ * Framer Motion does not server-render the hidden state for `whileInView` —
+ * the server emits fully visible markup, then hydration snaps it to opacity 0
+ * before animating back in, which reads as the content loading twice. Emitting
+ * the hidden state inline keeps the first paint consistent with the animation's
+ * starting frame; Framer takes these styles over once it mounts.
+ *
+ * Must stay in sync with the `hidden` variants above.
+ */
+const hiddenStyle = {
+  fadeUp: { opacity: 0, transform: "translateY(24px)" },
+  fade: { opacity: 0 },
+} as const;
+
 interface RevealProps extends HTMLMotionProps<"div"> {
   delay?: number;
   variant?: "fadeUp" | "fade";
@@ -27,6 +41,7 @@ export function Reveal({
   variant = "fadeUp",
   once = true,
   className,
+  style,
   ...props
 }: RevealProps) {
   const v = variant === "fade" ? fade : fadeUp;
@@ -38,6 +53,8 @@ export function Reveal({
       variants={v}
       transition={{ duration: 0.8, ease, delay }}
       className={className}
+      data-reveal=""
+      style={{ ...hiddenStyle[variant], ...style }}
       {...props}
     >
       {children}
@@ -80,7 +97,12 @@ export function StaggerItem({
   className?: string;
 }) {
   return (
-    <motion.div variants={fadeUp} className={className}>
+    <motion.div
+      variants={fadeUp}
+      className={className}
+      data-reveal=""
+      style={hiddenStyle.fadeUp}
+    >
       {children}
     </motion.div>
   );

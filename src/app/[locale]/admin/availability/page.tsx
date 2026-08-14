@@ -12,6 +12,7 @@ import {
 import { InlineForm } from "@/components/admin/InlineForm";
 import { SubmitButton } from "@/components/admin/SubmitButton";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { TimeField } from "@/components/admin/TimeField";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -175,14 +176,8 @@ function RuleForm({
         </Select>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-2">
-          <Label>Start time (24h)</Label>
-          <Input name="startTime" defaultValue={defaults?.startTime ?? "10:00"} placeholder="HH:mm" required />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>End time (24h)</Label>
-          <Input name="endTime" defaultValue={defaults?.endTime ?? "17:00"} placeholder="HH:mm" required />
-        </div>
+        <TimeField name="startTime" label="Start time" defaultValue={defaults?.startTime ?? "10:00"} />
+        <TimeField name="endTime" label="End time" defaultValue={defaults?.endTime ?? "17:00"} />
       </div>
       <label className="inline-flex items-center gap-2 text-sm text-white/80">
         <input

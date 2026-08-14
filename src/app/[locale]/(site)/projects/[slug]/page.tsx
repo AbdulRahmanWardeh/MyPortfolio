@@ -15,9 +15,10 @@ import {
 } from "@/lib/content";
 import { pickField, type Locale } from "@/lib/i18n-helpers";
 import { buildMetadata } from "@/lib/seo";
-import { Reveal, Stagger, StaggerItem } from "@/components/public/Motion";
+import { Reveal } from "@/components/public/Motion";
 import { ProjectCard } from "@/components/public/ProjectCard";
-import { SectionRenderer } from "@/components/public/SectionRenderer";
+import { ProjectSections } from "@/components/public/ProjectSections";
+import { ShareProject } from "@/components/public/ShareProject";
 import { Button } from "@/components/ui/button";
 
 export const revalidate = 60;
@@ -75,6 +76,11 @@ export default async function ProjectDetailPage({
       : []),
   ].filter((s) => s.value && s.value.trim().length > 0);
 
+  // Canonical share target. `localePrefix` is "never", so public project URLs
+  // carry no locale segment — share exactly what the address bar shows.
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const shareUrl = `${siteUrl}/projects/${slug}`;
+
   const externalLinks = [
     { url: project.liveLink, label: t("projects.liveLink") },
     { url: project.behanceLink, label: "Behance" },
@@ -98,12 +104,6 @@ export default async function ProjectDetailPage({
             {pickField(project, l, "title")}
           </h1>
         </Reveal>
-        <Reveal delay={0.05}>
-          <p className="mt-4 max-w-3xl text-pretty text-base text-tint/65 md:text-lg">
-            {pickField(project, l, "shortDesc")}
-          </p>
-        </Reveal>
-
         {/* Horizontal stats card — dynamic, dividers between cells */}
         {stats.length > 0 ? (
           <Reveal delay={0.1}>
@@ -143,7 +143,7 @@ export default async function ProjectDetailPage({
         ) : null}
 
         <Reveal delay={0.2}>
-          <div className="surface mt-12 p-8">
+          <div className="surface surface-soft mt-12 p-8">
             <div className="whitespace-pre-line text-base text-tint/70 md:text-lg">
               {pickField(project, l, "fullDesc")}
             </div>
@@ -168,37 +168,24 @@ export default async function ProjectDetailPage({
                 </div>
               </div>
             ) : null}
+
+            <div className="mt-6 border-t border-tint/[0.06] pt-6">
+              <ShareProject
+                url={shareUrl}
+                title={pickField(project, l, "title")}
+              />
+            </div>
           </div>
         </Reveal>
 
         {project.sections.length > 0 ? (
           <div className="mt-20">
-            <SectionRenderer sections={project.sections} locale={l} />
+            <ProjectSections sections={project.sections} locale={l} />
           </div>
         ) : null}
 
-        {project.images.length > 0 ? (
-          <div className="mt-16">
-            <h2 className="h-display text-2xl font-semibold md:text-3xl">
-              {t("projects.gallery")}
-            </h2>
-            <Stagger className="mt-8 grid gap-6 sm:grid-cols-2">
-              {project.images.map((img) => (
-                <StaggerItem key={img.id}>
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-tint/[0.06]">
-                    <Image
-                      src={img.url}
-                      alt={pickField(img, l, "alt")}
-                      fill
-                      sizes="(min-width:768px) 50vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </StaggerItem>
-              ))}
-            </Stagger>
-          </div>
-        ) : null}
+        {/* No project-level gallery — imagery lives in the section blocks, so
+            each photo sits next to the story it belongs to. */}
 
         {more.length > 0 ? (
           <div className="mt-24">

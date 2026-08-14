@@ -25,7 +25,7 @@ export function ProjectCard({ project, locale }: ProjectCardProps) {
       href={`/projects/${project.slug}`}
       className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-tint/[0.10] bg-tint/[0.04] transition-colors group-hover:border-tint/20">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-tint/[0.10] bg-tint/[0.04] transition-colors group-hover:border-tint/20">
         {project.coverImage ? (
           <Image
             src={project.coverImage}

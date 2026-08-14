@@ -11,6 +11,7 @@ import { BilingualField } from "@/components/admin/BilingualField";
 import { SubmitButton } from "@/components/admin/SubmitButton";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { UploadDropzone } from "@/lib/uploadthing-client";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface ProjectDefaults {
@@ -195,6 +196,16 @@ export function ProjectForm({ action, defaults }: Props) {
 
           <UploadDropzone
             endpoint="adminGallery"
+            /**
+             * UploadThing's default class merger is a plain `join(" ")`, so its
+             * built-in button classes (`text-white`, `h-10`, `rounded-md`) ship
+             * alongside the `appearance` ones below instead of being replaced.
+             * Equal specificity means stylesheet order decides, and Tailwind
+             * emits `.text-black` before `.text-white` — so the label rendered
+             * white on the white pill. Swapping in the twMerge-based `cn`
+             * resolves the conflicts properly.
+             */
+            config={{ cn }}
             onUploadBegin={() => setUploading(true)}
             onClientUploadComplete={(res) => {
               setUploading(false);

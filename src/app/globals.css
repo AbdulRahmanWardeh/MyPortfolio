@@ -34,7 +34,11 @@
     --particle-glow: rgba(255, 255, 255, 0.7);
   }
 
+  /* Pin the ink too, not just the variables. Dialogs/popovers portal to
+     <body>, so they escape any ancestor that set `text-foreground` and would
+     otherwise inherit the light theme's near-black onto a dark panel. */
   .theme-fixed-dark {
+    color: hsl(var(--foreground));
     color-scheme: dark;
   }
 
@@ -309,6 +313,16 @@
       var(--surface-shadow);
   }
 
+  /* Flatter `.surface`. Retunes the token instead of overriding `box-shadow`,
+     so the inset top highlight that gives the card its edge is preserved and
+     only the drop shadow shrinks. */
+  .surface-soft {
+    --surface-shadow: 0 10px 24px -22px rgba(0, 0, 0, 0.45);
+  }
+  .light .surface-soft {
+    --surface-shadow: 0 6px 16px -16px rgba(17, 17, 19, 0.18);
+  }
+
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
@@ -470,6 +484,16 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
       scroll-behavior: auto !important;
+    }
+  }
+
+  /* Reveal/Stagger ship their hidden state in the server HTML so there's no
+     flash of visible content before Framer Motion mounts. Without JS nothing
+     would ever animate them in, so force them visible in that case. */
+  @media (scripting: none) {
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
     }
   }
 }

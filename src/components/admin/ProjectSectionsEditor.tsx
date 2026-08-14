@@ -7,23 +7,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { BlockEditor } from "@/components/admin/BlockEditor";
 import { toast } from "sonner";
 import {
   upsertProjectSection,
   deleteProjectSection,
   reorderProjectSections,
 } from "@/actions/admin";
-import type { ProjectSectionType } from "@/lib/enums";
+import { normalizeBlocks, type Block } from "@/lib/blocks";
 import { parseJson } from "@/lib/utils";
 
-const TYPES: { value: ProjectSectionType; label: string }[] = [
+/**
+ * Suggestions only — `type` is a free-text field. It's an admin-side label
+ * (never used for public rendering), so any custom value is valid.
+ */
+const TYPES: { value: string; label: string }[] = [
   { value: "OVERVIEW", label: "Overview" },
   { value: "PROBLEM", label: "Problem" },
   { value: "GOAL", label: "Goal" },
@@ -200,26 +198,16 @@ function SectionEditor({
   projectId: string;
   onSaved: (s: Section) => void;
 }) {
-  const [type, setType] = React.useState<ProjectSectionType>(
-    section.type as ProjectSectionType,
-  );
+  const [type, setType] = React.useState(section.type);
   const [titleEn, setTitleEn] = React.useState(section.titleEn);
   const [bodyEn, setBodyEn] = React.useState(section.bodyEn);
-  const [blocksJson, setBlocksJson] = React.useState(
-    JSON.stringify(parseJson<unknown[]>(section.blocks, []), null, 2),
+  const [blocks, setBlocks] = React.useState<Block[]>(() =>
+    normalizeBlocks(parseJson<unknown[]>(section.blocks, [])),
   );
   const [saving, setSaving] = React.useState(false);
 
   const save = async () => {
     setSaving(true);
-    let blocks: unknown[] = [];
-    try {
-      blocks = blocksJson ? JSON.parse(blocksJson) : [];
-    } catch {
-      toast.error("Blocks JSON is invalid");
-      setSaving(false);
-      return;
-    }
     try {
       await upsertProjectSection({
         id: section.id,
@@ -243,18 +231,20 @@ function SectionEditor({
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
         <Label>Section type</Label>
-        <Select value={type} onValueChange={(v) => setType(v as ProjectSectionType)}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {TYPES.map((t) => (
-              <SelectItem key={t.value} value={t.value}>
-                {t.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Input
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          list="section-type-suggestions"
+          placeholder="e.g. Discovery, Goal, Handoff…"
+        />
+        <datalist id="section-type-suggestions">
+          {TYPES.map((t) => (
+            <option key={t.value} value={t.label} />
+          ))}
+        </datalist>
+        <p className="text-xs text-tint/40">
+          Type anything, or pick one of the suggestions.
+        </p>
       </div>
 
       <div className="flex flex-col gap-2">
@@ -272,15 +262,8 @@ function SectionEditor({
       </div>
 
       <div className="flex flex-col gap-2">
-        <Label>Blocks (JSON array)</Label>
-        <Textarea
-          value={blocksJson}
-          onChange={(e) => setBlocksJson(e.target.value)}
-          className="min-h-[240px] font-mono text-xs"
-        />
-        <p className="text-xs text-white/40">
-          Each block: {`{ "kind": "metrics" | "gallery" | "image" | "beforeAfter" | "bullets" | "quote" | "cards", "data": {...} }`}
-        </p>
+        <Label>Content blocks</Label>
+        <BlockEditor blocks={blocks} onChange={setBlocks} />
       </div>
 
       <div className="flex justify-end">

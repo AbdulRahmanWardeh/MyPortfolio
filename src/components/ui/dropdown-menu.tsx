@@ -18,7 +18,9 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 min-w-[10rem] overflow-hidden rounded-xl border border-tint/[0.08] bg-[#0f0f10] p-1 text-tint shadow-2xl",
+        // See popover.tsx — hardcoded-dark panel rendered through a portal, so
+        // it has to pin the theme rather than inherit the page's.
+        "theme-fixed-dark z-50 min-w-[10rem] overflow-hidden rounded-xl border border-tint/[0.08] bg-[#0f0f10] p-1 text-tint shadow-2xl",
         className,
       )}
       {...props}

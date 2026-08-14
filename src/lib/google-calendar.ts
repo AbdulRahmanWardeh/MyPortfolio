@@ -21,12 +21,24 @@ interface CreatedEvent {
   eventId: string | null;
 }
 
-function addMinutesToTime(time: string, minutes: number) {
+/**
+ * End of the meeting as a { date, time } pair.
+ *
+ * A late slot can run past midnight — 23:45 + 30min. Wrapping the clock but
+ * keeping the original date would put the end *before* the start and Google
+ * rejects the event, so the date has to roll forward with it. The UTC helpers
+ * are only doing calendar arithmetic on wall-clock values; the real zone is
+ * sent alongside as `timeZone`.
+ */
+function addMinutes(date: string, time: string, minutes: number) {
   const [h, m] = time.split(":").map(Number);
-  const total = h * 60 + m + minutes;
-  const hh = Math.floor(total / 60) % 24;
-  const mm = total % 60;
-  return `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
+  const [y, mo, d] = date.split("-").map(Number);
+  const end = new Date(Date.UTC(y, mo - 1, d, h, m + minutes));
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return {
+    date: `${end.getUTCFullYear()}-${pad(end.getUTCMonth() + 1)}-${pad(end.getUTCDate())}`,
+    time: `${pad(end.getUTCHours())}:${pad(end.getUTCMinutes())}`,
+  };
 }
 
 /**
@@ -49,7 +61,7 @@ export async function createMeetingEvent(
     auth.setCredentials({ refresh_token: googleConfig.refreshToken });
     const calendar = google.calendar({ version: "v3", auth });
 
-    const endTime = addMinutesToTime(input.startTime, input.durationMinutes);
+    const end = addMinutes(input.date, input.startTime, input.durationMinutes);
 
     const res = await calendar.events.insert({
       calendarId: googleConfig.calendarId,
@@ -65,7 +77,7 @@ export async function createMeetingEvent(
           timeZone: googleConfig.timeZone,
         },
         end: {
-          dateTime: `${input.date}T${endTime}:00`,
+          dateTime: `${end.date}T${end.time}:00`,
           timeZone: googleConfig.timeZone,
         },
         attendees: [{ email: input.email, displayName: input.name }],

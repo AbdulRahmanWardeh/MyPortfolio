@@ -4,7 +4,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
-import type { ProjectSectionType, BookingStatus } from "@/lib/enums";
+import type { BookingStatus } from "@/lib/enums";
 
 function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v : "";
@@ -463,7 +463,8 @@ export async function deleteProject(id: string) {
 export async function upsertProjectSection(input: {
   id?: string;
   projectId: string;
-  type: ProjectSectionType;
+  /** Free-text admin label — never used for public rendering. */
+  type: string;
   order: number;
   titleEn: string;
   bodyEn: string;

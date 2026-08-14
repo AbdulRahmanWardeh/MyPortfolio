@@ -6,6 +6,7 @@ import { ImagePlus, X, Loader2 } from "lucide-react";
 import { UploadDropzone } from "@/lib/uploadthing-client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface Props {
@@ -43,6 +44,11 @@ export function ImageUploadField({
       ) : (
         <UploadDropzone
           endpoint={endpoint}
+          // UploadThing's default merger just joins strings, so its built-in
+          // classes survive next to ours and ties fall to stylesheet order.
+          // The twMerge-based `cn` resolves them, which is what lets the
+          // `!important` prefixes below stay off.
+          config={{ cn }}
           onUploadBegin={() => setUploading(true)}
           onClientUploadComplete={(res) => {
             setUploading(false);
@@ -62,7 +68,7 @@ export function ImageUploadField({
             label: "text-sm text-white/70",
             allowedContent: "text-xs text-white/60",
             button:
-              "select-none rounded-full !bg-white !text-black px-5 h-10 text-sm font-medium hover:!bg-white/90 focus-within:ring-2 focus-within:!ring-white/30 focus-within:!ring-offset-0",
+              "select-none rounded-full bg-white text-black px-5 h-10 text-sm font-medium hover:bg-white/90 focus-within:ring-2 focus-within:ring-white/30 focus-within:ring-offset-0",
           }}
           content={{
             uploadIcon: uploading ? (
