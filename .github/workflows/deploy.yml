@@ -25,3 +25,41 @@ jobs:
           port: 22
           command_timeout: 20m
           script: /var/www/wardeh-portfolio/deploy.sh
+
+      # A 200 homepage is NOT proof of a good deploy. If the served HTML and
+      # the build output on disk disagree, Next still renders the page server
+      # side while every /_next/static chunk 4xxs — the browser loads no JS,
+      # never hydrates, and shows "Application error: a client-side exception
+      # has occurred". curl sees 200 the whole time. So assert the JS loads.
+      - name: Verify deployment
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://awardeh.me' }}
+        run: |
+          set -euo pipefail
+          echo "Verifying $SITE_URL"
+
+          code=000
+          for i in $(seq 1 10); do
+            code=$(curl -sS -o /tmp/home.html -w '%{http_code}' "$SITE_URL/" || echo 000)
+            [ "$code" = "200" ] && break
+            echo "attempt $i: homepage returned $code — retrying in 6s"
+            sleep 6
+          done
+          if [ "$code" != "200" ]; then
+            echo "::error::Homepage returned $code after 10 attempts"
+            exit 1
+          fi
+
+          chunk=$(grep -oE '/_next/static/[^"]+\.js' /tmp/home.html | head -1 || true)
+          if [ -z "$chunk" ]; then
+            echo "::error::No /_next/static script found in the served HTML"
+            exit 1
+          fi
+
+          asset=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE_URL$chunk" || echo 000)
+          if [ "$asset" != "200" ]; then
+            echo "::error::Asset $chunk returned $asset — served HTML and .next build output are out of sync. Run: rm -rf .next && npm ci && npm run build && pm2 restart all"
+            exit 1
+          fi
+
+          echo "OK — homepage 200, $chunk 200"
