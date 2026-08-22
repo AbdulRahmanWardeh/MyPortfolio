@@ -192,7 +192,7 @@ export function ProjectSections({
                 refs.current[section.id] = el;
               }}
               className={cn(
-                "surface surface-soft overflow-hidden rounded-2xl bg-card transition-all duration-300",
+                "surface overflow-hidden rounded-2xl bg-card transition-all duration-300",
                 SECTION_SCROLL_MT,
               )}
             >

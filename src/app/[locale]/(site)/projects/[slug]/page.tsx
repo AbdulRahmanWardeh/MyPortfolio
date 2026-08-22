@@ -143,7 +143,7 @@ export default async function ProjectDetailPage({
         ) : null}
 
         <Reveal delay={0.2}>
-          <div className="surface surface-soft mt-12 p-8">
+          <div className="surface mt-12 p-8">
             <div className="whitespace-pre-line text-base text-tint/70 md:text-lg">
               {pickField(project, l, "fullDesc")}
             </div>
